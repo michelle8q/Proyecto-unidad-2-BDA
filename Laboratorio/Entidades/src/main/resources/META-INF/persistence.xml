@@ -2,7 +2,14 @@
 <persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence           http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
   <persistence-unit name="Conexion" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>itson.org.entidades.Cliente</class>
+    <class>itson.org.entidades.PruebaEntidad</class>
+    <class>itson.org.entidades.DoctorEntidad</class>
+    <class>itson.org.entidades.ClienteEntidad</class>
+    <class>itson.org.entidades.AnalisisEntidad</class>
+    <class>itson.org.entidades.PruebaAnalisisEntidad</class>
+    <class>itson.org.entidades.MuestraEntidad</class>
+    <class>itson.org.entidades.ParametroEntidad</class>
+    <class>itson.org.entidades.RangoEntidad</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Laboratorio"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

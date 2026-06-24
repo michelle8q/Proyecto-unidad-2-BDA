@@ -4,6 +4,7 @@
  */
 package itson.org.entidades;
 
+import java.time.LocalDateTime;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -14,38 +15,93 @@ import javax.persistence.Persistence;
  */
 public class Entidades {
     public static void main(String[] args) {
-        // "LaboratorioPU" debe ser el nombre de tu Persistence Unit en el persistence.xml
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Conexion");
         EntityManager em = emf.createEntityManager();
 
         try {
             System.out.println("Conectando a la base de datos Laboratorio...");
-            
-            // 1. Iniciar la transacción
+
             em.getTransaction().begin();
 
-            // 2. Instanciar tu entidad (Cámbiolo por el nombre real de tu clase @Entity)
-            // Ejemplo ficticio:
-            // Cliente cliente = new Cliente();
-            // cliente.setNombre("Prueba DB2");
+            // Cliente
+            ClienteEntidad cliente = new ClienteEntidad();
+            cliente.setNombre("Juan");
+            cliente.setApellidoPaterno("Perez");
+            cliente.setApellidoMaterno("Lopez");
+            cliente.setSexo("Masculino");
+            cliente.setFechaNacimiento("2000-05-10");
+            cliente.setTipoSangre("O+");
 
-            // 3. Persistir (guardar) la entidad en la base de datos
-            // em.persist(cliente);
+            // Doctor
+            DoctorEntidad doctor = new DoctorEntidad();
+            doctor.setNombre("Carlos");
+            doctor.setApellidoPaterno("Ramirez");
+            doctor.setApellidoMaterno("Soto");
+            doctor.setSexo("Masculino");
 
-            // 4. Confirmar la transacción
+            // Muestra
+            MuestraEntidad muestra = new MuestraEntidad();
+            muestra.setTipo("Orina");
+
+            // Analisis / Servicio de analisis
+            AnalisisEntidad analisis = new AnalisisEntidad();
+            analisis.setNombre("EGO");
+            analisis.setNotaDescriptiva("Examen general de orina");
+            analisis.setActivo(true);
+            analisis.setMuestra(muestra);
+
+            // Parametro
+            ParametroEntidad parametro = new ParametroEntidad();
+            parametro.setNombre("Glucosa");
+            parametro.setOrden(1);
+            parametro.setNota("Parametro de glucosa en orina");
+            parametro.setUnidadMedida("mg/dL");
+            parametro.setAnalisis(analisis);
+
+            // Rango
+            RangoEntidad rango = new RangoEntidad();
+            rango.setEdadInicial(0);
+            rango.setEdadFinal(99);
+            rango.setRangoInicial(70.0f);
+            rango.setRangoFinal(110.0f);
+            rango.setSexo("Ambos");
+            rango.setParametro(parametro);
+
+            // Prueba / solicitud
+            PruebaEntidad prueba = new PruebaEntidad();
+            prueba.setFolio("FOLIO-001");
+            prueba.setFechaHora(LocalDateTime.now());
+            prueba.setCliente(cliente);
+            prueba.setDoctor(doctor);
+
+            // Tabla intermedia Prueba - Analisis
+            PruebaAnalisisEntidad pruebaAnalisis = new PruebaAnalisisEntidad();
+            pruebaAnalisis.setPrueba(prueba);
+            pruebaAnalisis.setAnalisis(analisis);
+
+            // Persistir entidades base
+            em.persist(cliente);
+            em.persist(doctor);
+            em.persist(muestra);
+            em.persist(analisis);
+            em.persist(parametro);
+            em.persist(rango);
+            em.persist(prueba);
+            em.persist(pruebaAnalisis);
+
             em.getTransaction().commit();
-            
-            System.out.println("¡Entidad ejecutada y guardada con éxito, carnal!");
+
+            System.out.println("Entidades guardadas con exito.");
 
         } catch (Exception e) {
-            // Si algo truena, hacemos rollback para no dejar cochinero en la BD
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            System.err.println("¡Valió barriga! Hubo un error al ejecutar la entidad:");
+
+            System.err.println("Hubo un error al ejecutar la prueba:");
             e.printStackTrace();
+
         } finally {
-            // Cerramos los recursos sí o sí
             em.close();
             emf.close();
         }

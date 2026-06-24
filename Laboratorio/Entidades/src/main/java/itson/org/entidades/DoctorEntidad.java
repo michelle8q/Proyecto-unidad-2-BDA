@@ -5,11 +5,13 @@
 package itson.org.entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -17,9 +19,9 @@ import javax.persistence.Table;
  * @author cinca
  */
 @Entity
-@Table(name="clientes")
-public class Cliente implements Serializable {
-    
+@Table(name="doctores")
+public class DoctorEntidad implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -37,28 +39,23 @@ public class Cliente implements Serializable {
     @Column(name = "sexo", nullable = false, length = 50)
     private String sexo;
     
-    @Column(name = "genero", nullable = false, length = 50)
-    private String genero;
+    @OneToMany(mappedBy = "doctor")
+    private List<PruebaEntidad> pruebas;
     
-    @Column(name = "fechaNacimiento", nullable = false, length = 50)
-    private String fechaNacimiento;
     
-    @Column(name = "tipoSangre", nullable = false, length = 20)
-    private String tipoSangre;
-
-    public Cliente() {
+    public DoctorEntidad() {
     }
 
-    public Cliente(int id, String nombre, String apellidoPaterno, String apellidoMaterno, String sexo, String genero, String fechaNacimiento, String tipoSangre) {
+    public DoctorEntidad(int id, String nombre, String apellidoPaterno, String apellidoMaterno, String sexo, List<PruebaEntidad> pruebas) {
         this.id = id;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.sexo = sexo;
-        this.genero = genero;
-        this.fechaNacimiento = fechaNacimiento;
-        this.tipoSangre = tipoSangre;
+        this.pruebas = pruebas;
     }
+
+    
 
     public int getId() {
         return id;
@@ -99,32 +96,14 @@ public class Cliente implements Serializable {
     public void setSexo(String sexo) {
         this.sexo = sexo;
     }
-
-    public String getGenero() {
-        return genero;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-
-    public String getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(String fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
-
-    public String getTipoSangre() {
-        return tipoSangre;
-    }
-
-    public void setTipoSangre(String tipoSangre) {
-        this.tipoSangre = tipoSangre;
-    }
     
-    
+    public List<PruebaEntidad> getPruebas() {
+        return pruebas;
+    }
+
+    public void setPruebas(List<PruebaEntidad> pruebas) {
+        this.pruebas = pruebas;
+    }
     
     
     
