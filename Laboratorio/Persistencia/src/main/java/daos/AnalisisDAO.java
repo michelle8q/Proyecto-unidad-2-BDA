@@ -4,10 +4,27 @@
  */
 package daos;
 
+import Excepciones.PersistenciaException;
+import Interfaces.IAnalisisDAO;
+import Interfaces.IConexionBD;
+import itson.org.entidades.AnalisisEntidad;
+
 /**
  *
  * @author cinca
  */
-public class AnalisisDAO {
+public class AnalisisDAO implements IAnalisisDAO {
+    
+    private final IConexionBD conexionBD;
+
+    public AnalisisDAO(IConexionBD conexionBD) {
+        this.conexionBD = conexionBD;
+    }
+
+    @Override
+    public AnalisisEntidad guardar(AnalisisEntidad nuevoAnalisis) throws PersistenciaException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
     
 }

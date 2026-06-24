@@ -4,10 +4,14 @@
  */
 package Interfaces;
 
+import Excepciones.PersistenciaException;
+import itson.org.entidades.AnalisisEntidad;
+
 /**
  *
  * @author cinca
  */
 public interface IAnalisisDAO {
     
+     AnalisisEntidad guardar(AnalisisEntidad nuevoAnalisis) throws PersistenciaException;
 }
