@@ -6,10 +6,10 @@
     <class>itson.org.entidades.DoctorEntidad</class>
     <class>itson.org.entidades.ClienteEntidad</class>
     <class>itson.org.entidades.AnalisisEntidad</class>
-    <class>itson.org.entidades.PruebaAnalisisEntidad</class>
     <class>itson.org.entidades.MuestraEntidad</class>
     <class>itson.org.entidades.ParametroEntidad</class>
     <class>itson.org.entidades.RangoEntidad</class>
+    <class>itson.org.entidades.DetallesPruebaEntidad</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Laboratorio"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

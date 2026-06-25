@@ -46,18 +46,18 @@ public class PruebaEntidad implements Serializable {
     private ClienteEntidad cliente;
     
     @OneToMany(mappedBy = "prueba", cascade = CascadeType.PERSIST)
-    private List<PruebaAnalisisEntidad> analisis;
+    private List<DetallesPruebaEntidad> detalles;
 
     public PruebaEntidad() {
     }
 
-    public PruebaEntidad(int id, String folio, LocalDateTime fechaHora, DoctorEntidad doctor, ClienteEntidad cliente, List<PruebaAnalisisEntidad> analisis) {
+    public PruebaEntidad(int id, String folio, LocalDateTime fechaHora, DoctorEntidad doctor, ClienteEntidad cliente, List<DetallesPruebaEntidad> detalles) {
         this.id = id;
         this.folio = folio;
         this.fechaHora = fechaHora;
         this.doctor = doctor;
         this.cliente = cliente;
-        this.analisis = analisis;
+        this.detalles = detalles;
     }
     
     public int getId() {
@@ -92,12 +92,12 @@ public class PruebaEntidad implements Serializable {
         this.doctor = doctor;
     }
 
-    public List<PruebaAnalisisEntidad> getAnalisis() {
-        return analisis;
+    public List<DetallesPruebaEntidad> getDetalles() {
+        return detalles;
     }
 
-    public void setAnalisis(List<PruebaAnalisisEntidad> analisis) {
-        this.analisis = analisis;
+    public void setAnalisis(List<DetallesPruebaEntidad> detalles) {
+        this.detalles = detalles;
     }
 
     public ClienteEntidad getCliente() {

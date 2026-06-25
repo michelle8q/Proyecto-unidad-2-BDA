@@ -5,6 +5,8 @@
 package itson.org.entidades;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,8 +20,8 @@ import javax.persistence.Table;
  * @author cinca
  */
 @Entity
-@Table(name="pruebaAnalisis")
-public class PruebaAnalisisEntidad implements Serializable {
+@Table(name="detallesPrueba")
+public class DetallesPruebaEntidad implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,19 +30,26 @@ public class PruebaAnalisisEntidad implements Serializable {
     @ManyToOne
     @JoinColumn(name = "idPrueba", nullable = false)
     private PruebaEntidad prueba;
-
+    
     @ManyToOne
-    @JoinColumn(name = "idAnalisis", nullable = false)
-    private AnalisisEntidad analisis;
+    @JoinColumn(name = "idParametro", nullable = false)
+    private ParametroEntidad parametro;
 
-    public PruebaAnalisisEntidad() {
+    @Column(name = "resultado", nullable = false)
+    private float resultado;
+
+    public DetallesPruebaEntidad() {
     }
 
-    public PruebaAnalisisEntidad(Long id, PruebaEntidad prueba, AnalisisEntidad analisis) {
+
+    public DetallesPruebaEntidad(Long id, PruebaEntidad prueba, ParametroEntidad parametro, float resultado) {
         this.id = id;
         this.prueba = prueba;
-        this.analisis = analisis;
+        this.parametro = parametro;
+        this.resultado = resultado;
     }
+    
+    
 
     public Long getId() {
         return id;
@@ -58,14 +67,22 @@ public class PruebaAnalisisEntidad implements Serializable {
         this.prueba = prueba;
     }
 
-    public AnalisisEntidad getAnalisis() {
-        return analisis;
+    public float getResultado() {
+        return resultado;
     }
 
-    public void setAnalisis(AnalisisEntidad analisis) {
-        this.analisis = analisis;
+    public void setResultado(float resultado) {
+        this.resultado = resultado;
     }
-    
-    
+
+    public ParametroEntidad getParametro() {
+        return parametro;
+    }
+
+    public void setParametro(ParametroEntidad parametro) {
+        this.parametro = parametro;
+    }
+
+   
     
 }
