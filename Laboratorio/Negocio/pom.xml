@@ -8,8 +8,20 @@
     </parent>
     <artifactId>Negocio</artifactId>
     <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>DTO</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>Persistencia</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
     <properties>
-        <maven.compiler.release>23</maven.compiler.release>
+        <maven.compiler.release>21</maven.compiler.release>
         <exec.mainClass>itson.org.negocio.Negocio</exec.mainClass>
     </properties>
 </project>

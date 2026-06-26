@@ -4,16 +4,24 @@
  */
 package analisis;
 
+import dto.AnalisisDTO;
+import interfaces.IAnalisisNegocio;
+import itson.org.negocio.AnalisisNegocio;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author cinca
  */
 public class FrmRegistroAnalisis extends javax.swing.JFrame {
 
+    private final IAnalisisNegocio analisisNegocio;
+
     /**
      * Creates new form registroAnalisis
      */
-    public FrmRegistroAnalisis() {
+    public FrmRegistroAnalisis(IAnalisisNegocio analisisNegocio) {
+        this.analisisNegocio = analisisNegocio;
         initComponents();
     }
 
@@ -43,43 +51,47 @@ public class FrmRegistroAnalisis extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel1.setFont(new java.awt.Font("Corbel", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Nota descriptiva:");
 
         jLabel2.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Registro de analisis");
 
         jLabel3.setFont(new java.awt.Font("Corbel", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Tipo de muestra:");
 
-        txtBuscador.setBackground(new java.awt.Color(255, 255, 255));
-        txtBuscador.setForeground(new java.awt.Color(0, 0, 0));
         txtBuscador.setText("");
 
-        jTextArea1.setBackground(new java.awt.Color(255, 255, 255));
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
         jLabel4.setFont(new java.awt.Font("Corbel", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Nombre del analisis: ");
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setForeground(new java.awt.Color(0, 0, 0));
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sangre", "Orina" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(102, 255, 102));
         jButton1.setFont(new java.awt.Font("Corbel", 0, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("Siguiente");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setBackground(new java.awt.Color(153, 153, 153));
         btnCancelar.setFont(new java.awt.Font("Corbel", 0, 14)); // NOI18N
-        btnCancelar.setForeground(new java.awt.Color(0, 0, 0));
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -151,41 +163,55 @@ public class FrmRegistroAnalisis extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmRegistroAnalisis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmRegistroAnalisis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmRegistroAnalisis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmRegistroAnalisis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmRegistroAnalisis().setVisible(true);
-            }
-        });
-    }
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.dispose();
+
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        String nombre = txtBuscador.getText().trim();
+        String notaDescriptiva = jTextArea1.getText().trim();
+        String tipoMuestra = jComboBox1.getSelectedItem().toString();
+
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "El nombre del análisis es obligatorio para continuar.",
+                    "Campo faltante",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        AnalisisDTO analisisDTO = new AnalisisDTO();
+        analisisDTO.setId(0);
+        analisisDTO.setNombre(nombre);
+        analisisDTO.setNotaDescriptiva(notaDescriptiva);
+        dto.MuestraDTO muestraDTO = new dto.MuestraDTO();
+
+        if (tipoMuestra.equals("Sangre")) {
+            muestraDTO.setId(2);
+        } else if (tipoMuestra.equals("Orina")) {
+            muestraDTO.setId(1); 
+        }
+        muestraDTO.setTipo(tipoMuestra);
+
+        analisisDTO.setMuestra(muestraDTO);
+
+        analisisDTO.setParametros(new java.util.ArrayList<>());
+
+        FrmRegistroParametro pantallaParametros = new FrmRegistroParametro(this.analisisNegocio, analisisDTO);
+
+        pantallaParametros.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+        pantallaParametros.setLocationRelativeTo(this);
+        pantallaParametros.setVisible(true);
+
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;

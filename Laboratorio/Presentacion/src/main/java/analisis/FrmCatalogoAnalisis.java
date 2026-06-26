@@ -4,17 +4,28 @@
  */
 package analisis;
 
+import dto.AnalisisDTO;
+import interfaces.IAnalisisNegocio;
+import itson.org.negocio.AnalisisNegocio;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author cinca
  */
 public class FrmCatalogoAnalisis extends javax.swing.JFrame {
 
+    private final IAnalisisNegocio analisisNegocio;
+
     /**
      * Creates new form CatalogoAnalisis
      */
     public FrmCatalogoAnalisis() {
         initComponents();
+        this.analisisNegocio = new AnalisisNegocio();
+        llenarTabla();
+
     }
 
     /**
@@ -45,19 +56,12 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Buscar analisis:");
 
-        txtBuscador.setBackground(new java.awt.Color(255, 255, 255));
-        txtBuscador.setForeground(new java.awt.Color(0, 0, 0));
         txtBuscador.setText("");
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("Buscar");
 
-        jTable1.setBackground(new java.awt.Color(255, 255, 255));
-        jTable1.setForeground(new java.awt.Color(0, 0, 0));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -104,13 +108,16 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
         );
 
         jLabel1.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Catalogo de analisis");
 
         btnRegistrar.setBackground(new java.awt.Color(166, 217, 243));
         btnRegistrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnRegistrar.setForeground(new java.awt.Color(0, 0, 0));
         btnRegistrar.setText("+ Registrar nuevo ");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -154,40 +161,32 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmCatalogoAnalisis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmCatalogoAnalisis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmCatalogoAnalisis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmCatalogoAnalisis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        FrmRegistroAnalisis pantallaRegistro = new FrmRegistroAnalisis(this.analisisNegocio);
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmCatalogoAnalisis().setVisible(true);
-            }
-        });
+        pantallaRegistro.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+
+        pantallaRegistro.setLocationRelativeTo(this);
+
+        pantallaRegistro.setVisible(true);
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void llenarTabla() {
+        List<AnalisisDTO> listaAnalisis = analisisNegocio.obtenerAnalisisParaTabla();
+
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        modelo.setRowCount(0);
+
+        for (AnalisisDTO dto : listaAnalisis) {
+            Object[] fila = new Object[4];
+
+            fila[0] = dto.getNombre();
+            fila[1] = dto.getNotaDescriptiva();
+            fila[2] = (dto.getMuestra() != null) ? dto.getMuestra().getTipo() : "Sin muestra";
+            fila[3] = "Seleccionar";
+            
+            modelo.addRow(fila);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

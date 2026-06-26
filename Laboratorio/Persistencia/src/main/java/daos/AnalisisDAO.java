@@ -8,13 +8,17 @@ import Excepciones.PersistenciaException;
 import Interfaces.IAnalisisDAO;
 import Interfaces.IConexionBD;
 import itson.org.entidades.AnalisisEntidad;
+import itson.org.entidades.MuestraEntidad;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 /**
  *
  * @author cinca
  */
 public class AnalisisDAO implements IAnalisisDAO {
-    
+
     private final IConexionBD conexionBD;
 
     public AnalisisDAO(IConexionBD conexionBD) {
@@ -22,9 +26,42 @@ public class AnalisisDAO implements IAnalisisDAO {
     }
 
     @Override
-    public AnalisisEntidad guardar(AnalisisEntidad nuevoAnalisis) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<AnalisisEntidad> buscarTodos() {
+        EntityManager entityManager = conexionBD.crearConexion();
+
+        try {
+            String jpql = "SELECT a FROM AnalisisEntidad a";
+            TypedQuery<AnalisisEntidad> query = entityManager.createQuery(jpql, AnalisisEntidad.class);
+            return query.getResultList();
+        } finally {
+            if (entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
+        }
     }
-    
-    
+
+    @Override
+    public void agregar(AnalisisEntidad analisis) {
+        EntityManager em = conexionBD.crearConexion();
+        try {
+            em.getTransaction().begin();
+            if (analisis.getMuestra() != null && analisis.getMuestra().getId() > 0) {
+                
+                MuestraEntidad muestraOficial = em.find(MuestraEntidad.class, analisis.getMuestra().getId());
+                
+                analisis.setMuestra(muestraOficial);
+            }
+            
+            em.persist(analisis); 
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace(); 
+        } finally {
+            em.close();
+        }
+
+    }
 }

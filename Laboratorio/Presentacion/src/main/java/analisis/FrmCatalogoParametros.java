@@ -4,17 +4,30 @@
  */
 package analisis;
 
+import dto.AnalisisDTO;
+import interfaces.IAnalisisNegocio;
+
 /**
  *
  * @author cinca
  */
 public class FrmCatalogoParametros extends javax.swing.JFrame {
 
+    private IAnalisisNegocio analisisNegocio;
+    private AnalisisDTO analisisDTO;
+
     /**
      * Creates new form registroAnalisis
      */
     public FrmCatalogoParametros() {
         initComponents();
+    }
+
+    public FrmCatalogoParametros(IAnalisisNegocio analisisNegocio, AnalisisDTO analisisDTO) {
+        this.analisisNegocio = analisisNegocio;
+        this.analisisDTO = analisisDTO;
+        initComponents();
+         llenarTabla();
     }
 
     /**
@@ -40,15 +53,17 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel2.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Registro de parametros");
 
         btnSiguiente.setBackground(new java.awt.Color(102, 255, 102));
         btnSiguiente.setFont(new java.awt.Font("Corbel", 0, 14)); // NOI18N
-        btnSiguiente.setForeground(new java.awt.Color(0, 0, 0));
         btnSiguiente.setText("Siguiente");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
 
-        jTable1.setBackground(new java.awt.Color(255, 255, 255));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -65,13 +80,16 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
 
         btnCancelar.setBackground(new java.awt.Color(153, 153, 153));
         btnCancelar.setFont(new java.awt.Font("Corbel", 0, 14)); // NOI18N
-        btnCancelar.setForeground(new java.awt.Color(0, 0, 0));
         btnCancelar.setText("Cancelar");
 
         btnAgregarParametro.setBackground(new java.awt.Color(153, 255, 255));
         btnAgregarParametro.setFont(new java.awt.Font("Corbel", 0, 14)); // NOI18N
-        btnAgregarParametro.setForeground(new java.awt.Color(0, 0, 0));
         btnAgregarParametro.setText("+ Agregar parametro");
+        btnAgregarParametro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarParametroActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -127,47 +145,53 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmCatalogoParametros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmCatalogoParametros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmCatalogoParametros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmCatalogoParametros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    private void btnAgregarParametroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarParametroActionPerformed
+        FrmRegistroParametro frmRegistro = new FrmRegistroParametro(this.analisisNegocio, this.analisisDTO);
+        frmRegistro.setLocationRelativeTo(this);
+        frmRegistro.setVisible(true);
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmCatalogoParametros().setVisible(true);
+        this.dispose();
+
+    }//GEN-LAST:event_btnAgregarParametroActionPerformed
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        if (this.analisisDTO.getParametros().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Debes agregar al menos un parámetro al análisis antes de guardar.",
+                    "Advertencia", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            this.analisisNegocio.guardarAnalisis(this.analisisDTO);
+
+            javax.swing.JOptionPane.showMessageDialog(this, "¡Análisis y parámetros registrados con éxito!");
+
+            this.dispose();
+        } catch (Exception ex) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Error al guardar en la base de datos: " + ex.getMessage(),
+                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void llenarTabla() {
+        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+        modelo.setRowCount(0); // Limpiamos la tabla antes de llenarla
+
+        if (this.analisisDTO != null && this.analisisDTO.getParametros() != null) {
+            for (dto.ParametroDTO param : this.analisisDTO.getParametros()) {
+                modelo.addRow(new Object[]{
+                    param.getNombre(),
+                    param.getNota(),
+                    param.getTipoValor(),
+                    "Acciones"
+                });
             }
-        });
+        }
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarParametro;

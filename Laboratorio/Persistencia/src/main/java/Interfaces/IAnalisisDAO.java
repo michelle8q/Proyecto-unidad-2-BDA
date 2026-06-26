@@ -6,12 +6,16 @@ package Interfaces;
 
 import Excepciones.PersistenciaException;
 import itson.org.entidades.AnalisisEntidad;
+import java.util.List;
 
 /**
  *
  * @author cinca
  */
 public interface IAnalisisDAO {
-    
-     AnalisisEntidad guardar(AnalisisEntidad nuevoAnalisis) throws PersistenciaException;
+
+    List<AnalisisEntidad> buscarTodos();
+
+    void agregar(AnalisisEntidad analisis);
+
 }

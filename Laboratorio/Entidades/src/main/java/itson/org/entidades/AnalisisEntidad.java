@@ -5,6 +5,8 @@
 package itson.org.entidades;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -39,6 +42,10 @@ public class AnalisisEntidad implements Serializable {
     @ManyToOne
     @JoinColumn(name = "idMuestra", nullable = false)
     private MuestraEntidad muestra;
+    
+    @OneToMany(mappedBy = "analisis", cascade = CascadeType.PERSIST)
+    private List<ParametroEntidad> parametros;
+    
 
     public AnalisisEntidad() {
     }
@@ -98,6 +105,14 @@ public class AnalisisEntidad implements Serializable {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public List<ParametroEntidad> getParametros() {
+        return parametros;
+    }
+
+    public void setParametros(List<ParametroEntidad> parametros) {
+        this.parametros = parametros;
     }
     
 }

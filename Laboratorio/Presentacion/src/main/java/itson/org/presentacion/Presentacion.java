@@ -1,8 +1,9 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-
 package itson.org.presentacion;
+
+import analisis.FrmCatalogoAnalisis;
 
 /**
  *
@@ -11,6 +12,12 @@ package itson.org.presentacion;
 public class Presentacion {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
+        
+                FrmCatalogoAnalisis pantallaPrincipal = new FrmCatalogoAnalisis();
+
+                pantallaPrincipal.setLocationRelativeTo(null);
+
+                pantallaPrincipal.setVisible(true);
+            }
+    
 }

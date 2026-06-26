@@ -4,17 +4,42 @@
  */
 package analisis;
 
+import dto.AnalisisDTO;
+import dto.ParametroDTO;
+import interfaces.IAnalisisNegocio;
+import javax.swing.ButtonGroup;
+
 /**
  *
  * @author cinca
  */
 public class FrmRegistroParametro extends javax.swing.JFrame {
 
+    private IAnalisisNegocio analisisNegocio;
+    private AnalisisDTO analisisDTO;
+    private ButtonGroup grupoRadios;
+
     /**
      * Creates new form registroAnalisis
      */
     public FrmRegistroParametro() {
         initComponents();
+        agruparRadioBotones();
+
+    }
+
+    public FrmRegistroParametro(IAnalisisNegocio analisisNegocio, AnalisisDTO analisisDTO) {
+        this.analisisNegocio = analisisNegocio;
+        this.analisisDTO = analisisDTO;
+        initComponents();
+        agruparRadioBotones();
+    }
+
+    private void agruparRadioBotones() {
+        grupoRadios = new ButtonGroup();
+        grupoRadios.add(btnRango);
+        grupoRadios.add(jRadioButton2);
+        btnRango.setSelected(true); 
     }
 
     /**
@@ -44,25 +69,24 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel2.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Registro de parametro");
 
         jButton1.setBackground(new java.awt.Color(102, 255, 102));
         jButton1.setFont(new java.awt.Font("Corbel", 0, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("Siguiente");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setBackground(new java.awt.Color(153, 153, 153));
         btnCancelar.setFont(new java.awt.Font("Corbel", 0, 14)); // NOI18N
-        btnCancelar.setForeground(new java.awt.Color(0, 0, 0));
         btnCancelar.setText("Cancelar");
 
         jLabel4.setFont(new java.awt.Font("Corbel", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Nombre: ");
 
-        txtNombre.setBackground(new java.awt.Color(255, 255, 255));
-        txtNombre.setForeground(new java.awt.Color(0, 0, 0));
         txtNombre.setText("");
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -71,19 +95,15 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Corbel", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Nota descriptiva:");
 
-        txtNota.setBackground(new java.awt.Color(255, 255, 255));
         txtNota.setColumns(20);
         txtNota.setRows(5);
         jScrollPane1.setViewportView(txtNota);
 
         jLabel7.setFont(new java.awt.Font("Corbel", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Tipo de valor:");
 
-        btnRango.setForeground(new java.awt.Color(0, 0, 0));
         btnRango.setText("Rango");
         btnRango.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -91,7 +111,6 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
             }
         });
 
-        jRadioButton2.setForeground(new java.awt.Color(0, 0, 0));
         jRadioButton2.setText("Positivo/Negativo");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -170,43 +189,30 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRangoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmRegistroParametro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmRegistroParametro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmRegistroParametro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmRegistroParametro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String nombre = txtNombre.getText().trim();
+        String nota = txtNota.getText().trim();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmRegistroParametro().setVisible(true);
-            }
-        });
-    }
+        if (nombre.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "El nombre del parámetro es obligatorio", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String tipoValor = btnRango.isSelected() ? "Rango" : "Positivo/Negativo";
+
+        int ordenCalculado = this.analisisDTO.getParametros().size() + 1;
+
+        ParametroDTO nuevoParametro = new ParametroDTO(nombre, nota, "N/A", ordenCalculado, tipoValor);
+
+        this.analisisDTO.getParametros().add(nuevoParametro);
+
+        FrmCatalogoParametros catalogoTemporal = new FrmCatalogoParametros(this.analisisNegocio, this.analisisDTO);
+        catalogoTemporal.setLocationRelativeTo(this);
+        catalogoTemporal.setVisible(true);
+
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;

@@ -6,6 +6,7 @@ package itson.org.entidades;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,7 +45,7 @@ public class ParametroEntidad implements Serializable {
     @JoinColumn(name = "idAnalisis", nullable = false)
     private AnalisisEntidad analisis;
     
-    @OneToMany(mappedBy = "parametro")
+    @OneToMany(mappedBy = "parametro", cascade=CascadeType.PERSIST)
     private List<RangoEntidad> rangos;
 
     public ParametroEntidad() {
