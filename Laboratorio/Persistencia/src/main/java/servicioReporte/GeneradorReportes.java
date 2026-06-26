@@ -15,7 +15,7 @@ import net.sf.jasperreports.view.JasperViewer;
  * @author cinca
  */
 public class GeneradorReportes {
-   // public void generarInformeProductos(List<CatalogoProductosDTO> parametros) {
+   // public void generarReportePrueba(List<ResultadoReporteDTO> resultados) {
      //   try {
           //  JRBeanCollectionDataSource datos = new JRBeanCollectionDataSource(productos);
           //  InputStream reporte = getClass().getResourceAsStream("/reportes/ReporteProductos.jasper");
