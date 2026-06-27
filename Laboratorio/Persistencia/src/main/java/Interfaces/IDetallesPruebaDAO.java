@@ -5,18 +5,12 @@
 package Interfaces;
 
 import Excepciones.PersistenciaException;
-import itson.org.entidades.PruebaEntidad;
-import java.util.List;
+import itson.org.entidades.DetallesPruebaEntidad;
 
 /**
  *
  * @author cinca
  */
-public interface IPruebaDAO {
-    PruebaEntidad buscarPorID(int id) throws PersistenciaException;
-    
-    List<PruebaEntidad> buscarTodos();
-    
-    PruebaEntidad buscarPorFolio(String folio) throws PersistenciaException;
-
+public interface IDetallesPruebaDAO {
+    void agregar(DetallesPruebaEntidad detalles) throws PersistenciaException;
 }

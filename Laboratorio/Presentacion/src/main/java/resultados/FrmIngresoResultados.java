@@ -4,8 +4,9 @@
  */
 package resultados;
 
-import analisis.*;
+
 import dto.AnalisisDTO;
+import dto.PruebaDTO;
 import interfaces.IAnalisisNegocio;
 import itson.org.negocio.AnalisisNegocio;
 import java.util.List;
