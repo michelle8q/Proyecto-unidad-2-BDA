@@ -14,6 +14,7 @@ import interfaces.IAnalisisNegocio;
 import itson.org.entidades.AnalisisEntidad;
 import itson.org.entidades.MuestraEntidad;
 import itson.org.entidades.ParametroEntidad;
+import itson.org.entidades.RangoEntidad;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,39 +66,56 @@ public class AnalisisNegocio implements IAnalisisNegocio {
     }
 
     @Override
-    public void guardarAnalisis(AnalisisDTO analisisDTO) throws Exception {
+public void guardarAnalisis(AnalisisDTO analisisDTO) throws Exception {
 
-        AnalisisEntidad analisisEntidad = new AnalisisEntidad();
-        analisisEntidad.setNombre(analisisDTO.getNombre());
-        analisisEntidad.setNotaDescriptiva(analisisDTO.getNotaDescriptiva());
-        analisisEntidad.setActivo(true);
+    AnalisisEntidad analisisEntidad = new AnalisisEntidad();
+    analisisEntidad.setNombre(analisisDTO.getNombre());
+    analisisEntidad.setNotaDescriptiva(analisisDTO.getNotaDescriptiva());
+    analisisEntidad.setActivo(true);
 
-        if (analisisDTO.getMuestra() != null) {
-            MuestraEntidad muestraEntidad = new MuestraEntidad();
-            muestraEntidad.setId(analisisDTO.getMuestra().getId());
-            muestraEntidad.setTipo(analisisDTO.getMuestra().getTipo());
+    if (analisisDTO.getMuestra() != null) {
+        MuestraEntidad muestraEntidad = new MuestraEntidad();
+        muestraEntidad.setId(analisisDTO.getMuestra().getId());
+        muestraEntidad.setTipo(analisisDTO.getMuestra().getTipo());
 
-            analisisEntidad.setMuestra(muestraEntidad);
-        } else {
-            throw new Exception("El análisis debe tener una muestra asignada obligatoriamente.");
-        }
-
-        List<ParametroEntidad> parametrosEntidad = new java.util.ArrayList<>();
-        if (analisisDTO.getParametros() != null) {
-            for (dto.ParametroDTO paramDTO : analisisDTO.getParametros()) {
-                ParametroEntidad paramEntidad = new ParametroEntidad();
-                paramEntidad.setNombre(paramDTO.getNombre());
-                paramEntidad.setNota(paramDTO.getNota());
-                paramEntidad.setUnidadMedida(paramDTO.getUnidadMedida());
-                paramEntidad.setOrden(paramDTO.getOrden());
-
-                paramEntidad.setAnalisis(analisisEntidad);
-
-                parametrosEntidad.add(paramEntidad);
-            }
-        }
-        analisisEntidad.setParametros(parametrosEntidad);
-
-        analisisDAO.agregar(analisisEntidad);
+        analisisEntidad.setMuestra(muestraEntidad);
+    } else {
+        throw new Exception("El análisis debe tener una muestra asignada obligatoriamente.");
     }
+
+    List<ParametroEntidad> parametrosEntidad = new java.util.ArrayList<>();
+    if (analisisDTO.getParametros() != null) {
+        for (dto.ParametroDTO paramDTO : analisisDTO.getParametros()) {
+            ParametroEntidad paramEntidad = new ParametroEntidad();
+            paramEntidad.setNombre(paramDTO.getNombre());
+            paramEntidad.setNota(paramDTO.getNota());
+            paramEntidad.setUnidadMedida(paramDTO.getUnidadMedida());
+            paramEntidad.setOrden(paramDTO.getOrden());
+
+            paramEntidad.setAnalisis(analisisEntidad);
+
+            List<RangoEntidad> rangosEntidad = new java.util.ArrayList<>();
+            if (paramDTO.getRangos() != null) {
+                for (dto.RangoDTO rangoDTO : paramDTO.getRangos()) {
+                    RangoEntidad rangoEntidad = new RangoEntidad();
+                    rangoEntidad.setEdadInicial(rangoDTO.getEdadInicial());
+                    rangoEntidad.setEdadFinal(rangoDTO.getEdadFinal());
+                    rangoEntidad.setRangoInicial(rangoDTO.getRangoInicial());
+                    rangoEntidad.setRangoFinal(rangoDTO.getRangoFinal());
+                    rangoEntidad.setSexo(rangoDTO.getSexo());
+                    
+                    rangoEntidad.setParametro(paramEntidad);
+                    
+                    rangosEntidad.add(rangoEntidad);
+                }
+            }
+            paramEntidad.setRangos(rangosEntidad);
+
+            parametrosEntidad.add(paramEntidad);
+        }
+    }
+    analisisEntidad.setParametros(parametrosEntidad);
+
+    analisisDAO.agregar(analisisEntidad);
+}
 }

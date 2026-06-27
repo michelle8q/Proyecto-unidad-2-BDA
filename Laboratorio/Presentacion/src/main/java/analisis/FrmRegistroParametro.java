@@ -63,6 +63,8 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         btnRango = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
+        jLabel8 = new javax.swing.JLabel();
+        txtNombre1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,6 +115,16 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
 
         jRadioButton2.setText("Positivo/Negativo");
 
+        jLabel8.setFont(new java.awt.Font("Corbel", 1, 18)); // NOI18N
+        jLabel8.setText("Unidad de medida");
+
+        txtNombre1.setText("");
+        txtNombre1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombre1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -124,8 +136,6 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnRango, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,13 +148,21 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
                             .addGap(52, 52, 52))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING))
-                    .addComponent(jRadioButton2))
-                .addContainerGap(165, Short.MAX_VALUE))
+                    .addComponent(jRadioButton2)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(btnRango, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(212, 212, 212)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNombre1))))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
@@ -155,9 +173,13 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel7)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnRango)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRango)
+                    .addComponent(txtNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jRadioButton2)
                 .addGap(52, 52, 52)
@@ -192,17 +214,22 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String nombre = txtNombre.getText().trim();
         String nota = txtNota.getText().trim();
+        
+        String unidadMedida = txtNombre1.getText().trim();
 
         if (nombre.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "El nombre del parámetro es obligatorio", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        String tipoValor = btnRango.isSelected() ? "Rango" : "Positivo/Negativo";
+        if (unidadMedida.isEmpty()) {
+            unidadMedida = "N/A";
+        }
 
+        String tipoValor = btnRango.isSelected() ? "Rango" : "Positivo/Negativo";
         int ordenCalculado = this.analisisDTO.getParametros().size() + 1;
 
-        ParametroDTO nuevoParametro = new ParametroDTO(nombre, nota, "N/A", ordenCalculado, tipoValor);
+        ParametroDTO nuevoParametro = new ParametroDTO(nombre, nota, unidadMedida, ordenCalculado, tipoValor);
 
         this.analisisDTO.getParametros().add(nuevoParametro);
 
@@ -213,6 +240,10 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void txtNombre1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombre1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombre1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -222,10 +253,12 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtNombre1;
     private javax.swing.JTextArea txtNota;
     // End of variables declaration//GEN-END:variables
 }

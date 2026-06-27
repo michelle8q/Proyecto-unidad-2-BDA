@@ -6,6 +6,10 @@ package analisis;
 
 import dto.AnalisisDTO;
 import interfaces.IAnalisisNegocio;
+import utilerias.ButtonRenderer;
+import utilerias.ButtonEditor;
+import javax.swing.JCheckBox;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -21,13 +25,17 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
      */
     public FrmCatalogoParametros() {
         initComponents();
+        configurarTabla();
+
     }
 
     public FrmCatalogoParametros(IAnalisisNegocio analisisNegocio, AnalisisDTO analisisDTO) {
         this.analisisNegocio = analisisNegocio;
         this.analisisDTO = analisisDTO;
         initComponents();
-         llenarTabla();
+        llenarTabla();
+        configurarTabla();
+
     }
 
     /**
@@ -66,13 +74,13 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Nota", "Tipo de muestra", "Accion"
+                "Nombre", "Nota", "Tipo de muestra", "Valores", "Eliminar"
             }
         ));
         jTable1.setRowHeight(35);
@@ -178,7 +186,7 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
 
     private void llenarTabla() {
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable1.getModel();
-        modelo.setRowCount(0); // Limpiamos la tabla antes de llenarla
+        modelo.setRowCount(0); 
 
         if (this.analisisDTO != null && this.analisisDTO.getParametros() != null) {
             for (dto.ParametroDTO param : this.analisisDTO.getParametros()) {
@@ -186,12 +194,63 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
                     param.getNombre(),
                     param.getNota(),
                     param.getTipoValor(),
-                    "Acciones"
+                    "Editar",   
+                    "Eliminar" 
                 });
             }
         }
     }
 
+    public void eliminarParametro(int rowIndex) {
+        if (this.analisisDTO != null && this.analisisDTO.getParametros() != null) {
+            this.analisisDTO.getParametros().remove(rowIndex);
+            llenarTabla();
+        }
+    }
+
+    public void configurarTabla() {
+        int indiceColumnaEditar = 3;
+        int indiceColumnaEliminar = 4;
+
+        jTable1.getColumnModel().getColumn(indiceColumnaEditar)
+                .setCellRenderer(new ButtonRenderer());
+
+        jTable1.getColumnModel().getColumn(indiceColumnaEliminar)
+                .setCellRenderer(new ButtonRenderer());
+
+        jTable1.getColumnModel().getColumn(indiceColumnaEditar)
+                .setCellEditor(new ButtonEditor(new JCheckBox(), () -> {
+
+                    Object filaObj = jTable1.getClientProperty("filaSeleccionada");
+
+                    if (filaObj != null) {
+                        int filaSeleccionada = (int) filaObj;
+                        System.out.println("Editar valores de la fila: " + filaSeleccionada);
+
+                        dto.ParametroDTO parametroSeleccionado = this.analisisDTO.getParametros().get(filaSeleccionada);
+
+
+                        FrmValoresRango frmValores = new FrmValoresRango(parametroSeleccionado);
+                        frmValores.setLocationRelativeTo(this);
+                        frmValores.setVisible(true);
+                    }
+                }));
+
+        jTable1.getColumnModel().getColumn(indiceColumnaEliminar)
+                .setCellEditor(new ButtonEditor(new JCheckBox(), () -> {
+
+                    Object filaObj = jTable1.getClientProperty("filaSeleccionada");
+
+                    if (filaObj != null) {
+                        int filaSeleccionada = (int) filaObj;
+                        System.out.println("Eliminar parámetro de la fila: " + filaSeleccionada);
+
+                        SwingUtilities.invokeLater(() -> {
+                            eliminarParametro(filaSeleccionada);
+                        });
+                    }
+                }));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarParametro;
