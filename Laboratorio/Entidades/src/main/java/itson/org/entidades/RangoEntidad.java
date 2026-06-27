@@ -24,7 +24,7 @@ public class RangoEntidad implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     
     @Column(name = "edadInicial", nullable = false)
     private int edadInicial;
@@ -48,7 +48,7 @@ public class RangoEntidad implements Serializable {
     public RangoEntidad() {
     }
 
-    public RangoEntidad(Long id, int edadInicial, int edadFinal, float rangoInicial, float rangoFinal, String sexo, ParametroEntidad parametro) {
+    public RangoEntidad(int id, int edadInicial, int edadFinal, float rangoInicial, float rangoFinal, String sexo, ParametroEntidad parametro) {
         this.id = id;
         this.edadInicial = edadInicial;
         this.edadFinal = edadFinal;
@@ -58,11 +58,11 @@ public class RangoEntidad implements Serializable {
         this.parametro = parametro;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

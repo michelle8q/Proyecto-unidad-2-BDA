@@ -77,8 +77,9 @@ public class Entidades {
             // Tabla intermedia Prueba - Analisis
             DetallesPruebaEntidad pruebaAnalisis = new DetallesPruebaEntidad();
             pruebaAnalisis.setPrueba(prueba);
-            pruebaAnalisis.setResultado(0);
+            pruebaAnalisis.setResultado(0.0f);
             pruebaAnalisis.setParametro(parametro);
+            pruebaAnalisis.setObservaciones("normal");
 
             // Persistir entidades base
             em.persist(cliente);

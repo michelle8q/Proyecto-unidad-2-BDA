@@ -5,13 +5,12 @@
 package Interfaces;
 
 import Excepciones.PersistenciaException;
-import itson.org.entidades.DetallesPruebaEntidad;
+import itson.org.entidades.RangoEntidad;
 
 /**
  *
  * @author cinca
  */
-public interface IDetallesPruebaDAO {
-    DetallesPruebaEntidad guardar(DetallesPruebaEntidad detalles) throws PersistenciaException;
-    DetallesPruebaEntidad buscarPorID(int id) throws PersistenciaException;
+public interface IRangoDAO {
+    RangoEntidad buscarPorParametroYSexo(int idParametro, String sexo) throws PersistenciaException;
 }

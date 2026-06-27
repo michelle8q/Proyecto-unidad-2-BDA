@@ -16,10 +16,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
- * Implementación de la interfaz IPruebaDAO para la gestión de pruebas solicitadas en la
+ * Implementación de la interfaz IPruebaDAO para la gestión de solicitudes en la
  * base de datos utilizando JPA.
  *
- * Esta clase contiene la lógica necesaria para realizar operaciones CRUD sobre
+ * Esta clase contiene la lógica necesaria para realizar operaciones de buscar sobre
  * la entidad Prueba, manejando transacciones y excepciones de persistencia.
  *
  * Se apoya en la clase ConexionBD para obtener instancias de EntityManager.

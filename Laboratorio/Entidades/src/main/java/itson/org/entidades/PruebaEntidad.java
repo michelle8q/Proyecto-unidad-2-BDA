@@ -29,8 +29,8 @@ public class PruebaEntidad implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    
     private int id;
+    
     @Column(name = "folio", nullable = false, length = 50)
     private String folio;
     
@@ -96,7 +96,7 @@ public class PruebaEntidad implements Serializable {
         return detalles;
     }
 
-    public void setAnalisis(List<DetallesPruebaEntidad> detalles) {
+    public void setDetalles(List<DetallesPruebaEntidad> detalles) {
         this.detalles = detalles;
     }
 

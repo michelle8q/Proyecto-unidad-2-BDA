@@ -27,7 +27,7 @@ public class ParametroEntidad implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(name = "nombre", nullable = false, length = 50)
     private String nombre;
@@ -52,7 +52,7 @@ public class ParametroEntidad implements Serializable {
     }
 
 
-    public ParametroEntidad(Long id, String nombre, String nota, String unidadMedida, int orden, AnalisisEntidad analisis, List<RangoEntidad> rangos) {
+    public ParametroEntidad(int id, String nombre, String nota, String unidadMedida, int orden, AnalisisEntidad analisis, List<RangoEntidad> rangos) {
         this.id = id;
         this.nombre = nombre;
         this.nota = nota;
@@ -64,11 +64,11 @@ public class ParametroEntidad implements Serializable {
     
     
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

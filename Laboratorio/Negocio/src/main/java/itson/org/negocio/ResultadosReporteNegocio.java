@@ -30,13 +30,16 @@ public class ResultadosReporteNegocio implements IResultadosReporteNegocio {
     }
     
     
-    public void generarReporteDTO(int idPrueba) throws NegocioException {
+    @Override
+    public List<ResultadoReporteDTO> generarReporteDTO(int idPrueba) throws NegocioException {
         
         validarDatos(idPrueba);
 
         try {
             PruebaEntidad prueba = pruebaDAO.buscarPorID(idPrueba);
             validarPrueba(prueba);
+            
+            List<DetallesPruebaEntidad> detalles = prueba.getDetalles();
 
             List<ResultadoReporteDTO> resultadosReporte = new ArrayList<>();
             
@@ -47,9 +50,13 @@ public class ResultadosReporteNegocio implements IResultadosReporteNegocio {
                 AnalisisEntidad analisis = parametro.getAnalisis();
                 
                 dto.setFolio(prueba.getFolio());
-                dto.setPaciente(prueba.getCliente().getNombre());
-                dto.setDoctor(prueba.getDoctor().getNombre());
                 dto.setFechaHora(prueba.getFechaHora().toString());
+                
+                dto.setPaciente(prueba.getCliente().getNombre());
+                dto.setSexoPaciente(prueba.getCliente().getSexo());
+                
+                dto.setDoctor(prueba.getDoctor().getNombre());
+                
                 
                 dto.setUnidadMedida(parametro.getUnidadMedida());
                 dto.setOrden(parametro.getOrden());
@@ -63,7 +70,8 @@ public class ResultadosReporteNegocio implements IResultadosReporteNegocio {
             }
             
             validarListaDeResultados(resultadosReporte);
-            
+            return resultadosReporte;
+
         } catch (PersistenciaException ex) {
                 throw new NegocioException("Error al obtener la prueba: " + ex.getMessage());
         }  

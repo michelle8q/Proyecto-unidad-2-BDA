@@ -10,50 +10,59 @@ import java.util.List;
  *
  * @author cinca
  */
-public class PruebaDTO {
+public class DetallesPruebaDTO {
     
-    private AnalisisDTO analisis;
-    private List<ParametroDTO> parametros;
-    private String unidad;
-    private String rangoReferencia;
-    private float resultado;
+    private int idDetalle;         
+    private String analisis;
+    private String parametro;
+    private String unidadMedida;
+    private String rangoReferencia; 
+    private float resultado;       
     private String observaciones;
 
-    public PruebaDTO() {
+    public DetallesPruebaDTO() {
     }
 
-    
-    public PruebaDTO(AnalisisDTO analisis, List<ParametroDTO> parametros, String unidad, String rangoReferencia, float resultado, String observaciones) {
+    public DetallesPruebaDTO(int idDetalle, String analisis, String parametro, String unidadMedida, String rangoReferencia, float resultado, String observaciones) {
+        this.idDetalle = idDetalle;
         this.analisis = analisis;
-        this.parametros = parametros;
-        this.unidad = unidad;
+        this.parametro = parametro;
+        this.unidadMedida = unidadMedida;
         this.rangoReferencia = rangoReferencia;
         this.resultado = resultado;
         this.observaciones = observaciones;
     }
 
-    public AnalisisDTO getAnalisis() {
+    public int getIdDetalle() {
+        return idDetalle;
+    }
+
+    public void setIdDetalle(int idDetalle) {
+        this.idDetalle = idDetalle;
+    }
+
+    public String getAnalisis() {
         return analisis;
     }
 
-    public void setAnalisis(AnalisisDTO analisis) {
+    public void setAnalisis(String analisis) {
         this.analisis = analisis;
     }
 
-    public List<ParametroDTO> getParametros() {
-        return parametros;
+    public String getParametro() {
+        return parametro;
     }
 
-    public void setParametros(List<ParametroDTO> parametros) {
-        this.parametros = parametros;
+    public void setParametro(String parametro) {
+        this.parametro = parametro;
     }
 
-    public String getUnidad() {
-        return unidad;
+    public String getUnidadMedida() {
+        return unidadMedida;
     }
 
-    public void setUnidad(String unidad) {
-        this.unidad = unidad;
+    public void setUnidadMedida(String unidadMedida) {
+        this.unidadMedida = unidadMedida;
     }
 
     public String getRangoReferencia() {
@@ -79,6 +88,7 @@ public class PruebaDTO {
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
     }
+    
     
     
 }

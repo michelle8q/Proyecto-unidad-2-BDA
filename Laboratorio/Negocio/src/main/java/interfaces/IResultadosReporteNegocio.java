@@ -4,12 +4,14 @@
  */
 package interfaces;
 
+import dto.ResultadoReporteDTO;
 import excepciones.NegocioException;
+import java.util.List;
 
 /**
  *
  * @author cinca
  */
 public interface IResultadosReporteNegocio {
-    void generarReporteDTO(int idPrueba) throws NegocioException;
+    List<ResultadoReporteDTO> generarReporteDTO(int idPrueba) throws NegocioException;
 }

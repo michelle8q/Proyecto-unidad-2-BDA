@@ -5,12 +5,17 @@
 package resultados;
 
 
-import dto.AnalisisDTO;
-import dto.PruebaDTO;
-import interfaces.IAnalisisNegocio;
-import itson.org.negocio.AnalisisNegocio;
-import java.util.List;
+
+
+import dto.DetallesPruebaDTO;
+import dto.PruebaBusquedaDTO;
+import excepciones.NegocioException;
+import interfaces.IPruebaNegocio;
+import itson.org.negocio.PruebaNegocio;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,16 +23,16 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmIngresoResultados extends javax.swing.JFrame {
 
-    private final IAnalisisNegocio analisisNegocio;
+    private final IPruebaNegocio pruebaNegocio;
+    private PruebaBusquedaDTO pruebaBuscada;
+
 
     /**
      * Creates new form CatalogoAnalisis
      */
     public FrmIngresoResultados() {
         initComponents();
-        this.analisisNegocio = new AnalisisNegocio();
-        llenarTabla();
-
+        this.pruebaNegocio = new PruebaNegocio();
     }
 
     /**
@@ -72,6 +77,11 @@ public class FrmIngresoResultados extends javax.swing.JFrame {
         txtBuscador.setText("");
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         jTable1.setBackground(new java.awt.Color(255, 255, 255));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -255,7 +265,13 @@ public class FrmIngresoResultados extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        pruebaBuscada = null;
+        lblFolio.setText("folio");
+        lblNombreCliente.setText("nombre");
+        lblNombreDoc.setText("nombre");
+        txtBuscador.setText("");
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        modelo.setRowCount(0);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
@@ -263,27 +279,66 @@ public class FrmIngresoResultados extends javax.swing.JFrame {
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
+        try {
+            List<DetallesPruebaDTO> detallesCapturados = leerResultadoTabla();
+            pruebaNegocio.guardarResultados(detallesCapturados);
+            JOptionPane.showMessageDialog(this, "Resultados guardados correctamente.");
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void llenarTabla() {
-        List<AnalisisDTO> listaAnalisis = analisisNegocio.obtenerAnalisisParaTabla();
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String folio = txtBuscador.getText().trim();
+        try {
+            pruebaBuscada = pruebaNegocio.buscarPorFolio(folio);
+            lblFolio.setText(pruebaBuscada.getFolio());
+            lblNombreCliente.setText(pruebaBuscada.getNombreCliente());
+            lblNombreDoc.setText(pruebaBuscada.getNombreDoctor());
+            llenarTabla(pruebaBuscada.getDetalles());
+            
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void llenarTabla(List<DetallesPruebaDTO> detalles) {
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         modelo.setRowCount(0);
 
-        for (AnalisisDTO dto : listaAnalisis) {
-            Object[] fila = new Object[4];
-
-            fila[0] = dto.getNombre();
-            fila[1] = dto.getNotaDescriptiva();
-            fila[2] = (dto.getMuestra() != null) ? dto.getMuestra().getTipo() : "Sin muestra";
-            fila[3] = "Seleccionar";
-            
+        for (DetallesPruebaDTO dto : detalles) {
+            Object[] fila = new Object[6];
+            fila[0] = dto.getAnalisis();
+            fila[1] = dto.getParametro();
+            fila[2] = dto.getUnidadMedida();
+            fila[3] = dto.getRangoReferencia();
+            fila[4] = dto.getResultado();   // aqui se puede editar
+            fila[5] = dto.getObservaciones(); 
             modelo.addRow(fila);
         }
+        
     }
+    
+    private List<DetallesPruebaDTO> leerResultadoTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        List<DetallesPruebaDTO> detalles = new ArrayList<>();
 
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            DetallesPruebaDTO dto = pruebaBuscada.getDetalles().get(i);
+            Object valorResultado = modelo.getValueAt(i, 4);
+            Object valorObservacion = modelo.getValueAt(i, 5);
+
+            if (valorResultado != null && !valorResultado.toString().isBlank()) {
+                dto.setResultado(Float.parseFloat(valorResultado.toString()));
+            }
+
+            dto.setObservaciones(valorObservacion != null ? valorObservacion.toString() : "");
+            detalles.add(dto);
+        }
+
+        return detalles;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;

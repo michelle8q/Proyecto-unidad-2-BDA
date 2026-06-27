@@ -4,7 +4,8 @@
  */
 package interfaces;
 
-import dto.PruebaDTO;
+import dto.PruebaBusquedaDTO;
+import dto.DetallesPruebaDTO;
 import excepciones.NegocioException;
 import java.util.List;
 
@@ -13,5 +14,6 @@ import java.util.List;
  * @author cinca
  */
 public interface IPruebaNegocio {
-    List<PruebaDTO> obtenerPruebaParaTabla() throws NegocioException;
+   void guardarResultados(List<DetallesPruebaDTO> detallesDTO) throws NegocioException;
+   PruebaBusquedaDTO buscarPorFolio(String folio) throws NegocioException;
 }

@@ -8,8 +8,6 @@ import Excepciones.PersistenciaException;
 import Interfaces.IConexionBD;
 import Interfaces.IDetallesPruebaDAO;
 import itson.org.entidades.DetallesPruebaEntidad;
-import itson.org.entidades.ParametroEntidad;
-import itson.org.entidades.PruebaEntidad;
 import javax.persistence.EntityManager;
 
 /**
@@ -28,50 +26,62 @@ public class DetallesPruebaDAO implements IDetallesPruebaDAO {
     }
 
     /**
-     * Guarda los detalles de una prueba en la base de datos.
-     * Este método permite registrar los resultados de una prueba previamente solicitada.
-     * 
+     * Guarda los detalles de una prueba en la base de datos.Este método permite registrar los resultados de una prueba previamente solicitada. 
      * Utiliza el método merge para sincronizar el estado del objeto con la base de datos.
      * Maneja transacciones y rollback en caso de error.
      * 
      * @param detalle objeto que contiene la información de la prueba a persistir
+     * @return el detalle de la prueba.
      * @throws Excepciones.PersistenciaException persistenciaException si ocurre 
      * un error durante la operación de persistencia.
      */
     @Override
-    public void agregar(DetallesPruebaEntidad detalle) throws PersistenciaException {
-        EntityManager em = conexionBD.crearConexion();
-        try {
+    public DetallesPruebaEntidad guardar(DetallesPruebaEntidad detalle) throws PersistenciaException {
+        EntityManager entityManager = conexionBD.crearConexion();
+        try {        
+            entityManager.getTransaction().begin();
+            entityManager.merge(detalle);
+            entityManager.getTransaction().commit();
 
-            em.getTransaction().begin();
-
-            if (detalle.getPrueba() != null && detalle.getPrueba().getId() > 0) {
-                PruebaEntidad prueba = em.find(PruebaEntidad.class, detalle.getPrueba().getId());
-
-                detalle.setPrueba(prueba);
+            return detalle;
+        
+        } catch (Exception ex) {
+            if (entityManager != null && entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
             }
-
-            if (detalle.getParametro() != null && detalle.getParametro().getId() > 0) {
-                ParametroEntidad parametro = em.find(ParametroEntidad.class, detalle.getParametro().getId());
-
-                detalle.setParametro(parametro);
-            }
-
-            em.merge(detalle);
-
-            em.getTransaction().commit();
-
-        } catch (Exception e) {
-
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            
-            throw new PersistenciaException("Error al actualizar el detalle de la prueba: " + e.getMessage());
+            throw new PersistenciaException("Error al guardar el detalle de la prueba: " + ex.getMessage());
 
         } finally {
-            em.close();
+            if (entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
+    
+    /**
+     * Busca el detalle de una prueba por su id
+     * 
+     * Utiliza el método find para buscar los detalles especificos de una prueba.
+     * 
+     * @param id el ID es el detalle a buscar.
+     * @return el detalle encontrado.
+     * @throws Excepciones.PersistenciaException persistenciaException si ocurre 
+     * un error durante la operación de persistencia.
+     */
+    @Override
+    public DetallesPruebaEntidad buscarPorID(int id) throws PersistenciaException {
+    EntityManager em = conexionBD.crearConexion();
+    try {
+        DetallesPruebaEntidad detalle = em.find(DetallesPruebaEntidad.class, id);
+        if (detalle == null) {
+            throw new PersistenciaException("No se encontro el detalle con id: " + id);
+        }
+        return detalle;
+    } catch (PersistenciaException e) {
+        throw new PersistenciaException("Error al buscar el detalle: " + e.getMessage());
+    } finally {
+        em.close();
+    }
+}
     
 }

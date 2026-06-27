@@ -4,6 +4,9 @@
  */
 package utilerias;
 
+import analisis.FrmCatalogoAnalisis;
+import resultados.FrmIngresoResultados;
+
 
 /**
  *
@@ -111,15 +114,18 @@ public class pnlMenuLateral extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSolicitudActionPerformed
 
     private void btnCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCatalogoActionPerformed
-        // TODO add your handling code here:
+        FrmCatalogoAnalisis pantalla = new FrmCatalogoAnalisis();
+        pantalla.setVisible(true);
     }//GEN-LAST:event_btnCatalogoActionPerformed
 
     private void btnDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatosActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_btnDatosActionPerformed
 
     private void btnResultadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResultadosActionPerformed
-        // TODO add your handling code here:
+        FrmIngresoResultados pantalla = new FrmIngresoResultados();
+        pantalla.setVisible(true);
+        
     }//GEN-LAST:event_btnResultadosActionPerformed
 
 

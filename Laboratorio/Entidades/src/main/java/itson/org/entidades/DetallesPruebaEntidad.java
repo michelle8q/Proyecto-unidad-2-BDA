@@ -5,7 +5,6 @@
 package itson.org.entidades;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +24,7 @@ public class DetallesPruebaEntidad implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "idPrueba", nullable = false)
@@ -37,25 +36,26 @@ public class DetallesPruebaEntidad implements Serializable {
 
     @Column(name = "resultado", nullable = false)
     private float resultado;
+    
+    @Column(name = "observaciones", nullable = false, length = 200)
+    private String observaciones;
 
     public DetallesPruebaEntidad() {
     }
 
-
-    public DetallesPruebaEntidad(Long id, PruebaEntidad prueba, ParametroEntidad parametro, float resultado) {
+    public DetallesPruebaEntidad(int id, PruebaEntidad prueba, ParametroEntidad parametro, float resultado, String observaciones) {
         this.id = id;
         this.prueba = prueba;
         this.parametro = parametro;
         this.resultado = resultado;
+        this.observaciones = observaciones;
     }
-    
-    
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -81,6 +81,14 @@ public class DetallesPruebaEntidad implements Serializable {
 
     public void setParametro(ParametroEntidad parametro) {
         this.parametro = parametro;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 
    

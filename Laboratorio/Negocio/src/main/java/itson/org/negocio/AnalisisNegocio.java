@@ -66,7 +66,7 @@ public class AnalisisNegocio implements IAnalisisNegocio {
     }
 
     @Override
-public void guardarAnalisis(AnalisisDTO analisisDTO) throws Exception {
+    public void guardarAnalisis(AnalisisDTO analisisDTO) throws Exception {
 
     AnalisisEntidad analisisEntidad = new AnalisisEntidad();
     analisisEntidad.setNombre(analisisDTO.getNombre());

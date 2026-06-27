@@ -4,6 +4,7 @@
 package itson.org.presentacion;
 
 import analisis.FrmCatalogoAnalisis;
+import resultados.FrmIngresoResultados;
 
 /**
  *
@@ -12,12 +13,13 @@ import analisis.FrmCatalogoAnalisis;
 public class Presentacion {
 
     public static void main(String[] args) {
-        
-                FrmCatalogoAnalisis pantallaPrincipal = new FrmCatalogoAnalisis();
+                
+        FrmCatalogoAnalisis pantallaPrincipal = new FrmCatalogoAnalisis();
 
-                pantallaPrincipal.setLocationRelativeTo(null);
+        pantallaPrincipal.setLocationRelativeTo(null);
 
-                pantallaPrincipal.setVisible(true);
-            }
+        pantallaPrincipal.setVisible(true);
+                
+    }
     
 }
