@@ -33,11 +33,23 @@ public class PruebaDAO implements IPruebaDAO {
     */
     private final IConexionBD conexionBD;
     
-    
+     /**
+     * Constructor que recibe la conexión a la base de datos.
+     *
+     * @param conexionBD instancia de la conexión a utilizar
+     */
     public PruebaDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
     
+     /**
+     * Busca una prueba por su identificador unico.
+     *
+     * @param id identificador de la prueba a buscar
+     * @return PruebaEntidad encontrada
+     * @throws PersistenciaException si no se encuentra la prueba o si ocurre un error durante la consulta
+     * 
+     */
     @Override
     public PruebaEntidad buscarPorID(int id) throws PersistenciaException {
         EntityManager entityManager = conexionBD.crearConexion();
@@ -61,6 +73,11 @@ public class PruebaDAO implements IPruebaDAO {
 
     }
 
+    /**
+     * Obtiene todas las pruebas registradas en la base de datos.
+     *
+     * @return lista de PruebaEntidad con todas las pruebas existentes
+     */
     @Override
     public List<PruebaEntidad> buscarTodos() {
        EntityManager entityManager = conexionBD.crearConexion();
@@ -75,7 +92,19 @@ public class PruebaDAO implements IPruebaDAO {
             }
         }
     }
-
+    
+     /**
+     * Busca una prueba por su numero de folio utilizando CriteriaBuilder.
+     * 
+     * Se uso CriteriaBuilder para que el compilador detecte errores en los 
+     * nombres de los campos en tiempo de compilación.
+     * 
+     * @param folio folio de la prueba a buscar
+     * @return PruebaEntidad encontrada
+     * @throws PersistenciaException si no se encuentra la prueba o si ocurre un 
+     * error durante la consulta
+     * 
+     */
     @Override
     public PruebaEntidad buscarPorFolio(String folio) throws PersistenciaException {
         EntityManager em = conexionBD.crearConexion();

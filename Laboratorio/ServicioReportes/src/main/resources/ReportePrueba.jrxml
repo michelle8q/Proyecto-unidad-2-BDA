@@ -1,0 +1,129 @@
+<!-- Created with Jaspersoft Studio version 7.0.6.final using JasperReports Library version 7.0.6-5d2a603fdc6b3db8f842a83383e594f41891534d  -->
+<jasperReport name="AnalisisLaboratorio" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4da1d9fd-0dba-4574-b39f-b145eb7fe546">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<query language="sql"><![CDATA[]]></query>
+	<field name="paciente" class="java.lang.String"/>
+	<field name="analisis" class="java.lang.String"/>
+	<field name="sexoPaciente" class="java.lang.String"/>
+	<field name="folio" class="java.lang.String"/>
+	<field name="fechaHora" class="java.lang.String"/>
+	<field name="doctor" class="java.lang.String"/>
+	<field name="resultado" class="java.lang.String"/>
+	<field name="unidadMedida" class="java.lang.String"/>
+	<field name="valoresNormales" class="java.lang.String"/>
+	<field name="parametro" class="java.lang.String"/>
+	<field name="orden" class="java.lang.Integer"/>
+	<field name="apellidoPaterno" class="java.lang.String"/>
+	<field name="apellidoMaterno" class="java.lang.String"/>
+	<field name="apellidoPaternoDoctor" class="java.lang.String"/>
+	<field name="apellidoMaternoDoctor" class="java.lang.String"/>
+	<field name="muestra" class="java.lang.String"/>
+	<field name="edad" class="java.lang.String"/>
+	<sortField name="orden"/>
+	<background splitType="Stretch"/>
+	<title height="90" splitType="Stretch">
+		<element kind="image" uuid="b4bafbda-fad2-4aea-96c4-e5f1c78277e7" x="0" y="0" width="69" height="80">
+			<expression><![CDATA["C:/Users/cinca/Downloads/imss-logo.png"]]></expression>
+		</element>
+		<element kind="staticText" uuid="42bcbf95-61ce-4efb-8907-fee60918ceab" x="110" y="0" width="347" height="30" fontSize="14.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[DIRECCION DE PRESTACIONES MEDICAS CAJEME]]></text>
+		</element>
+		<element kind="staticText" uuid="dbdb4246-2f0d-413a-9c3d-cee58288036e" x="104" y="31" width="347" height="30" fontSize="14.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[LABORATORIO CLINICO]]></text>
+		</element>
+		<element kind="staticText" uuid="539cb766-b767-42c6-8fa3-fe138e156718" x="110" y="61" width="347" height="18" fontSize="14.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[RESULTADOS]]></text>
+		</element>
+	</title>
+	<pageHeader height="104" splitType="Stretch">
+		<element kind="staticText" uuid="e1f9810a-65f4-4354-8e71-af0a4898f5f5" x="0" y="5" width="129" height="19" fontSize="13.0">
+			<text><![CDATA[Nombre del paciente:]]></text>
+		</element>
+		<element kind="staticText" uuid="41101816-8a05-4748-966f-fe2955a30d05" x="0" y="73" width="52" height="19" fontSize="13.0">
+			<text><![CDATA[Analisis:]]></text>
+		</element>
+		<element kind="staticText" uuid="d76c69ad-4e88-43a2-9a0e-1d544dde1b00" x="0" y="28" width="36" height="18" fontSize="13.0">
+			<text><![CDATA[Sexo:]]></text>
+		</element>
+		<element kind="staticText" uuid="9001bae1-4134-4089-a2cc-4f652eb64bd9" x="325" y="26" width="80" height="19" fontSize="13.0">
+			<text><![CDATA[Fecha y hora:]]></text>
+		</element>
+		<element kind="staticText" uuid="a2fbaad3-92e7-41bf-8052-9b6515b23260" x="326" y="46" width="114" height="19" fontSize="13.0">
+			<text><![CDATA[Nombre del doctor:]]></text>
+		</element>
+		<element kind="staticText" uuid="041aa39c-d20c-48a1-9a4d-d186905277e3" x="324" y="5" width="96" height="19" fontSize="13.0">
+			<text><![CDATA[Folio de prueba:]]></text>
+		</element>
+		<element kind="line" uuid="b00ad616-d2d8-44a4-83e6-326cd441a009" x="0" y="1" width="556" height="1">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+		</element>
+		<element kind="line" uuid="4d210b54-970f-407f-bf65-0c41643c8095" x="0" y="70" width="556" height="1">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+		</element>
+		<element kind="textField" uuid="efbdef82-cca5-4f66-a00a-86809e11681f" x="129" y="6" width="180" height="19" fontSize="12.0">
+			<expression><![CDATA[$F{paciente} + " " + $F{apellidoPaterno} + " " + $F{apellidoMaterno}]]></expression>
+		</element>
+		<element kind="textField" uuid="a3d71109-905c-47d5-b8a8-5b04be17c1a2" x="54" y="74" width="231" height="19" fontSize="12.0">
+			<expression><![CDATA[$F{analisis}]]></expression>
+		</element>
+		<element kind="textField" uuid="f3d93c1b-881d-4d54-8bf8-dd90e1f7e213" x="36" y="28" width="114" height="19" fontSize="12.0">
+			<expression><![CDATA[$F{sexoPaciente}]]></expression>
+		</element>
+		<element kind="textField" uuid="c78b7460-ffb2-43b6-a365-04d12d0dd3e1" x="410" y="27" width="146" height="16" fontSize="12.0">
+			<expression><![CDATA[$F{fechaHora}]]></expression>
+		</element>
+		<element kind="staticText" uuid="065e0910-08a4-459e-b837-21b1bc2b3dc4" x="329" y="74" width="52" height="19" fontSize="12.0">
+			<text><![CDATA[Muestra:]]></text>
+		</element>
+		<element kind="textField" uuid="df8b07e5-777e-4c43-bbdf-0e3301c421bf" x="443" y="47" width="100" height="16" fontSize="12.0">
+			<expression><![CDATA[$F{doctor} + " " + $F{apellidoPaternoDoctor} + " " + $F{apellidoMaternoDoctor}]]></expression>
+		</element>
+		<element kind="textField" uuid="a347a885-0e4d-4920-aa8a-9083077a6731" x="421" y="7" width="100" height="16" fontSize="12.0">
+			<expression><![CDATA[$F{folio}]]></expression>
+		</element>
+		<element kind="textField" uuid="1746090e-8276-49c0-874c-b8e2c6307fe9" x="381" y="74" width="114" height="19" fontSize="12.0">
+			<expression><![CDATA[$F{muestra}]]></expression>
+		</element>
+		<element kind="staticText" uuid="db91fec6-f21d-4124-8d91-9d1c16ece018" x="1" y="48" width="36" height="18" fontSize="13.0">
+			<text><![CDATA[Edad:]]></text>
+		</element>
+		<element kind="textField" uuid="7e9a8626-9247-4af2-9ac4-6908e593edeb" x="41" y="48" width="114" height="19" fontSize="12.0">
+			<expression><![CDATA[$F{edad}]]></expression>
+		</element>
+	</pageHeader>
+	<columnHeader height="28" splitType="Stretch">
+		<element kind="staticText" uuid="9569104a-46ce-4623-8a25-9605054bf4fb" x="0" y="1" width="100" height="18" fontSize="13.0">
+			<text><![CDATA[PARAMETROS]]></text>
+		</element>
+		<element kind="staticText" uuid="c449320c-86d4-4e68-9a1c-d193456732ca" x="130" y="0" width="94" height="18" fontSize="13.0">
+			<text><![CDATA[RESULTADOS]]></text>
+		</element>
+		<element kind="staticText" uuid="c9b955a6-d3ab-4af7-a33f-6cb1b6ead79e" x="292" y="1" width="68" height="18" fontSize="13.0">
+			<text><![CDATA[UNIDADES]]></text>
+		</element>
+		<element kind="staticText" uuid="0b0ded51-f6d0-4cf9-875b-0326428c1ade" x="409" y="1" width="139" height="18" fontSize="13.0">
+			<text><![CDATA[VALORES NORMALES]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<element kind="textField" uuid="19798d13-e090-42f8-854e-23402b6d14f7" x="0" y="0" width="100" height="18" hTextAlign="Center">
+				<expression><![CDATA[$F{parametro}]]></expression>
+			</element>
+			<element kind="textField" uuid="2b526203-94a6-4061-8db2-18f54aba6105" x="129" y="0" width="100" height="19" hTextAlign="Center">
+				<expression><![CDATA[$F{resultado}]]></expression>
+			</element>
+			<element kind="textField" uuid="87b8add3-1f2a-4584-824f-3aac147e47c4" x="280" y="0" width="100" height="18" hTextAlign="Center">
+				<expression><![CDATA[$F{unidadMedida}]]></expression>
+			</element>
+			<element kind="textField" uuid="68a4d23d-2c9f-41ac-9413-c22754fc8157" x="420" y="0" width="100" height="18" hTextAlign="Center">
+				<expression><![CDATA[$F{valoresNormales}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="45" splitType="Stretch"/>
+	<pageFooter height="54" splitType="Stretch"/>
+	<summary height="42" splitType="Stretch"/>
+</jasperReport>

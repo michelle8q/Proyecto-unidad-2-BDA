@@ -26,8 +26,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Clase de negocio encargada de gestionar las pruebas de laboratorio.
+ *
+ * Implementa la interfaz IPruebaNegocio y actúa entre la presentación y la persistencia. 
+ * 
+ * Se encarga de buscar una prueba por folio para mostrarla en pantalla, y guardar los resultados
+ * ingresados por el usuario.
+ *
+ * Transforma entidades en DTOs para que la presentación no tenga dependencia
+ * con JPA, y transforma DTOs en entidades al momento de persistir.
  *
  * @author cinca
+ * 
  */
 public class PruebaNegocio implements IPruebaNegocio {
     private final IPruebaDAO pruebaDAO;
@@ -44,7 +54,19 @@ public class PruebaNegocio implements IPruebaNegocio {
         this.rangoDAO = new RangoDAO(conexion);
     }
     
-
+    /**
+     * Guarda los resultados ingresados por el usuario para cada detalle de
+     * una prueba.
+     *
+     * Por cada DTO recibido, busca el detalle correspondiente en la base de
+     * datos por su ID y actualiza su resultado y observaciones.
+     *
+     * @param detallesDTO lista de DTOs con los resultados y observaciones 
+     * ingresados por el usuario
+     * 
+     * @throws NegocioException si la lista está vacía o si ocurre un error
+     * durante la persistencia
+     */
     @Override
     public void guardarResultados(List<DetallesPruebaDTO> detallesDTO) throws NegocioException {
         if (detallesDTO == null || detallesDTO.isEmpty()) {
@@ -64,6 +86,21 @@ public class PruebaNegocio implements IPruebaNegocio {
         }
     }
     
+    /**
+     * Busca una prueba por su folio y retorna sus datos junto con los detalles
+     * de cada parámetro, incluyendo el rango de referencia según el sexo del
+     * paciente.
+     *
+     * Transforma la PruebaEntidad y sus DetallesPruebaEntidad en un
+     * PruebaBusquedaDTO listo para mostrar en la pantalla de ingreso de
+     * resultados.
+     *
+     * @param folio folio de la prueba a buscar
+     * @return PruebaBusquedaDTO con los datos de la prueba y sus parámetros
+     * @throws NegocioException si el folio está vacío, la prueba no existe,
+     * no tiene parámetros registrados, o si ocurre un error de persistencia
+     * 
+     */
     @Override
     public PruebaBusquedaDTO buscarPorFolio(String folio) throws NegocioException {
         if (folio == null || folio.isBlank()) {

@@ -10,10 +10,26 @@ import excepciones.NegocioException;
 import java.util.List;
 
 /**
- *
+ * Contrato para las operaciones de negocio relacionadas con pruebas de laboratorio.
+ * 
  * @author cinca
  */
 public interface IPruebaNegocio {
+    
+    /**
+     * Guarda los resultados ingresados por el usuario para una prueba.
+     *
+     * @param detallesDTO lista de DTOs con los resultados a guardar
+     * @throws NegocioException si la lista está vacia o hay error al guardar
+     */
    void guardarResultados(List<DetallesPruebaDTO> detallesDTO) throws NegocioException;
+   
+    /**
+     * Busca una prueba por folio y retorna sus datos para mostrar en pantalla.
+     *
+     * @param folio folio de la prueba
+     * @return PruebaBusquedaDTO con los datos de la prueba y sus parámetros
+     * @throws NegocioException si el folio es inválido o la prueba no existe
+     */
    PruebaBusquedaDTO buscarPorFolio(String folio) throws NegocioException;
 }

@@ -11,7 +11,14 @@ import itson.org.entidades.RangoEntidad;
 import java.util.List;
 import javax.persistence.EntityManager;
 
-/**
+
+ /**
+ * Implementación de la interfaz IRangoDAO para la gestión de rangos de
+ * referencia en la base de datos utilizando JPA.
+ *
+ * Permite buscar el rango de valores normales de un parámetro filtrando
+ * por sexo del paciente, lo que permite mostrar el rango correcto en la
+ * pantalla de ingreso de resultados y en el reporte.
  *
  * @author cinca
  */
@@ -22,10 +29,28 @@ public class RangoDAO implements IRangoDAO {
     */
     private final IConexionBD conexionBD;   
     
+    /**
+     * Constructor que recibe la conexión a la base de datos.
+     *
+     * @param conexionBD instancia de la conexión a utilizar
+     */
     public RangoDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
     
+    /**
+     * Busca el rango de referencia de un parámetro filtrando por sexo del
+     * paciente.
+     *
+     * Utiliza JPQL para consultar el rango cuyo parámetro coincida con el
+     * id recibido y que el sexo coincida con el del paciente. Si no existe
+     * un rango para ese criterio, regresa null.
+     *
+     * @param idParametro identificador del parámetro a buscar
+     * @param sexo sexo del paciente para filtrar el rango correspondiente
+     * @return RangoEntidad con los valores de referencia, o null si no existe
+     * @throws PersistenciaException si ocurre un error durante la consulta
+     */
     @Override
     public RangoEntidad buscarPorParametroYSexo(int idParametro, String sexo) throws PersistenciaException {
         EntityManager em = conexionBD.crearConexion();
@@ -36,7 +61,11 @@ public class RangoDAO implements IRangoDAO {
                     .setParameter("sexo", sexo)
                     .getResultList();
 
-            return resultados.isEmpty() ? null : resultados.get(0);
+            if (resultados.isEmpty()) {
+                return null;
+            }
+            
+            return resultados.get(0);
 
         } catch (Exception e) {
             throw new PersistenciaException("Error al buscar el rango: " + e.getMessage());

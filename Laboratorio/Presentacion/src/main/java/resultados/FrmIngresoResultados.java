@@ -9,30 +9,48 @@ package resultados;
 
 import dto.DetallesPruebaDTO;
 import dto.PruebaBusquedaDTO;
+import dto.ResultadoReporteDTO;
 import excepciones.NegocioException;
 import interfaces.IPruebaNegocio;
+import interfaces.IResultadosReporteNegocio;
 import itson.org.negocio.PruebaNegocio;
+import itson.org.negocio.ResultadosReporteNegocio;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.List;
+import servicioReporte.GeneradorReportes;
 
 /**
+ * 
+ * Pantalla de ingreso de resultados de pruebas de laboratorio.
  *
+ * Permite al usuario buscar una prueba por folio, visualizar sus parametros
+ * con el rango de referencia correspondiente, ingresar los resultados de cada
+ * parametro, guardarlos en la base de datos e imprimir el reporte en PDF.
+ *
+ * La presentación solo llama a las interfaces de negocio y nunca accede 
+ * directamente a DAOs o entidades.
+ * 
  * @author cinca
  */
 public class FrmIngresoResultados extends javax.swing.JFrame {
 
     private final IPruebaNegocio pruebaNegocio;
+    private final IResultadosReporteNegocio reporteNegocio;
     private PruebaBusquedaDTO pruebaBuscada;
 
 
     /**
-     * Creates new form CatalogoAnalisis
+     * Constructor que inicializa los componentes de la pantalla, inyecta las
+     * dependencias de negocio y oculta los botones de acción hasta que el
+     * usuario realice una búsqueda exitosa.
      */
     public FrmIngresoResultados() {
         initComponents();
         this.pruebaNegocio = new PruebaNegocio();
+        this.reporteNegocio = new ResultadosReporteNegocio();
+        ocultarBotones();
     }
 
     /**
@@ -263,21 +281,44 @@ public class FrmIngresoResultados extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    /**
+     * Limpia la pantalla, restablece los labels a sus valores por defecto,
+     * vacía la tabla y oculta los botones de acción.
+     */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         pruebaBuscada = null;
         lblFolio.setText("folio");
         lblNombreCliente.setText("nombre");
         lblNombreDoc.setText("nombre");
         txtBuscador.setText("");
+        
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         modelo.setRowCount(0);
+        ocultarBotones();
     }//GEN-LAST:event_btnCancelarActionPerformed
-
+    
+    /**
+     * Genera y muestra el reporte de resultados de la prueba actualmente
+     * cargada en pantalla.
+     */
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        // TODO add your handling code here:
+        try {
+            
+            List<ResultadoReporteDTO> reporte = reporteNegocio.generarReporteDTO(pruebaBuscada.getIdPrueba());
+            
+            GeneradorReportes generador = new GeneradorReportes();
+            generador.generarReportePrueba(reporte);
+        
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnImprimirActionPerformed
 
+    /**
+     * Lee los resultados ingresados por el usuario en la tabla y los guarda
+     * en la base de datos.
+     */
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
             List<DetallesPruebaDTO> detallesCapturados = leerResultadoTabla();
@@ -288,6 +329,11 @@ public class FrmIngresoResultados extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    /**
+     * Busca una prueba por el folio ingresado en el campo de texto, muestra
+     * los datos del paciente y doctor en los labels, llena la tabla con los
+     * parametros y hace visibles los botones de accion.
+     */
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         String folio = txtBuscador.getText().trim();
         try {
@@ -295,13 +341,22 @@ public class FrmIngresoResultados extends javax.swing.JFrame {
             lblFolio.setText(pruebaBuscada.getFolio());
             lblNombreCliente.setText(pruebaBuscada.getNombreCliente());
             lblNombreDoc.setText(pruebaBuscada.getNombreDoctor());
+            
             llenarTabla(pruebaBuscada.getDetalles());
+            mostrarBotones();
             
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    /**
+     * Llena la tabla con los detalles de la prueba encontrada, mostrando
+     * analisis, parametro, unidad de medida, rango de referencia, resultado
+     * y observaciones de cada fila.
+     *
+     * @param detalles lista de DetallesPruebaDTO a mostrar en la tabla
+     */
     private void llenarTabla(List<DetallesPruebaDTO> detalles) {
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         modelo.setRowCount(0);
@@ -319,6 +374,12 @@ public class FrmIngresoResultados extends javax.swing.JFrame {
         
     }
     
+    /**
+     * Lee los valores ingresados por el usuario en las columnas de resultado
+     * y observaciones de la tabla, y los asigna a los DTOs correspondientes.
+     *
+     * @return lista de DetallesPruebaDTO con los resultados capturados
+     */
     private List<DetallesPruebaDTO> leerResultadoTabla() {
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         List<DetallesPruebaDTO> detalles = new ArrayList<>();
@@ -337,6 +398,26 @@ public class FrmIngresoResultados extends javax.swing.JFrame {
         }
 
         return detalles;
+    }
+    
+    /**
+     * Hace visibles los botones de guardar, imprimir y cancelar.
+     * Se llama después de una búsqueda exitosa.
+     */
+    private void mostrarBotones() {
+        btnGuardar.setVisible(true);
+        btnImprimir.setVisible(true);
+        btnCancelar.setVisible(true);
+    }
+    
+    /**
+     * Oculta los botones de guardar, imprimir y cancelar.
+     * Se llama al iniciar la pantalla y al cancelar una búsqueda.
+     */
+    private void ocultarBotones() {
+        btnGuardar.setVisible(false);
+        btnImprimir.setVisible(false);
+        btnCancelar.setVisible(false);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
