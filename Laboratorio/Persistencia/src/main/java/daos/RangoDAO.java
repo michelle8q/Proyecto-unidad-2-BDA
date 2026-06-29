@@ -43,8 +43,7 @@ public class RangoDAO implements IRangoDAO {
      * paciente.
      *
      * Utiliza JPQL para consultar el rango cuyo parámetro coincida con el
-     * id recibido y que el sexo coincida con el del paciente. Si no existe
-     * un rango para ese criterio, regresa null.
+     * id recibido y que el sexo coincida con el del paciente o sea "ambos". 
      *
      * @param idParametro identificador del parámetro a buscar
      * @param sexo sexo del paciente para filtrar el rango correspondiente
@@ -55,7 +54,7 @@ public class RangoDAO implements IRangoDAO {
     public RangoEntidad buscarPorParametroYSexo(int idParametro, String sexo) throws PersistenciaException {
         EntityManager em = conexionBD.crearConexion();
         try {
-            String jpql = "SELECT r FROM RangoEntidad r WHERE r.parametro.id = :idParametro AND r.sexo = :sexo";
+            String jpql = "SELECT r FROM RangoEntidad r WHERE r.parametro.id = :idParametro AND (r.sexo = :sexo OR r.sexo = 'Ambos')";
             List<RangoEntidad> resultados = em.createQuery(jpql, RangoEntidad.class)
                     .setParameter("idParametro", idParametro)
                     .setParameter("sexo", sexo)

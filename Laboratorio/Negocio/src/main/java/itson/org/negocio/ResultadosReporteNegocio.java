@@ -7,8 +7,10 @@ package itson.org.negocio;
 import Excepciones.PersistenciaException;
 import Interfaces.IConexionBD;
 import Interfaces.IPruebaDAO;
+import Interfaces.IRangoDAO;
 import conexiones.ConexionBD;
 import daos.PruebaDAO;
+import daos.RangoDAO;
 import dto.ResultadoReporteDTO;
 import excepciones.NegocioException;
 import interfaces.IResultadosReporteNegocio;
@@ -16,6 +18,7 @@ import itson.org.entidades.AnalisisEntidad;
 import itson.org.entidades.DetallesPruebaEntidad;
 import itson.org.entidades.ParametroEntidad;
 import itson.org.entidades.PruebaEntidad;
+import itson.org.entidades.RangoEntidad;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -35,13 +38,15 @@ import java.util.List;
 public class ResultadosReporteNegocio implements IResultadosReporteNegocio {
     
     private final IPruebaDAO pruebaDAO;
+    private final IRangoDAO rangoDAO;
     
     /**
      * Constructor que inicializa la conexión y se la inyecta al DAO de pruebas.
      */
     public ResultadosReporteNegocio() {
         IConexionBD conexion = new ConexionBD();
-        this.pruebaDAO = new PruebaDAO(conexion);  
+        this.pruebaDAO = new PruebaDAO(conexion); 
+        this.rangoDAO = new RangoDAO(conexion);
     }
     
     /**
@@ -53,6 +58,9 @@ public class ResultadosReporteNegocio implements IResultadosReporteNegocio {
      * 
      * Se formatea la fecha y hora para que se muestre en formato en el reporte
      * generado por Jasper.
+     * 
+     * Se busca el rango segun el sexo del paciente para demostrar los valos de
+     * referencia de un parametro.
      *
      * @param idPrueba identificador de la prueba a reportar
      * @return lista de ResultadoReporteDTO con los datos del reporte
@@ -83,11 +91,20 @@ public class ResultadosReporteNegocio implements IResultadosReporteNegocio {
                 dto.setFechaHora(prueba.getFechaHora().format(formatter));
 
                 dto.setMuestra(parametro.getAnalisis().getMuestra().getTipo());
-                
+                  
                 dto.setPaciente(prueba.getCliente().getNombre());
                 dto.setApellidoPaterno(prueba.getCliente().getApellidoPaterno());
                 dto.setApellidoMaterno(prueba.getCliente().getApellidoMaterno());
                 dto.setSexoPaciente(prueba.getCliente().getSexo());
+                
+                String sexoPaciente = prueba.getCliente().getSexo();
+                RangoEntidad rango = rangoDAO.buscarPorParametroYSexo(parametro.getId(), sexoPaciente);
+                
+                if (rango != null) {
+                    dto.setValoresNormales(rango.getRangoInicial() + " - " + rango.getRangoFinal());
+                } else {
+                    dto.setValoresNormales("No hay rango definido");
+                }
                 
                 dto.setDoctor(prueba.getDoctor().getNombre());
                 dto.setApellidoPaternoDoctor(prueba.getDoctor().getApellidoPaterno());
