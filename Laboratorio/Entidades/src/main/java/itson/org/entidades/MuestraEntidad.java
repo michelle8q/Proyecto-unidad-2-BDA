@@ -55,6 +55,12 @@ public class MuestraEntidad implements Serializable {
         this.analisis = analisis;
     }
 
+    public MuestraEntidad(int id, String tipo) {
+        this.id = id;
+        this.tipo = tipo;
+    }
+    
+    
     /**
      * Obtiene el identificador de la muestra.
      *

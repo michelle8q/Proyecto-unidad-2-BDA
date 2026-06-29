@@ -49,6 +49,7 @@ public class FrmIngresoResultados extends javax.swing.JFrame {
      */
     public FrmIngresoResultados() {
         initComponents();
+        this.setLocationRelativeTo(null);
         this.pruebaNegocio = new PruebaNegocio();
         this.reporteNegocio = new ResultadosReporteNegocio();
         ocultarBotones();
