@@ -21,4 +21,7 @@ public interface IAnalisisDAO {
     AnalisisEntidad buscarPorId(int id);
 
     void actualizar(AnalisisEntidad analisis);
+    
+    List<AnalisisEntidad> buscarPorParametro(String parametro);
+    
 }

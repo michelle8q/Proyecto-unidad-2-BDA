@@ -168,6 +168,11 @@ public class FrmRegistroAnalisis extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        FrmCatalogoAnalisis frmCatalogo = new FrmCatalogoAnalisis();
+        frmCatalogo.setLocationRelativeTo(this);
+        frmCatalogo.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+        frmCatalogo.setVisible(true);
+
         this.dispose();
 
     }//GEN-LAST:event_btnCancelarActionPerformed
@@ -195,7 +200,7 @@ public class FrmRegistroAnalisis extends javax.swing.JFrame {
         if (tipoMuestra.equals("Sangre")) {
             muestraDTO.setId(2);
         } else if (tipoMuestra.equals("Orina")) {
-            muestraDTO.setId(1); 
+            muestraDTO.setId(1);
         }
         muestraDTO.setTipo(tipoMuestra);
 

@@ -95,4 +95,28 @@ public class AnalisisDAO implements IAnalisisDAO {
             }
         }
     }
+    
+    
+    @Override
+    public List<AnalisisEntidad> buscarPorParametro(String parametro) {
+        EntityManager em = conexionBD.crearConexion();
+        try {
+            String jpql = "SELECT DISTINCT a FROM AnalisisEntidad a " +
+                         "LEFT JOIN a.muestra m " +
+                         "WHERE LOWER(a.nombre) LIKE LOWER(:param) " +
+                         "OR LOWER(a.notaDescriptiva) LIKE LOWER(:param) " +
+                         "OR LOWER(m.tipo) LIKE LOWER(:param)";
+            
+            TypedQuery<AnalisisEntidad> query = em.createQuery(jpql, AnalisisEntidad.class);
+            query.setParameter("param", "%" + parametro + "%");
+            
+            return query.getResultList();
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
+    }
+    
+    
 }

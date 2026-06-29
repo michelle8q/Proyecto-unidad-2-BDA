@@ -10,6 +10,8 @@ import utilerias.ButtonRenderer;
 import utilerias.ButtonEditor;
 import javax.swing.JCheckBox;
 import javax.swing.SwingUtilities;
+import utilerias.EditarButtonEditor;
+import utilerias.EditarButtonRenderer;
 
 /**
  *
@@ -89,6 +91,11 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
         btnCancelar.setBackground(new java.awt.Color(153, 153, 153));
         btnCancelar.setFont(new java.awt.Font("Corbel", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnAgregarParametro.setBackground(new java.awt.Color(153, 255, 255));
         btnAgregarParametro.setFont(new java.awt.Font("Corbel", 0, 14)); // NOI18N
@@ -175,6 +182,11 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
 
             javax.swing.JOptionPane.showMessageDialog(this, "¡Análisis y parámetros registrados con éxito!");
 
+            FrmCatalogoAnalisis frmCatalogo = new FrmCatalogoAnalisis();
+            frmCatalogo.setLocationRelativeTo(this);
+            frmCatalogo.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+            frmCatalogo.setVisible(true);
+
             this.dispose();
         } catch (Exception ex) {
             javax.swing.JOptionPane.showMessageDialog(this,
@@ -184,9 +196,17 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        FrmCatalogoAnalisis frmCatalogo = new FrmCatalogoAnalisis();
+        frmCatalogo.setLocationRelativeTo(this);
+        frmCatalogo.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+        frmCatalogo.setVisible(true);
+
+        this.dispose();    }//GEN-LAST:event_btnCancelarActionPerformed
+
     private void llenarTabla() {
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable1.getModel();
-        modelo.setRowCount(0); 
+        modelo.setRowCount(0);
 
         if (this.analisisDTO != null && this.analisisDTO.getParametros() != null) {
             for (dto.ParametroDTO param : this.analisisDTO.getParametros()) {
@@ -194,8 +214,8 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
                     param.getNombre(),
                     param.getNota(),
                     param.getTipoValor(),
-                    "Editar",   
-                    "Eliminar" 
+                    "Editar",
+                    "Eliminar"
                 });
             }
         }
@@ -212,14 +232,16 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
         int indiceColumnaEditar = 3;
         int indiceColumnaEliminar = 4;
 
+        // ✅ USAR EditarButtonRenderer QUE DESHABILITA SEGÚN TIPO
         jTable1.getColumnModel().getColumn(indiceColumnaEditar)
-                .setCellRenderer(new ButtonRenderer());
+                .setCellRenderer(new EditarButtonRenderer());
 
         jTable1.getColumnModel().getColumn(indiceColumnaEliminar)
                 .setCellRenderer(new ButtonRenderer());
 
+        // ✅ USAR EditarButtonEditor QUE DESHABILITA SEGÚN TIPO
         jTable1.getColumnModel().getColumn(indiceColumnaEditar)
-                .setCellEditor(new ButtonEditor(new JCheckBox(), () -> {
+                .setCellEditor(new EditarButtonEditor(new JCheckBox(), () -> {
 
                     Object filaObj = jTable1.getClientProperty("filaSeleccionada");
 
@@ -228,7 +250,6 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
                         System.out.println("Editar valores de la fila: " + filaSeleccionada);
 
                         dto.ParametroDTO parametroSeleccionado = this.analisisDTO.getParametros().get(filaSeleccionada);
-
 
                         FrmValoresRango frmValores = new FrmValoresRango(parametroSeleccionado);
                         frmValores.setLocationRelativeTo(this);

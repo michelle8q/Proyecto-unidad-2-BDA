@@ -18,4 +18,6 @@ public interface IAnalisisNegocio {
     void guardarAnalisis(dto.AnalisisDTO analisisDTO) throws Exception;
 
     void cambiarEstadoAnalisis(int idAnalisis) throws Exception;
+
+    List<AnalisisDTO> buscarAnalisisPorParametro(String parametroBusqueda);
 }

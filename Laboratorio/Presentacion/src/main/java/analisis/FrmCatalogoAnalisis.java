@@ -32,6 +32,7 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
         this.analisisNegocio = new AnalisisNegocio();
         llenarTabla();
         configurarBotonTabla();
+        configurarBuscador();
         iniciarTemporizadorActualizacion();
 
     }
@@ -43,32 +44,96 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JCheckBox(), accionEstado));
     }
 
+    private void configurarBuscador() {
+        jButton1.addActionListener(e -> realizarBusqueda());
+
+        txtBuscador.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+                    realizarBusqueda();
+                }
+            }
+        });
+    }
+
+    private void realizarBusqueda() {
+        String textoBusqueda = txtBuscador.getText().trim();
+
+        if (textoBusqueda.isEmpty()) {
+            llenarTabla();
+            return;
+        }
+
+
+        try {
+            this.listaAnalisis = analisisNegocio.buscarAnalisisPorParametro(textoBusqueda);
+
+            DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+            modelo.setRowCount(0);
+
+            if (this.listaAnalisis.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "No se encontraron análisis con el criterio: " + textoBusqueda,
+                        "Búsqueda sin resultados",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            for (AnalisisDTO dto : this.listaAnalisis) {
+                Object[] fila = new Object[4];
+                fila[0] = dto.getNombre();
+                fila[1] = dto.getNotaDescriptiva();
+                fila[2] = (dto.getMuestra() != null) ? dto.getMuestra().getTipo() : "Sin muestra";
+                fila[3] = dto.isActivo() ? "Desactivar" : "Activar";
+                modelo.addRow(fila);
+            }
+
+            jTable1.repaint();
+            jTable1.revalidate();
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Error en la búsqueda: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     private void cambiarEstadoRegistro() {
         Object propiedadFila = jTable1.getClientProperty("filaSeleccionada");
 
         if (propiedadFila != null) {
             int fila = (int) propiedadFila;
-            AnalisisDTO analisisSeleccionado = this.listaAnalisis.get(fila);
 
-            String accion = analisisSeleccionado.isActivo() ? "desactivar" : "activar";
+            if (fila >= 0 && fila < this.listaAnalisis.size()) {
+                AnalisisDTO analisisSeleccionado = this.listaAnalisis.get(fila);
 
-            int confirmacion = JOptionPane.showConfirmDialog(this,
-                    "¿Deseas " + accion + " el análisis '" + analisisSeleccionado.getNombre() + "'?",
-                    "Confirmar " + accion,
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE);
+                String accion = analisisSeleccionado.isActivo() ? "desactivar" : "activar";
 
-            if (confirmacion == JOptionPane.YES_OPTION) {
-                try {
-                    analisisNegocio.cambiarEstadoAnalisis(analisisSeleccionado.getId());
-                    JOptionPane.showMessageDialog(this, "Estado actualizado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                int confirmacion = JOptionPane.showConfirmDialog(this,
+                        "¿Deseas " + accion + " el análisis '" + analisisSeleccionado.getNombre() + "'?",
+                        "Confirmar " + accion,
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
 
-                    javax.swing.SwingUtilities.invokeLater(() -> {
-                        llenarTabla();
-                    });
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    try {
+                        analisisNegocio.cambiarEstadoAnalisis(analisisSeleccionado.getId());
+                        JOptionPane.showMessageDialog(this, "Estado actualizado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "Error al actualizar el estado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        javax.swing.SwingUtilities.invokeLater(() -> {
+                            // Mantener la búsqueda actual si hay una
+                            String textoBusqueda = txtBuscador.getText().trim();
+                            if (textoBusqueda.isEmpty()) {
+                                llenarTabla();
+                            } else {
+                                realizarBusqueda();
+                            }
+                        });
+
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(this, "Error al actualizar el estado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         }
@@ -76,7 +141,10 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
 
     private void iniciarTemporizadorActualizacion() {
         Timer timer = new Timer(30000, e -> {
-            llenarTabla();
+            String textoBusqueda = txtBuscador.getText().trim();
+            if (textoBusqueda.isEmpty()) {
+                llenarTabla();
+            }
             System.out.println("Tabla actualizada automáticamente...");
         });
         timer.start();
@@ -115,6 +183,11 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
         txtBuscador.setText("");
 
         jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -227,6 +300,10 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void llenarTabla() {
         this.listaAnalisis = analisisNegocio.obtenerAnalisisParaTabla();
 
@@ -234,7 +311,7 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
         modelo.setRowCount(0);
 
         for (AnalisisDTO dto : this.listaAnalisis) {
-            
+
             Object[] fila = new Object[4];
 
             fila[0] = dto.getNombre();
@@ -245,8 +322,10 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
 
             modelo.addRow(fila);
         }
-
         jTable1.repaint();
+        jTable1.revalidate();
+
+        txtBuscador.setText("");
 
     }
 

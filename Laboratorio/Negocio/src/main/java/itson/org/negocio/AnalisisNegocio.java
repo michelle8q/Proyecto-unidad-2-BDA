@@ -120,8 +120,7 @@ public class AnalisisNegocio implements IAnalisisNegocio {
         analisisDAO.agregar(analisisEntidad);
     }
 
-
-         @Override
+    @Override
     public void cambiarEstadoAnalisis(int idAnalisis) throws Exception {
         try {
             AnalisisEntidad entidad = analisisDAO.buscarPorId(idAnalisis);
@@ -138,6 +137,43 @@ public class AnalisisNegocio implements IAnalisisNegocio {
             throw new Exception("Error al cambiar el estado del análisis: " + ex.getMessage());
         }
     }
-    
+
+    @Override
+    public List<AnalisisDTO> buscarAnalisisPorParametro(String parametroBusqueda) {
+        if (parametroBusqueda == null || parametroBusqueda.trim().isEmpty()) {
+            return obtenerAnalisisParaTabla();
+        }
+
+        List<AnalisisEntidad> entidades = analisisDAO.buscarPorParametro(parametroBusqueda);
+        return convertirEntidadesToDTOs(entidades);
+    }
+
+    private List<AnalisisDTO> convertirEntidadesToDTOs(List<AnalisisEntidad> entidades) {
+        List<AnalisisDTO> listaDTOs = new ArrayList<>();
+
+        for (AnalisisEntidad entidad : entidades) {
+            AnalisisDTO dto = new AnalisisDTO();
+
+            dto.setId(entidad.getId());
+            dto.setNombre(entidad.getNombre());
+            dto.setNotaDescriptiva(entidad.getNotaDescriptiva());
+            dto.setActivo(entidad.isActivo()); 
+
+            if (entidad.getMuestra() != null) {
+                MuestraDTO muestraDTO = new MuestraDTO();
+                muestraDTO.setId(entidad.getMuestra().getId());
+                muestraDTO.setTipo(entidad.getMuestra().getTipo());
+
+                dto.setMuestra(muestraDTO);
+            } else {
+                MuestraDTO muestraVacia = new MuestraDTO(0, "Sin muestra");
+                dto.setMuestra(muestraVacia);
+            }
+
+            listaDTOs.add(dto);
+        }
+
+        return listaDTOs;
+    }
 
 }

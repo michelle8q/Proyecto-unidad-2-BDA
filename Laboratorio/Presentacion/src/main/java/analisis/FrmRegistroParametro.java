@@ -25,6 +25,7 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
     public FrmRegistroParametro() {
         initComponents();
         agruparRadioBotones();
+        restringirNumerosUnidadMedida();
 
     }
 
@@ -33,15 +34,30 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
         this.analisisDTO = analisisDTO;
         initComponents();
         agruparRadioBotones();
+        restringirNumerosUnidadMedida();
     }
 
     private void agruparRadioBotones() {
         grupoRadios = new ButtonGroup();
         grupoRadios.add(btnRango);
         grupoRadios.add(jRadioButton2);
-        btnRango.setSelected(true); 
+        btnRango.setSelected(true);
     }
 
+        private void restringirNumerosUnidadMedida() {
+        txtNombre1.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                char c = evt.getKeyChar();
+                if (Character.isDigit(c)) {
+                    evt.consume();
+                  
+                }
+            }
+        });
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -85,6 +101,11 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
         btnCancelar.setBackground(new java.awt.Color(153, 153, 153));
         btnCancelar.setFont(new java.awt.Font("Corbel", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Corbel", 1, 18)); // NOI18N
         jLabel4.setText("Nombre: ");
@@ -214,7 +235,7 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String nombre = txtNombre.getText().trim();
         String nota = txtNota.getText().trim();
-        
+
         String unidadMedida = txtNombre1.getText().trim();
 
         if (nombre.isEmpty()) {
@@ -243,6 +264,14 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
     private void txtNombre1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombre1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombre1ActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        FrmCatalogoAnalisis frmCatalogo = new FrmCatalogoAnalisis();
+        frmCatalogo.setLocationRelativeTo(this);
+        frmCatalogo.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+        frmCatalogo.setVisible(true);
+
+        this.dispose();    }//GEN-LAST:event_btnCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
