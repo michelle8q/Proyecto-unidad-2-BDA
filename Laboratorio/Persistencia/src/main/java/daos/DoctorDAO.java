@@ -1,4 +1,3 @@
-
 package daos;
 
 import Interfaces.IConexionBD;
@@ -13,8 +12,8 @@ import javax.persistence.TypedQuery;
  *
  * @author hp
  */
-public class DoctorDAO implements IDoctorDAO{
-    
+public class DoctorDAO implements IDoctorDAO {
+
     private final IConexionBD conexionBD;
 
     public DoctorDAO(IConexionBD conexionBD) {
@@ -27,12 +26,18 @@ public class DoctorDAO implements IDoctorDAO{
         try {
             String jpql = "SELECT d FROM DoctorEntidad d";
             TypedQuery<DoctorEntidad> query = em.createQuery(jpql, DoctorEntidad.class);
-            return query.getResultList();
+//            return query.getResultList();
+            List<DoctorEntidad> resultados = query.getResultList();
+            for (Object obj : resultados) {
+                System.out.println("Objeto recuperado es de clase: " + obj.getClass().getName());
+            }
+            return resultados;
         } finally {
             if (em != null && em.isOpen()) {
                 em.close();
             }
         }
+
     }
-    
+
 }

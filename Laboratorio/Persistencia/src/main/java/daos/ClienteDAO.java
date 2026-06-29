@@ -25,7 +25,7 @@ public class ClienteDAO implements IClienteDAO{
     public List<ClienteEntidad> buscarTodos() throws PersistenceException {
         EntityManager em = conexionBD.crearConexion();
         try {
-            String jpql = "SELECT d FROM DoctorEntidad d";
+            String jpql = "SELECT d FROM ClienteEntidad d";
             TypedQuery<ClienteEntidad> query = em.createQuery(jpql, ClienteEntidad.class);
             return query.getResultList();
         } finally {

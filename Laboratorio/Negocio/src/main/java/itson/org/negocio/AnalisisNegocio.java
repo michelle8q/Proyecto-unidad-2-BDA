@@ -24,6 +24,7 @@ import java.util.List;
  */
 public class AnalisisNegocio implements IAnalisisNegocio {
 
+
     private final IAnalisisDAO analisisDAO;
 
     /**
@@ -174,6 +175,12 @@ public class AnalisisNegocio implements IAnalisisNegocio {
         }
 
         return listaDTOs;
+    }
+
+    @Override
+    public List<AnalisisDTO> obtenerAnalisis() {
+        List<AnalisisEntidad> analisis = analisisDAO.buscarTodos();
+        return convertirEntidadesToDTOs(analisis);
     }
 
 }
