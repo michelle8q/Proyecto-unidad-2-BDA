@@ -16,16 +16,27 @@ import utilerias.ButtonRenderer;
 import javax.swing.Timer;
 
 /**
+ * Ventana (JFrame) que representa el catálogo de Análisis Clínicos. Muestra una
+ * tabla con los análisis registrados, permite buscar por coincidencia y cambiar
+ * el estado (activar/desactivar) de cada registro.
  *
- * @author cinca
+ * @author cinca luisf
  */
 public class FrmCatalogoAnalisis extends javax.swing.JFrame {
 
+    /**
+     * Interfaz de la capa de negocio para las operaciones de análisis.
+     */
     private final IAnalisisNegocio analisisNegocio;
+    /**
+     * Lista de los análisis actualmente cargados y mostrados en la tabla.
+     */
     private List<AnalisisDTO> listaAnalisis;
 
     /**
-     * Creates new form CatalogoAnalisis
+     * Constructor de la clase FrmCatalogoAnalisis. Inicializa los componentes
+     * de la interfaz, instancia la capa de negocio, llena la tabla con los
+     * datos iniciales y configura los listeners y el temporizador.
      */
     public FrmCatalogoAnalisis() {
         initComponents();
@@ -37,6 +48,11 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Configura la columna de acciones de la tabla (columna 3) para que
+     * renderice y funcione como un botón clickeable. Asocia la acción de
+     * cambiar estado lógico al botón de la tabla.
+     */
     private void configurarBotonTabla() {
         Runnable accionEstado = () -> cambiarEstadoRegistro();
 
@@ -44,6 +60,11 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JCheckBox(), accionEstado));
     }
 
+    /**
+     * Configura los eventos del buscador. Asigna la acción de búsqueda al botón
+     * "Buscar" y al evento de presionar la tecla 'Enter' dentro del campo de
+     * texto de búsqueda.
+     */
     private void configurarBuscador() {
         jButton1.addActionListener(e -> realizarBusqueda());
 
@@ -57,6 +78,12 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Ejecuta la lógica de búsqueda basándose en el texto introducido en el
+     * buscador. Si el texto está vacío, recarga toda la tabla. Si hay texto,
+     * consulta la capa de negocio y actualiza la tabla con los resultados
+     * obtenidos.
+     */
     private void realizarBusqueda() {
         String textoBusqueda = txtBuscador.getText().trim();
 
@@ -64,7 +91,6 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
             llenarTabla();
             return;
         }
-
 
         try {
             this.listaAnalisis = analisisNegocio.buscarAnalisisPorParametro(textoBusqueda);
@@ -99,6 +125,11 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Identifica el análisis seleccionado en la tabla y cambia su estado lógico
+     * (de activo a inactivo y viceversa) a través de la capa de negocio, previa
+     * confirmación del usuario.
+     */
     private void cambiarEstadoRegistro() {
         Object propiedadFila = jTable1.getClientProperty("filaSeleccionada");
 
@@ -139,6 +170,11 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Inicia un temporizador que actualiza el contenido de la tabla
+     * automáticamente cada 30 segundos, siempre y cuando no haya un filtro de
+     * búsqueda activo.
+     */
     private void iniciarTemporizadorActualizacion() {
         Timer timer = new Timer(30000, e -> {
             String textoBusqueda = txtBuscador.getText().trim();
@@ -287,7 +323,13 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+ /**
+     * Evento desencadenado al presionar el botón de registrar nuevo análisis.
+     * Cierra la ventana actual y abre el formulario de registro
+     * (FrmRegistroAnalisis).
+     *
+     * @param evt Evento de acción de la interfaz.
+     */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         FrmRegistroAnalisis pantallaRegistro = new FrmRegistroAnalisis(this.analisisNegocio);
 
@@ -303,7 +345,10 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    /**
+     * Consulta todos los análisis a través de la capa de negocio y llena el
+     * modelo de la tabla visual para mostrarlos al usuario.
+     */
     private void llenarTabla() {
         this.listaAnalisis = analisisNegocio.obtenerAnalisisParaTabla();
 

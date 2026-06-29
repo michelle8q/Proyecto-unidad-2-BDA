@@ -17,6 +17,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
+ * Implementación de la interfaz {@link IParametroDAO}. Maneja el acceso a datos
+ * para los parámetros evaluados dentro de los análisis.
  *
  * @author luisf
  */
@@ -41,7 +43,8 @@ public class ParametroDAO implements IParametroDAO {
      *
      * @param id el ID del parámetro
      * @return el parámetro encontrado
-     * @throws PersistenciaException si no se encuentra o hay error
+     * @throws PersistenciaException si no se encuentra o hay error de
+     * validación/conexión
      */
     @Override
     public ParametroEntidad buscarPorID(Long id) throws PersistenciaException {
@@ -65,12 +68,12 @@ public class ParametroDAO implements IParametroDAO {
     }
 
     /**
-     * Obtiene todos los parámetros de un análisis específico, ordenados por
-     * orden.
+     * Obtiene todos los parámetros de un análisis específico, empleando
+     * Criteria API y ordenando los resultados por el atributo "orden".
      *
      * @param idAnalisis el ID del análisis
      * @return lista de parámetros del análisis ordenados
-     * @throws PersistenciaException si ocurre un error
+     * @throws PersistenciaException si ocurre un error o el ID es inválido
      */
     @Override
     public List<ParametroEntidad> buscarPorAnalisis(int idAnalisis) throws PersistenciaException {
@@ -98,10 +101,12 @@ public class ParametroDAO implements IParametroDAO {
     }
 
     /**
-     * Obtiene todos los parámetros disponibles.
+     * Obtiene todos los parámetros disponibles registrados en la base de datos,
+     * organizados de forma ascendente según su número de orden.
      *
      * @return lista de todos los parámetros
-     * @throws PersistenciaException si ocurre un error
+     * @throws PersistenciaException si ocurre un error durante la extracción de
+     * datos
      */
     @Override
     public List<ParametroEntidad> buscarTodos() throws PersistenciaException {
@@ -119,6 +124,16 @@ public class ParametroDAO implements IParametroDAO {
         }
     }
 
+    /**
+     * Recupera una lista de parámetros de un análisis utilizando una consulta
+     * directa en JPQL. Los resultados vienen ordenados ascendentemente mediante
+     * el campo de ordenamiento lógico de la entidad.
+     *
+     * @param idAnalisis Identificador del análisis padre.
+     * @return Lista de entidades {@link ParametroEntidad}.
+     * @throws PersistenceException Si ocurre un error durante el procesamiento
+     * de la consulta JPA.
+     */
     @Override
     public List<ParametroEntidad> buscarPorAnalisisId(int idAnalisis) throws PersistenceException {
         EntityManager em = conexionBD.crearConexion();

@@ -8,15 +8,25 @@ import dto.ParametroDTO;
 import dto.RangoDTO;
 
 /**
+ * Ventana (JFrame) para el registro de los valores de rango normales asociados
+ * a un parámetro clínico específico. Permite capturar los rangos de edad y los
+ * valores límite (inicial y final) separados por género (Femenino y Masculino).
  *
- * @author cinca
+ * @author cinca luisf
  */
 public class FrmValoresRango extends javax.swing.JFrame {
 
+    /**
+     * Objeto de Transferencia de Datos (DTO) que representa el parámetro al
+     * cual se le van a asignar los nuevos rangos de valores.
+     */
     private ParametroDTO parametroActual;
 
     /**
-     * Creates new form registroAnalisis
+     * Constructor de FrmValoresRango. Inicializa los componentes de la interfaz
+     * gráfica y asigna el parámetro actual al que se le agregarán los rangos.
+     *
+     * @param parametroActual El parámetro que recibirá los rangos configurados.
      */
     public FrmValoresRango(ParametroDTO parametroActual) {
 
@@ -334,7 +344,19 @@ public class FrmValoresRango extends javax.swing.JFrame {
         this.dispose();
 
     }//GEN-LAST:event_btnCancelarActionPerformed
-
+    /**
+     * Extrae los valores de los campos de texto, los convierte a sus
+     * respectivos tipos numéricos (enteros para edades, flotantes para rangos)
+     * y crea los objetos RangoDTO correspondientes para los géneros Femenino y
+     * Masculino. Finalmente, los agrega a la lista de rangos del parámetro
+     * actual y cierra la ventana.
+     * <p>
+     * Captura y maneja excepciones si los campos se dejan vacíos o contienen
+     * caracteres no numéricos, mostrando mensajes de error al usuario mediante
+     * cuadros de diálogo.
+     *
+     * * @param evt Evento de acción que desencadenó el método.
+     */
     private void guardarRangos(java.awt.event.ActionEvent evt) {
         try {
             int edadIniFem = Integer.parseInt(edadInicial1.getText().trim());
@@ -352,8 +374,6 @@ public class FrmValoresRango extends javax.swing.JFrame {
 
             parametroActual.getRangos().add(rangoFemenino);
             parametroActual.getRangos().add(rangoMasculino);
-
-            System.out.println("¡Rangos guardados y convertidos correctamente!");
 
             this.dispose();
 

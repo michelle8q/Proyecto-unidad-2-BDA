@@ -20,7 +20,7 @@ import javax.persistence.EntityManager;
  * por sexo del paciente, lo que permite mostrar el rango correcto en la
  * pantalla de ingreso de resultados y en el reporte.
  *
- * @author cinca
+ * @author cinca luisf
  */
 public class RangoDAO implements IRangoDAO {
     
