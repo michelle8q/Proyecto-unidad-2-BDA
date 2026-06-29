@@ -1,0 +1,69 @@
+-J-Duser.language=
+-J-Duser.country=
+@options
+@packages
+--no-fonts
+--class-path
+'C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/target/classes;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/Entidades/target/Entidades-1.0.jar;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/Persistencia/target/Persistencia-1.0.jar;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/Negocio/target/Negocio-1.0.jar;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/DTO/target/DTO-1.0.jar;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/Presentacion/target/Presentacion-1.0.jar;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/ServicioReportes/target/ServicioReportes-1.0.jar;C:/Users/cinca/.m2/repository/com/mysql/mysql-connector-j/8.4.0/mysql-connector-j-8.4.0.jar;C:/Users/cinca/.m2/repository/com/google/protobuf/protobuf-java/3.25.1/protobuf-java-3.25.1.jar;C:/Users/cinca/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.core/2.7.12/org.eclipse.persistence.core-2.7.12.jar;C:/Users/cinca/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.asm/9.4.0/org.eclipse.persistence.asm-9.4.0.jar;C:/Users/cinca/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.antlr/2.7.12/org.eclipse.persistence.antlr-2.7.12.jar;C:/Users/cinca/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.jpa/2.7.12/org.eclipse.persistence.jpa-2.7.12.jar;C:/Users/cinca/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.jpa.jpql/2.7.12/org.eclipse.persistence.jpa.jpql-2.7.12.jar;C:/Users/cinca/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.moxy/2.7.12/org.eclipse.persistence.moxy-2.7.12.jar;C:/Users/cinca/.m2/repository/org/eclipse/persistence/jakarta.persistence/2.2.3/jakarta.persistence-2.2.3.jar;C:/Users/cinca/.m2/repository/net/sf/jasperreports/jasperreports/7.0.1/jasperreports-7.0.1.jar;C:/Users/cinca/.m2/repository/commons-logging/commons-logging/1.3.0/commons-logging-1.3.0.jar;C:/Users/cinca/.m2/repository/org/apache/commons/commons-collections4/4.4/commons-collections4-4.4.jar;C:/Users/cinca/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.17.1/jackson-core-2.17.1.jar;C:/Users/cinca/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.17.1/jackson-annotations-2.17.1.jar;C:/Users/cinca/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.17.1/jackson-databind-2.17.1.jar;C:/Users/cinca/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-xml/2.17.1/jackson-dataformat-xml-2.17.1.jar;C:/Users/cinca/.m2/repository/org/codehaus/woodstox/stax2-api/4.2.2/stax2-api-4.2.2.jar;C:/Users/cinca/.m2/repository/com/fasterxml/woodstox/woodstox-core/6.6.2/woodstox-core-6.6.2.jar;C:/Users/cinca/.m2/repository/org/apache/xmlgraphics/batik-anim/1.17/batik-anim-1.17.jar;C:/Users/cinca/.m2/repository/org/apache/xmlgraphics/batik-ext/1.17/batik-ext-1.17.jar;C:/Users/cinca/.m2/repository/org/apache/xmlgraphics/batik-parser/1.17/batik-parser-1.17.jar;C:/Users/cinca/.m2/repository/org/apache/xmlgraphics/batik-shared-resources/1.17/batik-shared-resources-1.17.jar;C:/Users/cinca/.m2/repository/org/apache/xmlgraphics/batik-bridge/1.17/batik-bridge-1.17.jar;C:/Users/cinca/.m2/repository/org/apache/xmlgraphics/batik-script/1.17/batik-script-1.17.jar;C:/Users/cinca/.m2/repository/org/apache/xmlgraphics/batik-xml/1.17/batik-xml-1.17.jar;C:/Users/cinca/.m2/repository/org/apache/xmlgraphics/xmlgraphics-commons/2.9/xmlgraphics-commons-2.9.jar;C:/Users/cinca/.m2/repository/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar;C:/Users/cinca/.m2/repository/org/apache/xmlgraphics/batik-dom/1.17/batik-dom-1.17.jar;C:/Users/cinca/.m2/repository/org/apache/xmlgraphics/batik-svg-dom/1.17/batik-svg-dom-1.17.jar;C:/Users/cinca/.m2/repository/org/apache/xmlgraphics/batik-awt-util/1.17/batik-awt-util-1.17.jar;C:/Users/cinca/.m2/repository/org/apache/xmlgraphics/batik-gvt/1.17/batik-gvt-1.17.jar;C:/Users/cinca/.m2/repository/org/apache/xmlgraphics/batik-util/1.17/batik-util-1.17.jar;C:/Users/cinca/.m2/repository/org/apache/xmlgraphics/batik-i18n/1.17/batik-i18n-1.17.jar;C:/Users/cinca/.m2/repository/org/apache/xmlgraphics/batik-constants/1.17/batik-constants-1.17.jar;C:/Users/cinca/.m2/repository/org/apache/xmlgraphics/batik-css/1.17/batik-css-1.17.jar;C:/Users/cinca/.m2/repository/xml-apis/xml-apis-ext/1.3.04/xml-apis-ext-1.3.04.jar;C:/Users/cinca/.m2/repository/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar;C:/Users/cinca/.m2/repository/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/Entidades/src/main/java;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/Entidades/target/generated-sources/annotations;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/Persistencia/src/main/java;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/Persistencia/target/generated-sources/annotations;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/Negocio/src/main/java;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/Negocio/target/generated-sources/annotations;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/DTO/src/main/java;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/DTO/target/generated-sources/annotations;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/Presentacion/src/main/java;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/Presentacion/target/generated-sources/annotations;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/ServicioReportes/src/main/java;C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/ServicioReportes/target/generated-sources/annotations'
+-author
+-bottom
+'Copyright &#169; 2026. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/cinca/Documents/Proyecto unidad 2 BDA/Laboratorio/target/reports/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Laboratorio 1.0 API'
+-use
+-version
+-windowtitle
+'Laboratorio 1.0 API'
+itson.org.entidades
+conexiones
+daos
+Excepciones
+Interfaces
+itson.org.persistencia
+excepciones
+interfaces
+itson.org.negocio
+dto
+analisis
+itson.org.presentacion
+resultados
+utilerias
+servicioReporte
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\Entidades\src\main\java = 1782099513245
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\Entidades\target\generated-sources\annotations = 1782731602913
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\Persistencia\src\main\java = 1782634329448
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\Persistencia\target\generated-sources\annotations = 1782731616820
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\Negocio\src\main\java = 1782456369549
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\Negocio\target\generated-sources\annotations = 1782731618064
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\DTO\src\main\java = 1782533212321
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\DTO\target\generated-sources\annotations = 1782731610086
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\Presentacion\src\main\java = 1782719577162
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\Presentacion\target\generated-sources\annotations = 1782731613648
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\ServicioReportes\src\main\java = 1782634028768
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\ServicioReportes\target\generated-sources\annotations = 1782731619078
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\target\reports\apidocs\allclasses-index.html = 1782731634975
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\target\reports\apidocs\allpackages-index.html = 1782731634983
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\target\reports\apidocs\element-list = 1782731633495
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\target\reports\apidocs\help-doc.html = 1782731635105
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\target\reports\apidocs\index-all.html = 1782731635084
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\target\reports\apidocs\index.html = 1782731634893
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\target\reports\apidocs\member-search-index.js = 1782731635000
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\target\reports\apidocs\module-search-index.js = 1782731634987
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\target\reports\apidocs\overview-summary.html = 1782731635097
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\target\reports\apidocs\overview-tree.html = 1782731634880
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\target\reports\apidocs\package-search-index.js = 1782731634991
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\target\reports\apidocs\search.html = 1782731635090
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\target\reports\apidocs\serialized-form.html = 1782731634035
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\target\reports\apidocs\tag-search-index.js = 1782731635004
+C:\Users\cinca\Documents\Proyecto unidad 2 BDA\Laboratorio\target\reports\apidocs\type-search-index.js = 1782731634995
