@@ -36,6 +36,12 @@ public class MuestraEntidad implements Serializable {
     public MuestraEntidad() {
     }
 
+    public MuestraEntidad(int id, String tipo) {
+        this.id = id;
+        this.tipo = tipo;
+    }
+    
+    
     public MuestraEntidad(int id, String tipo, List<AnalisisEntidad> analisis) {
         this.id = id;
         this.tipo = tipo;

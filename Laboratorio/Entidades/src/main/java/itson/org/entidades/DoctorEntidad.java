@@ -46,6 +46,15 @@ public class DoctorEntidad implements Serializable {
     public DoctorEntidad() {
     }
 
+    public DoctorEntidad(int id, String nombre, String apellidoPaterno, String apellidoMaterno, String sexo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.sexo = sexo;
+    }
+    
+
     public DoctorEntidad(int id, String nombre, String apellidoPaterno, String apellidoMaterno, String sexo, List<PruebaEntidad> pruebas) {
         this.id = id;
         this.nombre = nombre;

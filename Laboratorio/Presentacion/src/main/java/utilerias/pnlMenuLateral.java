@@ -6,21 +6,27 @@ package utilerias;
 
 import analisis.FrmCatalogoAnalisis;
 import analisis.FrmRegistroSolicitud;
+import itson.org.entidades.ClienteEntidad;
+import itson.org.entidades.DoctorEntidad;
+import itson.org.entidades.MuestraEntidad;
+import itson.org.negocio.insertsNegocio;
+import java.util.List;
 import resultados.FrmIngresoResultados;
-
 
 /**
  *
  * @author cinca
  */
 public class pnlMenuLateral extends javax.swing.JPanel {
+    
+    private insertsNegocio inserts = new insertsNegocio();
 
     /**
      * Creates new form pnlMenuLateral
      */
     public pnlMenuLateral() {
         initComponents();
-        
+
     }
 
     /**
@@ -111,7 +117,7 @@ public class pnlMenuLateral extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitudActionPerformed
-        FrmRegistroSolicitud pantalla= new FrmRegistroSolicitud();
+        FrmRegistroSolicitud pantalla = new FrmRegistroSolicitud();
         pantalla.setVisible(true);
     }//GEN-LAST:event_btnSolicitudActionPerformed
 
@@ -121,13 +127,59 @@ public class pnlMenuLateral extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCatalogoActionPerformed
 
     private void btnDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatosActionPerformed
-       
+        try {
+            List<DoctorEntidad> doctores = new java.util.ArrayList<>();
+            doctores.add(new DoctorEntidad(1,"García", "Martínez", "Juan Carlos", "M"));
+            doctores.add(new DoctorEntidad(2, "López", "Rodríguez", "María Elena", "F"));
+            doctores.add(new DoctorEntidad(3, "Hernández", "Pérez", "Luis Alberto", "M"));
+            doctores.add(new DoctorEntidad(4, "Sánchez", "Gómez", "Ana Luisa", "F"));
+            doctores.add(new DoctorEntidad(5, "Díaz", "Flores", "Jorge Luis", "M"));
+            doctores.add(new DoctorEntidad(6, "Torres", "Vázquez", "Claudia Beatriz", "F"));
+            doctores.add(new DoctorEntidad(7, "Ramírez", "Castro", "Ricardo", "M"));
+            doctores.add(new DoctorEntidad(8, "Reyes", "Morales", "Sofia", "F"));
+            doctores.add(new DoctorEntidad(9, "Ruiz", "Jiménez", "Carlos Eduardo", "M"));
+            doctores.add(new DoctorEntidad(10, "González", "Herrera", "Patricia", "F"));
+
+            List<ClienteEntidad> clientes = new java.util.ArrayList<>();
+            clientes.add(new ClienteEntidad(1, "Mendoza", "Aguilar", "1985-04-12", "Alejandro", "M", "O+"));
+            clientes.add(new ClienteEntidad(2, "Miranda", "Castillo", "1992-11-23", "Gabriela", "F", "A+"));
+            clientes.add(new ClienteEntidad(3, "Guzmán", "Ortiz", "1978-08-05", "Fernando", "M", "B+"));
+            clientes.add(new ClienteEntidad(4, "Meza", "Salazar", "2000-01-15", "Mariana", "F", "O-"));
+            clientes.add(new ClienteEntidad(5, "Navarro", "Villanueva","1965-07-30", "Roberto", "M", "AB+"));
+            clientes.add(new ClienteEntidad(6, "Ríos", "Alvarado", "1989-03-22", "Verónica", "F", "A-"));
+            clientes.add(new ClienteEntidad(7, "Campos", "Estrada", "1995-09-18", "Daniel", "M", "O+"));
+            clientes.add(new ClienteEntidad(8, "Paredes", "Ávalos", "2003-05-14", "Ximena", "F", "B-"));
+            clientes.add(new ClienteEntidad(9, "Valenzuela", "Acosta", "1982-12-01", "Arturo", "M", "O+"));
+            clientes.add(new ClienteEntidad(10, "Vega", "Maldonado", "1997-02-28", "Laura Elena", "F", "A+"));
+
+            List<MuestraEntidad> muestras = new java.util.ArrayList<>();
+            muestras.add(new MuestraEntidad(1, "Sangre"));
+            muestras.add(new MuestraEntidad(2, "Orina"));
+            muestras.add(new MuestraEntidad(3, "Heces fecales"));
+            muestras.add(new MuestraEntidad(4, "Saliva"));
+            muestras.add(new MuestraEntidad(5, "Esputo (flema)"));
+            muestras.add(new MuestraEntidad(6, "Hisopado nasal"));
+            muestras.add(new MuestraEntidad(7, "Hisopado faríngeo"));
+            muestras.add(new MuestraEntidad(8, "Biopsia de tejido"));
+            muestras.add(new MuestraEntidad(9, "Líquido cefalorraquídeo"));
+            muestras.add(new MuestraEntidad(10, "Semen"));
+            muestras.add(new MuestraEntidad(11, "Cabello"));
+            muestras.add(new MuestraEntidad(12, "Uñas"));
+
+            inserts.cargarCatalogoSemilla(doctores, clientes, muestras);
+
+            javax.swing.JOptionPane.showMessageDialog(this, "¡Catálogo inicial insertado con éxito!");
+
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error en la carga masiva: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnDatosActionPerformed
 
     private void btnResultadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResultadosActionPerformed
         FrmIngresoResultados pantalla = new FrmIngresoResultados();
         pantalla.setVisible(true);
-        
+
     }//GEN-LAST:event_btnResultadosActionPerformed
 
 

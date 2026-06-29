@@ -62,6 +62,17 @@ public class ClienteEntidad implements Serializable {
         this.pruebas = pruebas;
     }
 
+    public ClienteEntidad(int id, String apellidoPaterno, String apellidoMaterno, String fechaNacimiento, String nombre,  String sexo, String tipoSangre) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.sexo = sexo;
+        this.fechaNacimiento = fechaNacimiento;
+        this.tipoSangre = tipoSangre;
+    }
+    
+    
+
     public int getId() {
         return id;
     }
