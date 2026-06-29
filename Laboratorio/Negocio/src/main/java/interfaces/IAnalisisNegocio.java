@@ -1,11 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package interfaces;
 
 import dto.AnalisisDTO;
+import excepciones.NegocioException;
+import itson.org.entidades.ParametroEntidad;
 import java.util.List;
+import javax.persistence.PersistenceException;
 
 /**
  *
@@ -23,6 +23,5 @@ public interface IAnalisisNegocio {
 
     List<AnalisisDTO> obtenerAnalisis();
     
-    //List<ParametroEntidad> buscarPorAnalisisId(int idAnalisis) throws e;
-
+    List<ParametroEntidad> obtenerParametrosPorAnalisisId(int idAnalisis) throws NegocioException;
 }

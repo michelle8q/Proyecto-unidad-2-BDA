@@ -9,6 +9,8 @@ import dto.DetallesPruebaDTO;
 import excepciones.NegocioException;
 import itson.org.entidades.ClienteEntidad;
 import itson.org.entidades.DoctorEntidad;
+import itson.org.entidades.ParametroEntidad;
+import itson.org.entidades.PruebaEntidad;
 import java.util.List;
 
 /**
@@ -48,4 +50,19 @@ public interface IPruebaNegocio {
     * @throws NegocioException en caso de alhun error
     */
     public List<ClienteEntidad> obtenerTodosClientes() throws NegocioException;
+    
+    /**
+     * obtener de un analisis
+     * @param idAnalisis analisis del que consultamos parametros
+     * @return listra de parametros
+     * @throws NegocioException en caso de algun error
+     */
+    public List<ParametroEntidad> obtenerParametrosPorAnalisisId(int idAnalisis) throws NegocioException;
+    
+    /**
+     * guarda solicitud de analisis
+     * @param solicitud a guardar
+     * @throws NegocioException en caso de algun error
+     */
+    void guardarSolicitud(PruebaEntidad solicitud) throws NegocioException;
 }

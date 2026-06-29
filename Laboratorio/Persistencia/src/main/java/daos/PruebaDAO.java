@@ -7,6 +7,7 @@ import itson.org.entidades.PruebaEntidad;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -128,29 +129,19 @@ public class PruebaDAO implements IPruebaDAO {
     }
 
     @Override
-    public PruebaEntidad registrar(PruebaEntidad prueba) throws PersistenciaException {
+    public void guardarSolicitud(PruebaEntidad solicitud) throws PersistenceException {
         EntityManager em = conexionBD.crearConexion();
-        EntityTransaction tx = em.getTransaction();
         try {
-            tx.begin();
-
-            em.persist(prueba);
-
-            tx.commit();
-            
-            return prueba;
+            em.getTransaction().begin();
+            em.persist(solicitud);
+            em.getTransaction().commit();
         } catch (Exception e) {
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
             }
-            e.printStackTrace();
-            throw e;
+            throw new PersistenceException("Error al guardar solicitud", e);
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
-
+            em.close();
         }
-
     }
 }

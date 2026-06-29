@@ -9,12 +9,14 @@ import Interfaces.IClienteDAO;
 import Interfaces.IConexionBD;
 import Interfaces.IDetallesPruebaDAO;
 import Interfaces.IDoctorDAO;
+import Interfaces.IParametroDAO;
 import Interfaces.IPruebaDAO;
 import Interfaces.IRangoDAO;
 import conexiones.ConexionBD;
 import daos.ClienteDAO;
 import daos.DetallesPruebaDAO;
 import daos.DoctorDAO;
+import daos.ParametroDAO;
 import daos.PruebaDAO;
 import daos.RangoDAO;
 import dto.PruebaBusquedaDTO;
@@ -30,6 +32,7 @@ import itson.org.entidades.PruebaEntidad;
 import itson.org.entidades.RangoEntidad;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.PersistenceException;
 
 /**
  * Clase de negocio encargada de gestionar las pruebas de laboratorio.
@@ -53,6 +56,7 @@ public class PruebaNegocio implements IPruebaNegocio {
     private final IRangoDAO rangoDAO;
     private final IDoctorDAO doctorDAO;
     private final IClienteDAO clienteDAO;
+    private IParametroDAO parametroDAO;
 
     /**
      * Constructor que inicializa la conexión y se la inyecta al DAO.
@@ -64,6 +68,7 @@ public class PruebaNegocio implements IPruebaNegocio {
         this.rangoDAO = new RangoDAO(conexion);
         this.doctorDAO = new DoctorDAO(conexion);
         this.clienteDAO = new ClienteDAO(conexion);
+        this.parametroDAO = new ParametroDAO(conexion);
     }
 
     /**
@@ -174,5 +179,27 @@ public class PruebaNegocio implements IPruebaNegocio {
     @Override
     public List<ClienteEntidad> obtenerTodosClientes() throws NegocioException {
         return clienteDAO.buscarTodos();
+    }
+
+    @Override
+    public List<ParametroEntidad> obtenerParametrosPorAnalisisId(int idAnalisis) throws NegocioException {
+        try {
+            if (idAnalisis <= 0) {
+                throw new NegocioException("El ID del análisis no es válido.");
+            }
+
+            return parametroDAO.buscarPorAnalisisId(idAnalisis);
+        } catch (PersistenceException e) {
+            throw new NegocioException("Error en la capa de datos al obtener parámetros");
+        }
+    }
+
+    @Override
+    public void guardarSolicitud(PruebaEntidad solicitud) throws NegocioException {
+        try {
+            pruebaDAO.guardarSolicitud(solicitud);
+        } catch (PersistenceException e) {
+            throw new NegocioException("Error al registrar la solicitud en el sistema");
+        }
     }
 }

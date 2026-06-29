@@ -7,6 +7,7 @@ package Interfaces;
 import Excepciones.PersistenciaException;
 import itson.org.entidades.ParametroEntidad;
 import java.util.List;
+import javax.persistence.PersistenceException;
 
 /**
  *
@@ -19,4 +20,6 @@ public interface IParametroDAO {
     List<ParametroEntidad> buscarPorAnalisis(int idAnalisis) throws PersistenciaException;
 
     List<ParametroEntidad> buscarTodos() throws PersistenciaException;
+    
+    List<ParametroEntidad> buscarPorAnalisisId(int idAnalisis) throws PersistenceException;
 }

@@ -4,6 +4,7 @@ package Interfaces;
 import Excepciones.PersistenciaException;
 import itson.org.entidades.PruebaEntidad;
 import java.util.List;
+import javax.persistence.PersistenceException;
 
 /**
  * Contrato para las operaciones de acceso a datos de pruebas de laboratorio.
@@ -36,7 +37,7 @@ public interface IPruebaDAO {
      * @throws PersistenciaException si no existe o hay error en la consulta
      */
     PruebaEntidad buscarPorFolio(String folio) throws PersistenciaException;
-    
+
     /**
      * Reguistara una prueba
      * 
@@ -44,6 +45,6 @@ public interface IPruebaDAO {
      * @return PruebaEntidad que se reguistro
      * @throws PersistenciaException si no es posible guarada el reguistro
      */
-    PruebaEntidad registrar(PruebaEntidad prueba) throws PersistenciaException;
+    public void guardarSolicitud(PruebaEntidad solicitud) throws PersistenceException;
 
 }

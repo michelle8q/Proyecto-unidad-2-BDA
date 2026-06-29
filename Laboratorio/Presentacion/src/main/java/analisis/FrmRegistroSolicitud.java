@@ -182,71 +182,71 @@ public class FrmRegistroSolicitud extends javax.swing.JFrame {
     }//GEN-LAST:event_ComboClientesActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-//        try {
-//            int indexCliente = ComboClientes.getSelectedIndex();
-//            int indexDoctor = ComboDoctor.getSelectedIndex();
-//
-//            if (indexCliente == -1 || indexDoctor == -1) {
-//                javax.swing.JOptionPane.showMessageDialog(this, "Debe seleccionar un Cliente y un Doctor.");
-//                return;
-//            }
-//
-//            ClienteEntidad clienteSeleccionado = listaClientesGlobal.get(indexCliente);
-//            DoctorEntidad doctorSeleccionado = listaDoctoresGlobal.get(indexDoctor);
-//
-//            List<AnalisisDTO> analisisElegidos = new java.util.ArrayList<>();
-//            for (java.awt.Component comp : PnlAnalisis.getComponents()) {
-//                if (comp instanceof javax.swing.JCheckBox) {
-//                    javax.swing.JCheckBox chk = (javax.swing.JCheckBox) comp;
-//                    if (chk.isSelected()) {
-//                        AnalisisDTO dto = (AnalisisDTO) chk.getClientProperty("data");
-//                        if (dto != null) {
-//                            analisisElegidos.add(dto);
-//                        }
-//                    }
-//                }
-//            }
-//
-//            if (analisisElegidos.isEmpty()) {
-//                javax.swing.JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un análisis.");
-//                return;
-//            }
-//
-//            PruebaEntidad nuevaSolicitud = new PruebaEntidad();
-//            nuevaSolicitud.setFolio("FOL-" + System.currentTimeMillis());
-//            nuevaSolicitud.setFechaHora(java.time.LocalDateTime.now());
-//            nuevaSolicitud.setCliente(clienteSeleccionado);
-//            nuevaSolicitud.setDoctor(doctorSeleccionado);
-//
-//            List<DetallesPruebaEntidad> detalles = new java.util.ArrayList<>();
-//            for (AnalisisDTO analisisDTO : analisisElegidos) {
-//
-//                List<ParametroEntidad> parametrosDelAnalisis = AnalisisNegocio.obtenerParametrosPorAnalisisId(analisisDTO.getId());
-//
-//                if (parametrosDelAnalisis != null) {
-//                    for (ParametroEntidad parametro : parametrosDelAnalisis) {
-//
-//                        DetallesPruebaEntidad detalle = new DetallesPruebaEntidad();
-//
-//                        detalle.setPrueba(nuevaSolicitud);
-//                        detalle.setParametro(parametro);
-//
-//                        detalles.add(detalle);
-//                    }
-//                }
-//            }
-//
-//            nuevaSolicitud.setDetalles(detalles);
-//
-//            prueba.guardarSolicitud(nuevaSolicitud);
-//
-//            javax.swing.JOptionPane.showMessageDialog(this, "Solicitud registrada con éxito.");
-//            this.dispose(); // Cerrar ventana
-//
-//        } catch (Exception e) {
-//            javax.swing.JOptionPane.showMessageDialog(this, "Error al guardar la solicitud: " + e.getMessage());
-//            e.printStackTrace();
-//        }
+        try {
+            int indexCliente = ComboClientes.getSelectedIndex();
+            int indexDoctor = ComboDoctor.getSelectedIndex();
+
+            if (indexCliente == -1 || indexDoctor == -1) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Debe seleccionar un Cliente y un Doctor.");
+                return;
+            }
+
+            ClienteEntidad clienteSeleccionado = listaClientesGlobal.get(indexCliente);
+            DoctorEntidad doctorSeleccionado = listaDoctoresGlobal.get(indexDoctor);
+
+            List<AnalisisDTO> analisisElegidos = new java.util.ArrayList<>();
+            for (java.awt.Component comp : PnlAnalisis.getComponents()) {
+                if (comp instanceof javax.swing.JCheckBox) {
+                    javax.swing.JCheckBox chk = (javax.swing.JCheckBox) comp;
+                    if (chk.isSelected()) {
+                        AnalisisDTO dto = (AnalisisDTO) chk.getClientProperty("data");
+                        if (dto != null) {
+                            analisisElegidos.add(dto);
+                        }
+                    }
+                }
+            }
+
+            if (analisisElegidos.isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un análisis.");
+                return;
+            }
+
+            PruebaEntidad nuevaSolicitud = new PruebaEntidad();
+            nuevaSolicitud.setFolio("FOL-" + System.currentTimeMillis());
+            nuevaSolicitud.setFechaHora(java.time.LocalDateTime.now());
+            nuevaSolicitud.setCliente(clienteSeleccionado);
+            nuevaSolicitud.setDoctor(doctorSeleccionado);
+
+            List<DetallesPruebaEntidad> detalles = new java.util.ArrayList<>();
+            for (AnalisisDTO analisisDTO : analisisElegidos) {
+
+                List<ParametroEntidad> parametrosDelAnalisis = analisi.obtenerParametrosPorAnalisisId(analisisDTO.getId());
+
+                if (parametrosDelAnalisis != null) {
+                    for (ParametroEntidad parametro : parametrosDelAnalisis) {
+
+                        DetallesPruebaEntidad detalle = new DetallesPruebaEntidad();
+
+                        detalle.setPrueba(nuevaSolicitud);
+                        detalle.setParametro(parametro);
+
+                        detalles.add(detalle);
+                    }
+                }
+            }
+
+            nuevaSolicitud.setDetalles(detalles);
+
+            prueba.guardarSolicitud(nuevaSolicitud);
+
+            javax.swing.JOptionPane.showMessageDialog(this, "Solicitud registrada con éxito.");
+            this.dispose(); // Cerrar ventana
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error al guardar la solicitud: " + e.getMessage());
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**

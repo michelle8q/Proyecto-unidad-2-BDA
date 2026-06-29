@@ -10,6 +10,7 @@ import Interfaces.IParametroDAO;
 import itson.org.entidades.ParametroEntidad;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -114,6 +115,25 @@ public class ParametroDAO implements IParametroDAO {
         } finally {
             if (entityManager != null && entityManager.isOpen()) {
                 entityManager.close();
+            }
+        }
+    }
+
+    @Override
+    public List<ParametroEntidad> buscarPorAnalisisId(int idAnalisis) throws PersistenceException {
+        EntityManager em = conexionBD.crearConexion();
+        try {
+            String jpql = "SELECT p FROM ParametroEntidad p WHERE p.analisis.id = :idAnalisis ORDER BY p.orden ASC";
+
+            TypedQuery<ParametroEntidad> query = em.createQuery(jpql, ParametroEntidad.class);
+            query.setParameter("idAnalisis", idAnalisis);
+
+            return query.getResultList();
+        } catch (Exception e) {
+            throw new PersistenceException("Error al buscar parámetros por análisis", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
             }
         }
     }

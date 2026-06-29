@@ -6,10 +6,13 @@ package itson.org.negocio;
 
 import Interfaces.IAnalisisDAO;
 import Interfaces.IConexionBD;
+import Interfaces.IParametroDAO;
 import conexiones.ConexionBD;
 import daos.AnalisisDAO;
+import daos.ParametroDAO;
 import dto.AnalisisDTO;
 import dto.MuestraDTO;
+import excepciones.NegocioException;
 import interfaces.IAnalisisNegocio;
 import itson.org.entidades.AnalisisEntidad;
 import itson.org.entidades.MuestraEntidad;
@@ -17,6 +20,9 @@ import itson.org.entidades.ParametroEntidad;
 import itson.org.entidades.RangoEntidad;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -24,8 +30,8 @@ import java.util.List;
  */
 public class AnalisisNegocio implements IAnalisisNegocio {
 
-
     private final IAnalisisDAO analisisDAO;
+    private final IParametroDAO parametroDAO;
 
     /**
      * Constructor que inicializa la conexión y se la inyecta al DAO.
@@ -33,7 +39,7 @@ public class AnalisisNegocio implements IAnalisisNegocio {
     public AnalisisNegocio() {
         IConexionBD conexion = new ConexionBD();
         this.analisisDAO = new AnalisisDAO(conexion);
-
+        this.parametroDAO = new ParametroDAO(conexion);
     }
 
     @Override
@@ -158,7 +164,7 @@ public class AnalisisNegocio implements IAnalisisNegocio {
             dto.setId(entidad.getId());
             dto.setNombre(entidad.getNombre());
             dto.setNotaDescriptiva(entidad.getNotaDescriptiva());
-            dto.setActivo(entidad.isActivo()); 
+            dto.setActivo(entidad.isActivo());
 
             if (entidad.getMuestra() != null) {
                 MuestraDTO muestraDTO = new MuestraDTO();
@@ -181,6 +187,11 @@ public class AnalisisNegocio implements IAnalisisNegocio {
     public List<AnalisisDTO> obtenerAnalisis() {
         List<AnalisisEntidad> analisis = analisisDAO.buscarTodos();
         return convertirEntidadesToDTOs(analisis);
+    }
+
+    @Override
+    public List<ParametroEntidad> obtenerParametrosPorAnalisisId(int idAnalisis) throws NegocioException {
+        return parametroDAO.buscarPorAnalisisId(idAnalisis);
     }
 
 }
