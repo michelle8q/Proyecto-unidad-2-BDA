@@ -20,4 +20,9 @@ public interface IAnalisisNegocio {
     void cambiarEstadoAnalisis(int idAnalisis) throws Exception;
 
     List<AnalisisDTO> buscarAnalisisPorParametro(String parametroBusqueda);
+
+    List<AnalisisDTO> obtenerAnalisis();
+    
+    //List<ParametroEntidad> buscarPorAnalisisId(int idAnalisis) throws e;
+
 }

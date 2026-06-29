@@ -1,8 +1,15 @@
 package analisis;
 
+import dto.AnalisisDTO;
+import interfaces.IAnalisisNegocio;
 import interfaces.IPruebaNegocio;
+import itson.org.entidades.AnalisisEntidad;
 import itson.org.entidades.ClienteEntidad;
+import itson.org.entidades.DetallesPruebaEntidad;
 import itson.org.entidades.DoctorEntidad;
+import itson.org.entidades.ParametroEntidad;
+import itson.org.entidades.PruebaEntidad;
+import itson.org.negocio.AnalisisNegocio;
 import itson.org.negocio.PruebaNegocio;
 import java.util.List;
 
@@ -13,10 +20,14 @@ import java.util.List;
 public class FrmRegistroSolicitud extends javax.swing.JFrame {
 
     private IPruebaNegocio prueba = new PruebaNegocio();
+    private IAnalisisNegocio analisi = new AnalisisNegocio();
+    private List<ClienteEntidad> listaClientesGlobal;
+    private List<DoctorEntidad> listaDoctoresGlobal;
 
     public FrmRegistroSolicitud() {
         initComponents();
         llenarComboBoxDoctores();
+        llenarPanelAnalis();
     }
 
     /**
@@ -171,7 +182,71 @@ public class FrmRegistroSolicitud extends javax.swing.JFrame {
     }//GEN-LAST:event_ComboClientesActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        // TODO add your handling code here:
+//        try {
+//            int indexCliente = ComboClientes.getSelectedIndex();
+//            int indexDoctor = ComboDoctor.getSelectedIndex();
+//
+//            if (indexCliente == -1 || indexDoctor == -1) {
+//                javax.swing.JOptionPane.showMessageDialog(this, "Debe seleccionar un Cliente y un Doctor.");
+//                return;
+//            }
+//
+//            ClienteEntidad clienteSeleccionado = listaClientesGlobal.get(indexCliente);
+//            DoctorEntidad doctorSeleccionado = listaDoctoresGlobal.get(indexDoctor);
+//
+//            List<AnalisisDTO> analisisElegidos = new java.util.ArrayList<>();
+//            for (java.awt.Component comp : PnlAnalisis.getComponents()) {
+//                if (comp instanceof javax.swing.JCheckBox) {
+//                    javax.swing.JCheckBox chk = (javax.swing.JCheckBox) comp;
+//                    if (chk.isSelected()) {
+//                        AnalisisDTO dto = (AnalisisDTO) chk.getClientProperty("data");
+//                        if (dto != null) {
+//                            analisisElegidos.add(dto);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            if (analisisElegidos.isEmpty()) {
+//                javax.swing.JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un análisis.");
+//                return;
+//            }
+//
+//            PruebaEntidad nuevaSolicitud = new PruebaEntidad();
+//            nuevaSolicitud.setFolio("FOL-" + System.currentTimeMillis());
+//            nuevaSolicitud.setFechaHora(java.time.LocalDateTime.now());
+//            nuevaSolicitud.setCliente(clienteSeleccionado);
+//            nuevaSolicitud.setDoctor(doctorSeleccionado);
+//
+//            List<DetallesPruebaEntidad> detalles = new java.util.ArrayList<>();
+//            for (AnalisisDTO analisisDTO : analisisElegidos) {
+//
+//                List<ParametroEntidad> parametrosDelAnalisis = AnalisisNegocio.obtenerParametrosPorAnalisisId(analisisDTO.getId());
+//
+//                if (parametrosDelAnalisis != null) {
+//                    for (ParametroEntidad parametro : parametrosDelAnalisis) {
+//
+//                        DetallesPruebaEntidad detalle = new DetallesPruebaEntidad();
+//
+//                        detalle.setPrueba(nuevaSolicitud);
+//                        detalle.setParametro(parametro);
+//
+//                        detalles.add(detalle);
+//                    }
+//                }
+//            }
+//
+//            nuevaSolicitud.setDetalles(detalles);
+//
+//            prueba.guardarSolicitud(nuevaSolicitud);
+//
+//            javax.swing.JOptionPane.showMessageDialog(this, "Solicitud registrada con éxito.");
+//            this.dispose(); // Cerrar ventana
+//
+//        } catch (Exception e) {
+//            javax.swing.JOptionPane.showMessageDialog(this, "Error al guardar la solicitud: " + e.getMessage());
+//            e.printStackTrace();
+//        }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**
@@ -224,21 +299,47 @@ public class FrmRegistroSolicitud extends javax.swing.JFrame {
 
     private void llenarComboBoxDoctores() {
         try {
-            List<DoctorEntidad> listaDoctores = prueba.obtenerTodosDoctores();
-            List<ClienteEntidad> listaClientes = prueba.obtenerTodosClientes();
+            listaDoctoresGlobal = prueba.obtenerTodosDoctores();
+            listaClientesGlobal = prueba.obtenerTodosClientes();
 
             ComboDoctor.removeAllItems();
             ComboClientes.removeAllItems();
 
-            for (DoctorEntidad doc : listaDoctores) {
-                ComboDoctor.addItem(doc.getNombre()+" "+doc.getApellidoPaterno()); 
+            for (DoctorEntidad doc : listaDoctoresGlobal) {
+                ComboDoctor.addItem(doc.getNombre() + " " + doc.getApellidoPaterno());
             }
-            for (ClienteEntidad cli : listaClientes) {
-                ComboClientes.addItem(cli.getNombre()+" "+cli.getApellidoPaterno()); 
+            for (ClienteEntidad cli : listaClientesGlobal) {
+                ComboClientes.addItem(cli.getNombre() + " " + cli.getApellidoPaterno());
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }
+
+    private void llenarPanelAnalis() {
+        try {
+            List<AnalisisDTO> listaAnalisis = analisi.obtenerAnalisis();
+
+            PnlAnalisis.removeAll();
+
+            PnlAnalisis.setLayout(new javax.swing.BoxLayout(PnlAnalisis, javax.swing.BoxLayout.Y_AXIS));
+
+            for (AnalisisDTO dto : listaAnalisis) {
+                String textoMostrar = dto.getNombre();
+                javax.swing.JCheckBox chk = new javax.swing.JCheckBox(textoMostrar);
+
+                chk.putClientProperty("data", dto);
+
+                chk.setFont(new java.awt.Font("Corbel", 0, 14));
+
+                PnlAnalisis.add(chk);
             }
 
+            PnlAnalisis.revalidate();
+            PnlAnalisis.repaint();
+
         } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error al cargar doctores: " + e.getMessage());
+            javax.swing.JOptionPane.showMessageDialog(this, "Error al cargar analisis: " + e.getMessage());
         }
     }
 }
