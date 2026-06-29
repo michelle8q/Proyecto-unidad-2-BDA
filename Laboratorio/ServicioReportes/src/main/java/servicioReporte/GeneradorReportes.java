@@ -6,7 +6,9 @@ package servicioReporte;
 
 import dto.ResultadoReporteDTO;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -41,11 +43,16 @@ public class GeneradorReportes {
      */
     public void generarReportePrueba(List<ResultadoReporteDTO> resultados) {
         try {
+            
             JRBeanCollectionDataSource datos = new JRBeanCollectionDataSource(resultados);
             InputStream reporte = getClass().getResourceAsStream("/ReportePrueba.jasper");
             
+            // Para obtener la imagen
+            Map<String, Object> parametros = new HashMap<>();
+            parametros.put("logo", getClass().getResourceAsStream("/imss-logo.png"));
+            
             System.out.println("Reporte: " + reporte); // agrega esto
-            JasperPrint reporteLleno = JasperFillManager.fillReport(reporte, null, datos);
+            JasperPrint reporteLleno = JasperFillManager.fillReport(reporte, parametros, datos);
             JasperViewer.viewReport(reporteLleno, false);
         } catch (Exception e) {
             e.printStackTrace();

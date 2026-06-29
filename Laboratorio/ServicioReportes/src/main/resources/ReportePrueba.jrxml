@@ -1,6 +1,7 @@
 <!-- Created with Jaspersoft Studio version 7.0.6.final using JasperReports Library version 7.0.6-5d2a603fdc6b3db8f842a83383e594f41891534d  -->
 <jasperReport name="AnalisisLaboratorio" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4da1d9fd-0dba-4574-b39f-b145eb7fe546">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="logo" class="java.io.InputStream"/>
 	<query language="sql"><![CDATA[]]></query>
 	<field name="paciente" class="java.lang.String"/>
 	<field name="analisis" class="java.lang.String"/>
@@ -22,8 +23,8 @@
 	<sortField name="orden"/>
 	<background splitType="Stretch"/>
 	<title height="90" splitType="Stretch">
-		<element kind="image" uuid="b4bafbda-fad2-4aea-96c4-e5f1c78277e7" x="0" y="0" width="69" height="80">
-			<expression><![CDATA["C:/Users/cinca/Downloads/imss-logo.png"]]></expression>
+		<element kind="image" uuid="b4bafbda-fad2-4aea-96c4-e5f1c78277e7" x="0" y="0" width="69" height="80" onErrorType="Blank">
+			<expression><![CDATA[$P{logo}]]></expression>
 		</element>
 		<element kind="staticText" uuid="42bcbf95-61ce-4efb-8907-fee60918ceab" x="110" y="0" width="347" height="30" fontSize="14.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[DIRECCION DE PRESTACIONES MEDICAS CAJEME]]></text>
