@@ -10,17 +10,34 @@ import interfaces.IAnalisisNegocio;
 import javax.swing.ButtonGroup;
 
 /**
+ * Ventana (JFrame) para el registro de un nuevo parámetro que formará parte de
+ * un análisis clínico. Permite capturar el nombre, nota, unidad de medida y el
+ * tipo de valor (Rango o Positivo/Negativo) del parámetro.
  *
  * @author cinca
  */
 public class FrmRegistroParametro extends javax.swing.JFrame {
 
+    /**
+     * Interfaz de la capa de negocio utilizada para gestionar y delegar las
+     * operaciones relacionadas con los análisis.
+     */
     private IAnalisisNegocio analisisNegocio;
+    /**
+     * Objeto de Transferencia de Datos (DTO) que contiene la información del
+     * análisis al cual se le están agregando parámetros.
+     */
     private AnalisisDTO analisisDTO;
+    /**
+     * Grupo de botones para asegurar que solo se seleccione un tipo de valor a
+     * la vez (Rango o Positivo/Negativo).
+     */
     private ButtonGroup grupoRadios;
 
     /**
-     * Creates new form registroAnalisis
+     * Constructor por defecto de FrmRegistroParametro. Inicializa los
+     * componentes gráficos, agrupa los radio botones y aplica las restricciones
+     * a los campos de texto.
      */
     public FrmRegistroParametro() {
         initComponents();
@@ -29,6 +46,14 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Constructor sobrecargado de FrmRegistroParametro. Recibe las dependencias
+     * necesarias para mantener el flujo de datos durante la creación de un
+     * análisis y sus parámetros.
+     *
+     * * @param analisisNegocio Instancia de la interfaz de negocio.
+     * @param analisisDTO Objeto con la información del análisis en curso.
+     */
     public FrmRegistroParametro(IAnalisisNegocio analisisNegocio, AnalisisDTO analisisDTO) {
         this.analisisNegocio = analisisNegocio;
         this.analisisDTO = analisisDTO;
@@ -37,6 +62,11 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
         restringirNumerosUnidadMedida();
     }
 
+    /**
+     * Agrupa los radio botones correspondientes al tipo de valor (Rango y
+     * Positivo/Negativo) y establece "Rango" como la opción seleccionada por
+     * defecto.
+     */
     private void agruparRadioBotones() {
         grupoRadios = new ButtonGroup();
         grupoRadios.add(btnRango);
@@ -44,20 +74,24 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
         btnRango.setSelected(true);
     }
 
-        private void restringirNumerosUnidadMedida() {
+    /**
+     * Agrega un evento de teclado al campo de texto de la unidad de medida
+     * (txtNombre1) para evitar que el usuario ingrese números, permitiendo
+     * únicamente caracteres alfabéticos o símbolos.
+     */
+    private void restringirNumerosUnidadMedida() {
         txtNombre1.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 char c = evt.getKeyChar();
                 if (Character.isDigit(c)) {
                     evt.consume();
-                  
+
                 }
             }
         });
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -231,7 +265,15 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
     private void btnRangoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRangoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRangoActionPerformed
-
+    /**
+     * Evento desencadenado al hacer clic en el botón "Siguiente" (jButton1).
+     * Recupera y valida los datos del formulario. Si son válidos, crea un nuevo
+     * ParametroDTO, lo agrega a la lista de parámetros del analisisDTO actual,
+     * y abre la ventana del catálogo temporal de parámetros
+     * (FrmCatalogoParametros) para visualizar los parámetros agregados.
+     *
+     * * @param evt Evento de acción de la interfaz.
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String nombre = txtNombre.getText().trim();
         String nota = txtNota.getText().trim();
@@ -264,7 +306,13 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
     private void txtNombre1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombre1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombre1ActionPerformed
-
+    /**
+     * Evento desencadenado al hacer clic en el botón "Cancelar". Aborta el
+     * registro del parámetro, regresa a la ventana principal del catálogo
+     * general de análisis (FrmCatalogoAnalisis) y cierra la ventana actual.
+     *
+     * * @param evt Evento de acción de la interfaz.
+     */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         FrmCatalogoAnalisis frmCatalogo = new FrmCatalogoAnalisis();
         frmCatalogo.setLocationRelativeTo(this);

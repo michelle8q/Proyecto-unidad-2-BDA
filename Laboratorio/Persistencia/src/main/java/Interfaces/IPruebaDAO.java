@@ -1,4 +1,3 @@
-
 package Interfaces;
 
 import Excepciones.PersistenciaException;
@@ -8,11 +7,11 @@ import javax.persistence.PersistenceException;
 
 /**
  * Contrato para las operaciones de acceso a datos de pruebas de laboratorio.
- * 
+ *
  * @author cinca
  */
 public interface IPruebaDAO {
-    
+
     /**
      * Busca una prueba por su identificador nuico.
      *
@@ -21,14 +20,14 @@ public interface IPruebaDAO {
      * @throws PersistenciaException si no existe o hay error en la consulta
      */
     PruebaEntidad buscarPorID(int id) throws PersistenciaException;
-    
+
     /**
      * Obtiene todas las pruebas registradas.
      *
      * @return lista de PruebaEntidad
      */
     List<PruebaEntidad> buscarTodos();
-    
+
     /**
      * Busca una prueba por su folio.
      *
@@ -39,11 +38,10 @@ public interface IPruebaDAO {
     PruebaEntidad buscarPorFolio(String folio) throws PersistenciaException;
 
     /**
-     * Reguistara una prueba
-     * 
-     * @param PruebaEntidad PruebaEntidad a reguistrar
-     * @return PruebaEntidad que se reguistro
-     * @throws PersistenciaException si no es posible guarada el reguistro
+     * Guarda una solicitud de prueba en la base de datos.
+     *
+     * @param solicitud PruebaEntidad a registrar
+     * @throws PersistenceException si no es posible guardar el registro
      */
     public void guardarSolicitud(PruebaEntidad solicitud) throws PersistenceException;
 

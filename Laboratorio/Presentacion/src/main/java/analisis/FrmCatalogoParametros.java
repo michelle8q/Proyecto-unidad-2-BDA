@@ -14,16 +14,29 @@ import utilerias.EditarButtonEditor;
 import utilerias.EditarButtonRenderer;
 
 /**
+ * Ventana (JFrame) que representa el catálogo o registro de parámetros
+ * pertenecientes a un análisis clínico específico. Permite visualizar, agregar,
+ * editar y eliminar los parámetros antes de guardar el análisis completo en la
+ * base de datos.
  *
- * @author cinca
+ * @author cinca luisf
  */
 public class FrmCatalogoParametros extends javax.swing.JFrame {
 
+    /**
+     * Interfaz de la capa de negocio utilizada para guardar el análisis y sus
+     * parámetros.
+     */
     private IAnalisisNegocio analisisNegocio;
+    /**
+     * Objeto de transferencia de datos (DTO) que contiene la información del
+     * análisis en curso y la lista de parámetros asociados.
+     */
     private AnalisisDTO analisisDTO;
 
     /**
-     * Creates new form registroAnalisis
+     * Constructor por defecto de la clase FrmCatalogoParametros. Inicializa los
+     * componentes gráficos y configura la tabla vacía.
      */
     public FrmCatalogoParametros() {
         initComponents();
@@ -31,6 +44,15 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Constructor sobrecargado de la clase FrmCatalogoParametros. Se utiliza
+     * para recibir el contexto del análisis que se está creando/editando.
+     *
+     * @param analisisNegocio Instancia de la capa de negocio para operaciones
+     * de análisis.
+     * @param analisisDTO Objeto DTO con los datos del análisis y sus parámetros
+     * actuales.
+     */
     public FrmCatalogoParametros(IAnalisisNegocio analisisNegocio, AnalisisDTO analisisDTO) {
         this.analisisNegocio = analisisNegocio;
         this.analisisDTO = analisisDTO;
@@ -159,7 +181,13 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+/**
+     * Evento desencadenado al hacer clic en el botón "+ Agregar parametro".
+     * Abre el formulario FrmRegistroParametro, pasando el contexto actual para
+     * agregar un nuevo parámetro a la lista, y cierra la ventana actual.
+     *
+     * @param evt Evento de acción de la interfaz.
+     */
     private void btnAgregarParametroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarParametroActionPerformed
         FrmRegistroParametro frmRegistro = new FrmRegistroParametro(this.analisisNegocio, this.analisisDTO);
         frmRegistro.setLocationRelativeTo(this);
@@ -168,7 +196,15 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
         this.dispose();
 
     }//GEN-LAST:event_btnAgregarParametroActionPerformed
-
+    /**
+     * Evento desencadenado al hacer clic en el botón "Siguiente". Valida que
+     * exista al menos un parámetro registrado. Si la validación es exitosa,
+     * guarda el análisis junto con sus parámetros en la base de datos a través
+     * de la capa de negocio, muestra un mensaje de éxito y redirige al catálogo
+     * principal.
+     *
+     * @param evt Evento de acción de la interfaz.
+     */
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         if (this.analisisDTO.getParametros().isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this,
@@ -195,7 +231,13 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnSiguienteActionPerformed
-
+    /**
+     * Evento desencadenado al hacer clic en el botón "Cancelar". Cancela el
+     * registro actual del análisis, descarta los datos y devuelve al usuario a
+     * la pantalla del catálogo principal de análisis.
+     *
+     * @param evt Evento de acción de la interfaz.
+     */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         FrmCatalogoAnalisis frmCatalogo = new FrmCatalogoAnalisis();
         frmCatalogo.setLocationRelativeTo(this);
@@ -203,7 +245,12 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
         frmCatalogo.setVisible(true);
 
         this.dispose();    }//GEN-LAST:event_btnCancelarActionPerformed
-
+    /**
+     * Llena el modelo de la tabla (jTable1) iterando sobre la lista de
+     * parámetros almacenada en analisisDTO. Muestra el nombre, nota y tipo de
+     * valor del parámetro, además de preparar las columnas de "Editar" y
+     * "Eliminar".
+     */
     private void llenarTabla() {
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable1.getModel();
         modelo.setRowCount(0);
@@ -221,6 +268,14 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Elimina un parámetro específico de la lista de parámetros del DTO en
+     * función del índice de la fila seleccionada y posteriormente actualiza la
+     * tabla.
+     *
+     * @param rowIndex Índice de la fila seleccionada en la tabla que
+     * corresponde al parámetro a eliminar.
+     */
     public void eliminarParametro(int rowIndex) {
         if (this.analisisDTO != null && this.analisisDTO.getParametros() != null) {
             this.analisisDTO.getParametros().remove(rowIndex);
@@ -228,18 +283,22 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Configura el comportamiento visual e interactivo de las columnas de
+     * acciones de la tabla. Asigna renderizadores (Renderers) y editores
+     * (Editors) personalizados para convertir las celdas de las columnas
+     * "Valores" (índice 3) y "Eliminar" (índice 4) en botones funcionales.
+     */
     public void configurarTabla() {
         int indiceColumnaEditar = 3;
         int indiceColumnaEliminar = 4;
 
-        // ✅ USAR EditarButtonRenderer QUE DESHABILITA SEGÚN TIPO
         jTable1.getColumnModel().getColumn(indiceColumnaEditar)
                 .setCellRenderer(new EditarButtonRenderer());
 
         jTable1.getColumnModel().getColumn(indiceColumnaEliminar)
                 .setCellRenderer(new ButtonRenderer());
 
-        // ✅ USAR EditarButtonEditor QUE DESHABILITA SEGÚN TIPO
         jTable1.getColumnModel().getColumn(indiceColumnaEditar)
                 .setCellEditor(new EditarButtonEditor(new JCheckBox(), () -> {
 

@@ -64,12 +64,12 @@ public class Entidades {
             rango.setEdadFinal(99);
             rango.setRangoInicial(70.0f);
             rango.setRangoFinal(110.0f);
-            rango.setSexo("Ambos");
+            rango.setSexo("masculino");
             rango.setParametro(parametro);
 
             // Prueba / solicitud
             PruebaEntidad prueba = new PruebaEntidad();
-            prueba.setFolio("FOLIO-001");
+            prueba.setFolio("FOLIO-002");
             prueba.setFechaHora(LocalDateTime.now());
             prueba.setCliente(cliente);
             prueba.setDoctor(doctor);

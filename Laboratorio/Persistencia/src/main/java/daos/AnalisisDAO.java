@@ -14,17 +14,30 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 /**
+ * Implementación de la interfaz {@link IAnalisisDAO}. Gestiona las operaciones
+ * de persistencia para la entidad Análisis utilizando JPA (Java Persistence
+ * API).
  *
- * @author cinca
+ * @author cinca luisf
  */
 public class AnalisisDAO implements IAnalisisDAO {
 
     private final IConexionBD conexionBD;
 
+    /**
+     * Constructor que inicializa el DAO con una conexión a la base de datos.
+     *
+     * @param conexionBD Interfaz de conexión para generar el EntityManager.
+     */
     public AnalisisDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
 
+    /**
+     * Ejecuta una consulta JPQL para obtener todos los análisis registrados.
+     *
+     * @return Una lista de entidades {@link AnalisisEntidad}.
+     */
     @Override
     public List<AnalisisEntidad> buscarTodos() {
         EntityManager entityManager = conexionBD.crearConexion();
@@ -40,15 +53,21 @@ public class AnalisisDAO implements IAnalisisDAO {
         }
     }
 
+    /**
+     * Inserta un nuevo análisis en la base de datos. Si el análisis incluye una
+     * muestra previamente existente, asegura de vincularla correctamente.
+     *
+     * @param analisis La entidad {@link AnalisisEntidad} a persistir.
+     */
     @Override
     public void agregar(AnalisisEntidad analisis) {
         EntityManager em = conexionBD.crearConexion();
         try {
             em.getTransaction().begin();
+
+            // Verifica si la muestra ya tiene un ID para adjuntarla al contexto de persistencia actual
             if (analisis.getMuestra() != null && analisis.getMuestra().getId() > 0) {
-
                 MuestraEntidad muestraOficial = em.find(MuestraEntidad.class, analisis.getMuestra().getId());
-
                 analisis.setMuestra(muestraOficial);
             }
 
@@ -62,9 +81,14 @@ public class AnalisisDAO implements IAnalisisDAO {
         } finally {
             em.close();
         }
-
     }
 
+    /**
+     * Busca un análisis por su identificador primario.
+     *
+     * @param id Identificador numérico del análisis.
+     * @return La entidad correspondiente, o null si no se encuentra.
+     */
     @Override
     public AnalisisEntidad buscarPorId(int id) {
         EntityManager em = conexionBD.crearConexion();
@@ -77,12 +101,18 @@ public class AnalisisDAO implements IAnalisisDAO {
         }
     }
 
+    /**
+     * Sincroniza los cambios realizados en una entidad Análisis con la base de
+     * datos.
+     *
+     * @param analisis La entidad {@link AnalisisEntidad} modificada.
+     */
     @Override
     public void actualizar(AnalisisEntidad analisis) {
         EntityManager em = conexionBD.crearConexion();
         try {
             em.getTransaction().begin();
-            em.merge(analisis); 
+            em.merge(analisis);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
@@ -95,21 +125,28 @@ public class AnalisisDAO implements IAnalisisDAO {
             }
         }
     }
-    
-    
+
+    /**
+     * Busca análisis mediante un criterio de texto ingresado, realizando una
+     * búsqueda de coincidencias parciales (LIKE) en el nombre, nota descriptiva
+     * y tipo de muestra.
+     *
+     * @param parametro Cadena de texto a buscar.
+     * @return Una lista de {@link AnalisisEntidad} filtrada.
+     */
     @Override
     public List<AnalisisEntidad> buscarPorParametro(String parametro) {
         EntityManager em = conexionBD.crearConexion();
         try {
-            String jpql = "SELECT DISTINCT a FROM AnalisisEntidad a " +
-                         "LEFT JOIN a.muestra m " +
-                         "WHERE LOWER(a.nombre) LIKE LOWER(:param) " +
-                         "OR LOWER(a.notaDescriptiva) LIKE LOWER(:param) " +
-                         "OR LOWER(m.tipo) LIKE LOWER(:param)";
-            
+            String jpql = "SELECT DISTINCT a FROM AnalisisEntidad a "
+                    + "LEFT JOIN a.muestra m "
+                    + "WHERE LOWER(a.nombre) LIKE LOWER(:param) "
+                    + "OR LOWER(a.notaDescriptiva) LIKE LOWER(:param) "
+                    + "OR LOWER(m.tipo) LIKE LOWER(:param)";
+
             TypedQuery<AnalisisEntidad> query = em.createQuery(jpql, AnalisisEntidad.class);
             query.setParameter("param", "%" + parametro + "%");
-            
+
             return query.getResultList();
         } finally {
             if (em != null && em.isOpen()) {
@@ -117,6 +154,4 @@ public class AnalisisDAO implements IAnalisisDAO {
             }
         }
     }
-    
-    
 }

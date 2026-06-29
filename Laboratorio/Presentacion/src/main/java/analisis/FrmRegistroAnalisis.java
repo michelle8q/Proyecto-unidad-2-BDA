@@ -10,15 +10,27 @@ import itson.org.negocio.AnalisisNegocio;
 import javax.swing.JOptionPane;
 
 /**
+ * Ventana (JFrame) inicial para el registro de un nuevo análisis clínico.
+ * Permite capturar la información general del análisis, como su nombre, nota
+ * descriptiva y el tipo de muestra requerida (ej. Sangre, Orina) antes de
+ * proceder a la asignación de parámetros.
  *
- * @author cinca
+ * @author cinca luisf
  */
 public class FrmRegistroAnalisis extends javax.swing.JFrame {
 
+    /**
+     * Interfaz de la capa de negocio utilizada para gestionar y delegar las
+     * operaciones relacionadas con los análisis.
+     */
     private final IAnalisisNegocio analisisNegocio;
 
     /**
-     * Creates new form registroAnalisis
+     * Constructor de la clase FrmRegistroAnalisis. Inicializa los componentes
+     * de la interfaz gráfica y establece la dependencia con la capa de negocio.
+     *
+     * * @param analisisNegocio Instancia de la interfaz de negocio para
+     * manejar análisis.
      */
     public FrmRegistroAnalisis(IAnalisisNegocio analisisNegocio) {
         this.analisisNegocio = analisisNegocio;
@@ -166,7 +178,13 @@ public class FrmRegistroAnalisis extends javax.swing.JFrame {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
-
+    /**
+     * Evento desencadenado al hacer clic en el botón "Cancelar". Descarta la
+     * información actual, abre la ventana del catálogo general de análisis
+     * (FrmCatalogoAnalisis) y cierra la ventana activa.
+     *
+     * * @param evt Evento de acción de la interfaz.
+     */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         FrmCatalogoAnalisis frmCatalogo = new FrmCatalogoAnalisis();
         frmCatalogo.setLocationRelativeTo(this);
@@ -176,7 +194,15 @@ public class FrmRegistroAnalisis extends javax.swing.JFrame {
         this.dispose();
 
     }//GEN-LAST:event_btnCancelarActionPerformed
-
+    /**
+     * Evento desencadenado al hacer clic en el botón "Siguiente" (jButton1).
+     * Recupera los datos ingresados en el formulario, valida que el nombre no
+     * esté vacío, y genera un objeto AnalisisDTO temporal que es enviado a la
+     * siguiente pantalla (FrmRegistroParametro) para continuar con el flujo de
+     * captura.
+     *
+     * * @param evt Evento de acción de la interfaz.
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         String nombre = txtBuscador.getText().trim();
