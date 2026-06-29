@@ -18,6 +18,7 @@ public class AnalisisDTO {
     private String notaDescriptiva;
     private MuestraDTO muestra;
     private List<ParametroDTO> parametros;
+    private boolean activo;
 
     public AnalisisDTO() {
         this.parametros = new ArrayList<>();
@@ -76,4 +77,11 @@ public class AnalisisDTO {
         this.parametros.add(parametro);
     }
 
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
 }

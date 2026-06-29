@@ -15,6 +15,7 @@ public interface IAnalisisNegocio {
 
     List<AnalisisDTO> obtenerAnalisisParaTabla();
 
-    void guardarAnalisis(dto.AnalisisDTO analisisDTO) throws Exception; 
+    void guardarAnalisis(dto.AnalisisDTO analisisDTO) throws Exception;
 
+    void cambiarEstadoAnalisis(int idAnalisis) throws Exception;
 }

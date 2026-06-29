@@ -4,7 +4,6 @@
 package itson.org.presentacion;
 
 import analisis.FrmCatalogoAnalisis;
-import resultados.FrmIngresoResultados;
 
 /**
  *

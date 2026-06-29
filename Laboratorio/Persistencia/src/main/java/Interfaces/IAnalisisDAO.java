@@ -18,4 +18,7 @@ public interface IAnalisisDAO {
 
     void agregar(AnalisisEntidad analisis);
 
+    AnalisisEntidad buscarPorId(int id);
+
+    void actualizar(AnalisisEntidad analisis);
 }

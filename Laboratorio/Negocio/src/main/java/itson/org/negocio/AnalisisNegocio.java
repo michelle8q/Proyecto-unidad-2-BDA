@@ -47,12 +47,13 @@ public class AnalisisNegocio implements IAnalisisNegocio {
             dto.setId(entidad.getId());
             dto.setNombre(entidad.getNombre());
             dto.setNotaDescriptiva(entidad.getNotaDescriptiva());
+            dto.setActivo(entidad.isActivo());
 
             if (entidad.getMuestra() != null) {
                 MuestraDTO muestraDTO = new MuestraDTO();
                 muestraDTO.setId(entidad.getMuestra().getId());
                 muestraDTO.setTipo(entidad.getMuestra().getTipo());
-                
+
                 dto.setMuestra(muestraDTO);
             } else {
                 MuestraDTO muestraVacia = new MuestraDTO(0, "Sin muestra");
@@ -68,54 +69,75 @@ public class AnalisisNegocio implements IAnalisisNegocio {
     @Override
     public void guardarAnalisis(AnalisisDTO analisisDTO) throws Exception {
 
-    AnalisisEntidad analisisEntidad = new AnalisisEntidad();
-    analisisEntidad.setNombre(analisisDTO.getNombre());
-    analisisEntidad.setNotaDescriptiva(analisisDTO.getNotaDescriptiva());
-    analisisEntidad.setActivo(true);
+        AnalisisEntidad analisisEntidad = new AnalisisEntidad();
+        analisisEntidad.setNombre(analisisDTO.getNombre());
+        analisisEntidad.setNotaDescriptiva(analisisDTO.getNotaDescriptiva());
+        analisisEntidad.setActivo(true);
 
-    if (analisisDTO.getMuestra() != null) {
-        MuestraEntidad muestraEntidad = new MuestraEntidad();
-        muestraEntidad.setId(analisisDTO.getMuestra().getId());
-        muestraEntidad.setTipo(analisisDTO.getMuestra().getTipo());
+        if (analisisDTO.getMuestra() != null) {
+            MuestraEntidad muestraEntidad = new MuestraEntidad();
+            muestraEntidad.setId(analisisDTO.getMuestra().getId());
+            muestraEntidad.setTipo(analisisDTO.getMuestra().getTipo());
 
-        analisisEntidad.setMuestra(muestraEntidad);
-    } else {
-        throw new Exception("El análisis debe tener una muestra asignada obligatoriamente.");
+            analisisEntidad.setMuestra(muestraEntidad);
+        } else {
+            throw new Exception("El análisis debe tener una muestra asignada obligatoriamente.");
+        }
+
+        List<ParametroEntidad> parametrosEntidad = new java.util.ArrayList<>();
+        if (analisisDTO.getParametros() != null) {
+            for (dto.ParametroDTO paramDTO : analisisDTO.getParametros()) {
+                ParametroEntidad paramEntidad = new ParametroEntidad();
+                paramEntidad.setNombre(paramDTO.getNombre());
+                paramEntidad.setNota(paramDTO.getNota());
+                paramEntidad.setUnidadMedida(paramDTO.getUnidadMedida());
+                paramEntidad.setOrden(paramDTO.getOrden());
+
+                paramEntidad.setAnalisis(analisisEntidad);
+
+                List<RangoEntidad> rangosEntidad = new java.util.ArrayList<>();
+                if (paramDTO.getRangos() != null) {
+                    for (dto.RangoDTO rangoDTO : paramDTO.getRangos()) {
+                        RangoEntidad rangoEntidad = new RangoEntidad();
+                        rangoEntidad.setEdadInicial(rangoDTO.getEdadInicial());
+                        rangoEntidad.setEdadFinal(rangoDTO.getEdadFinal());
+                        rangoEntidad.setRangoInicial(rangoDTO.getRangoInicial());
+                        rangoEntidad.setRangoFinal(rangoDTO.getRangoFinal());
+                        rangoEntidad.setSexo(rangoDTO.getSexo());
+
+                        rangoEntidad.setParametro(paramEntidad);
+
+                        rangosEntidad.add(rangoEntidad);
+                    }
+                }
+                paramEntidad.setRangos(rangosEntidad);
+
+                parametrosEntidad.add(paramEntidad);
+            }
+        }
+        analisisEntidad.setParametros(parametrosEntidad);
+
+        analisisDAO.agregar(analisisEntidad);
     }
 
-    List<ParametroEntidad> parametrosEntidad = new java.util.ArrayList<>();
-    if (analisisDTO.getParametros() != null) {
-        for (dto.ParametroDTO paramDTO : analisisDTO.getParametros()) {
-            ParametroEntidad paramEntidad = new ParametroEntidad();
-            paramEntidad.setNombre(paramDTO.getNombre());
-            paramEntidad.setNota(paramDTO.getNota());
-            paramEntidad.setUnidadMedida(paramDTO.getUnidadMedida());
-            paramEntidad.setOrden(paramDTO.getOrden());
 
-            paramEntidad.setAnalisis(analisisEntidad);
+         @Override
+    public void cambiarEstadoAnalisis(int idAnalisis) throws Exception {
+        try {
+            AnalisisEntidad entidad = analisisDAO.buscarPorId(idAnalisis);
 
-            List<RangoEntidad> rangosEntidad = new java.util.ArrayList<>();
-            if (paramDTO.getRangos() != null) {
-                for (dto.RangoDTO rangoDTO : paramDTO.getRangos()) {
-                    RangoEntidad rangoEntidad = new RangoEntidad();
-                    rangoEntidad.setEdadInicial(rangoDTO.getEdadInicial());
-                    rangoEntidad.setEdadFinal(rangoDTO.getEdadFinal());
-                    rangoEntidad.setRangoInicial(rangoDTO.getRangoInicial());
-                    rangoEntidad.setRangoFinal(rangoDTO.getRangoFinal());
-                    rangoEntidad.setSexo(rangoDTO.getSexo());
-                    
-                    rangoEntidad.setParametro(paramEntidad);
-                    
-                    rangosEntidad.add(rangoEntidad);
-                }
+            if (entidad == null) {
+                throw new Exception("El análisis con ID " + idAnalisis + " no existe.");
             }
-            paramEntidad.setRangos(rangosEntidad);
 
-            parametrosEntidad.add(paramEntidad);
+            entidad.setActivo(!entidad.isActivo());
+
+            analisisDAO.actualizar(entidad);
+
+        } catch (Exception ex) {
+            throw new Exception("Error al cambiar el estado del análisis: " + ex.getMessage());
         }
     }
-    analisisEntidad.setParametros(parametrosEntidad);
+    
 
-    analisisDAO.agregar(analisisEntidad);
-}
 }

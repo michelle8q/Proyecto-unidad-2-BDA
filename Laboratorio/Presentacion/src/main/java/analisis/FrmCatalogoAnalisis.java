@@ -8,7 +8,12 @@ import dto.AnalisisDTO;
 import interfaces.IAnalisisNegocio;
 import itson.org.negocio.AnalisisNegocio;
 import java.util.List;
+import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import utilerias.ButtonEditor;
+import utilerias.ButtonRenderer;
+import javax.swing.Timer;
 
 /**
  *
@@ -17,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class FrmCatalogoAnalisis extends javax.swing.JFrame {
 
     private final IAnalisisNegocio analisisNegocio;
+    private List<AnalisisDTO> listaAnalisis;
 
     /**
      * Creates new form CatalogoAnalisis
@@ -25,7 +31,55 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
         initComponents();
         this.analisisNegocio = new AnalisisNegocio();
         llenarTabla();
+        configurarBotonTabla();
+        iniciarTemporizadorActualizacion();
 
+    }
+
+    private void configurarBotonTabla() {
+        Runnable accionEstado = () -> cambiarEstadoRegistro();
+
+        jTable1.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
+        jTable1.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JCheckBox(), accionEstado));
+    }
+
+    private void cambiarEstadoRegistro() {
+        Object propiedadFila = jTable1.getClientProperty("filaSeleccionada");
+
+        if (propiedadFila != null) {
+            int fila = (int) propiedadFila;
+            AnalisisDTO analisisSeleccionado = this.listaAnalisis.get(fila);
+
+            String accion = analisisSeleccionado.isActivo() ? "desactivar" : "activar";
+
+            int confirmacion = JOptionPane.showConfirmDialog(this,
+                    "¿Deseas " + accion + " el análisis '" + analisisSeleccionado.getNombre() + "'?",
+                    "Confirmar " + accion,
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                try {
+                    analisisNegocio.cambiarEstadoAnalisis(analisisSeleccionado.getId());
+                    JOptionPane.showMessageDialog(this, "Estado actualizado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        llenarTabla();
+                    });
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Error al actualizar el estado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
+    private void iniciarTemporizadorActualizacion() {
+        Timer timer = new Timer(30000, e -> {
+            llenarTabla();
+            System.out.println("Tabla actualizada automáticamente...");
+        });
+        timer.start();
     }
 
     /**
@@ -169,24 +223,31 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
         pantallaRegistro.setLocationRelativeTo(this);
 
         pantallaRegistro.setVisible(true);
+
+        dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void llenarTabla() {
-        List<AnalisisDTO> listaAnalisis = analisisNegocio.obtenerAnalisisParaTabla();
+        this.listaAnalisis = analisisNegocio.obtenerAnalisisParaTabla();
 
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         modelo.setRowCount(0);
 
-        for (AnalisisDTO dto : listaAnalisis) {
+        for (AnalisisDTO dto : this.listaAnalisis) {
+            
             Object[] fila = new Object[4];
 
             fila[0] = dto.getNombre();
             fila[1] = dto.getNotaDescriptiva();
             fila[2] = (dto.getMuestra() != null) ? dto.getMuestra().getTipo() : "Sin muestra";
-            fila[3] = "Seleccionar";
-            
+
+            fila[3] = dto.isActivo() ? "Desactivar" : "Activar";
+
             modelo.addRow(fila);
         }
+
+        jTable1.repaint();
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

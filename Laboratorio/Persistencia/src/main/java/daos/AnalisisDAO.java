@@ -46,22 +46,53 @@ public class AnalisisDAO implements IAnalisisDAO {
         try {
             em.getTransaction().begin();
             if (analisis.getMuestra() != null && analisis.getMuestra().getId() > 0) {
-                
+
                 MuestraEntidad muestraOficial = em.find(MuestraEntidad.class, analisis.getMuestra().getId());
-                
+
                 analisis.setMuestra(muestraOficial);
             }
-            
-            em.persist(analisis); 
+
+            em.persist(analisis);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            e.printStackTrace(); 
+            e.printStackTrace();
         } finally {
             em.close();
         }
 
+    }
+
+    @Override
+    public AnalisisEntidad buscarPorId(int id) {
+        EntityManager em = conexionBD.crearConexion();
+        try {
+            return em.find(AnalisisEntidad.class, id);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
+    }
+
+    @Override
+    public void actualizar(AnalisisEntidad analisis) {
+        EntityManager em = conexionBD.crearConexion();
+        try {
+            em.getTransaction().begin();
+            em.merge(analisis); 
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
     }
 }
