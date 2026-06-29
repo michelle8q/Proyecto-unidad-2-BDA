@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
+
 package Interfaces;
 
 import Excepciones.PersistenciaException;
@@ -39,5 +36,14 @@ public interface IPruebaDAO {
      * @throws PersistenciaException si no existe o hay error en la consulta
      */
     PruebaEntidad buscarPorFolio(String folio) throws PersistenciaException;
+    
+    /**
+     * Reguistara una prueba
+     * 
+     * @param PruebaEntidad PruebaEntidad a reguistrar
+     * @return PruebaEntidad que se reguistro
+     * @throws PersistenciaException si no es posible guarada el reguistro
+     */
+    PruebaEntidad registrar(PruebaEntidad prueba) throws PersistenciaException;
 
 }
