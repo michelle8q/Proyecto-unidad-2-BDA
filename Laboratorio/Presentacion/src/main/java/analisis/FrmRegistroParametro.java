@@ -41,6 +41,7 @@ public class FrmRegistroParametro extends javax.swing.JFrame {
      */
     public FrmRegistroParametro() {
         initComponents();
+        this.setLocationRelativeTo(null);
         agruparRadioBotones();
         restringirNumerosUnidadMedida();
 

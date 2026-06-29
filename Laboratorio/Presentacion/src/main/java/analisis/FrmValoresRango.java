@@ -31,6 +31,7 @@ public class FrmValoresRango extends javax.swing.JFrame {
     public FrmValoresRango(ParametroDTO parametroActual) {
 
         initComponents();
+        this.setLocationRelativeTo(null);
         this.parametroActual = parametroActual;
 
     }

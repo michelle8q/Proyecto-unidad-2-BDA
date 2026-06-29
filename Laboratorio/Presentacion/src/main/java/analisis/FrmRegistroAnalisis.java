@@ -237,7 +237,7 @@ public class FrmRegistroAnalisis extends javax.swing.JFrame {
         FrmRegistroParametro pantallaParametros = new FrmRegistroParametro(this.analisisNegocio, analisisDTO);
 
         pantallaParametros.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-        pantallaParametros.setLocationRelativeTo(this);
+        pantallaParametros.setLocationRelativeTo(null);
         pantallaParametros.setVisible(true);
 
         this.dispose();

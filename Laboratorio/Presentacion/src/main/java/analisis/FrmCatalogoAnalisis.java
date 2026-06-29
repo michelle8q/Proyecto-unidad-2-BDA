@@ -40,6 +40,7 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
      */
     public FrmCatalogoAnalisis() {
         initComponents();
+        this.setLocationRelativeTo(null);
         this.analisisNegocio = new AnalisisNegocio();
         llenarTabla();
         configurarBotonTabla();
@@ -196,7 +197,6 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        pnlMenuLateral1 = new utilerias.pnlMenuLateral();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtBuscador = new javax.swing.JTextField();
@@ -287,8 +287,7 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(pnlMenuLateral1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(275, 275, 275)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(684, 684, 684)
@@ -307,7 +306,6 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(94, 94, 94))
-            .addComponent(pnlMenuLateral1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -383,7 +381,6 @@ public class FrmCatalogoAnalisis extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private utilerias.pnlMenuLateral pnlMenuLateral1;
     private javax.swing.JTextField txtBuscador;
     // End of variables declaration//GEN-END:variables
 }

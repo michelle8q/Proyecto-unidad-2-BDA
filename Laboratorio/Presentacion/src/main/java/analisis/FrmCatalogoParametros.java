@@ -40,6 +40,7 @@ public class FrmCatalogoParametros extends javax.swing.JFrame {
      */
     public FrmCatalogoParametros() {
         initComponents();
+        this.setLocationRelativeTo(null);
         configurarTabla();
 
     }
