@@ -18,7 +18,7 @@ import resultados.FrmIngresoResultados;
  * @author cinca
  */
 public class pnlMenuLateral extends javax.swing.JPanel {
-    
+
     private insertsNegocio inserts = new insertsNegocio();
 
     /**
@@ -124,12 +124,16 @@ public class pnlMenuLateral extends javax.swing.JPanel {
     private void btnCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCatalogoActionPerformed
         FrmCatalogoAnalisis pantalla = new FrmCatalogoAnalisis();
         pantalla.setVisible(true);
+        java.awt.Window ventanaPadre = javax.swing.SwingUtilities.getWindowAncestor(this);
+        if (ventanaPadre != null) {
+            ventanaPadre.dispose();
+        }
     }//GEN-LAST:event_btnCatalogoActionPerformed
 
     private void btnDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatosActionPerformed
         try {
             List<DoctorEntidad> doctores = new java.util.ArrayList<>();
-            doctores.add(new DoctorEntidad(1,"García", "Martínez", "Juan Carlos", "M"));
+            doctores.add(new DoctorEntidad(1, "García", "Martínez", "Juan Carlos", "M"));
             doctores.add(new DoctorEntidad(2, "López", "Rodríguez", "María Elena", "F"));
             doctores.add(new DoctorEntidad(3, "Hernández", "Pérez", "Luis Alberto", "M"));
             doctores.add(new DoctorEntidad(4, "Sánchez", "Gómez", "Ana Luisa", "F"));
@@ -145,7 +149,7 @@ public class pnlMenuLateral extends javax.swing.JPanel {
             clientes.add(new ClienteEntidad(2, "Miranda", "Castillo", "1992-11-23", "Gabriela", "F", "A+"));
             clientes.add(new ClienteEntidad(3, "Guzmán", "Ortiz", "1978-08-05", "Fernando", "M", "B+"));
             clientes.add(new ClienteEntidad(4, "Meza", "Salazar", "2000-01-15", "Mariana", "F", "O-"));
-            clientes.add(new ClienteEntidad(5, "Navarro", "Villanueva","1965-07-30", "Roberto", "M", "AB+"));
+            clientes.add(new ClienteEntidad(5, "Navarro", "Villanueva", "1965-07-30", "Roberto", "M", "AB+"));
             clientes.add(new ClienteEntidad(6, "Ríos", "Alvarado", "1989-03-22", "Verónica", "F", "A-"));
             clientes.add(new ClienteEntidad(7, "Campos", "Estrada", "1995-09-18", "Daniel", "M", "O+"));
             clientes.add(new ClienteEntidad(8, "Paredes", "Ávalos", "2003-05-14", "Ximena", "F", "B-"));
@@ -170,7 +174,6 @@ public class pnlMenuLateral extends javax.swing.JPanel {
 
             javax.swing.JOptionPane.showMessageDialog(this, "¡Catálogo inicial insertado con éxito!");
 
-
         } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Error en la carga masiva: " + e.getMessage());
         }
@@ -179,7 +182,10 @@ public class pnlMenuLateral extends javax.swing.JPanel {
     private void btnResultadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResultadosActionPerformed
         FrmIngresoResultados pantalla = new FrmIngresoResultados();
         pantalla.setVisible(true);
-
+        java.awt.Window ventanaPadre = javax.swing.SwingUtilities.getWindowAncestor(this);
+        if (ventanaPadre != null) {
+            ventanaPadre.dispose(); 
+        }
     }//GEN-LAST:event_btnResultadosActionPerformed
 
 
