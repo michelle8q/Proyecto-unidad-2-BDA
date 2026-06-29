@@ -25,7 +25,10 @@ public class FrmRegistroSolicitud extends javax.swing.JFrame {
     private List<DoctorEntidad> listaDoctoresGlobal;
 
     public FrmRegistroSolicitud() {
+
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         llenarComboBoxDoctores();
         llenarPanelAnalis();
     }
@@ -174,8 +177,7 @@ public class FrmRegistroSolicitud extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCancelarActionPerformed
+        this.dispose();    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void ComboClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboClientesActionPerformed
         // TODO add your handling code here:
@@ -229,6 +231,7 @@ public class FrmRegistroSolicitud extends javax.swing.JFrame {
                         DetallesPruebaEntidad detalle = new DetallesPruebaEntidad();
 
                         detalle.setPrueba(nuevaSolicitud);
+                        detalle.setObservaciones("");
                         detalle.setParametro(parametro);
 
                         detalles.add(detalle);
