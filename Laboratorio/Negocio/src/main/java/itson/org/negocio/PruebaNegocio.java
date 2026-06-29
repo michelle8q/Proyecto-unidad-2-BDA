@@ -5,12 +5,16 @@
 package itson.org.negocio;
 
 import Excepciones.PersistenciaException;
+import Interfaces.IClienteDAO;
 import Interfaces.IConexionBD;
 import Interfaces.IDetallesPruebaDAO;
+import Interfaces.IDoctorDAO;
 import Interfaces.IPruebaDAO;
 import Interfaces.IRangoDAO;
 import conexiones.ConexionBD;
+import daos.ClienteDAO;
 import daos.DetallesPruebaDAO;
+import daos.DoctorDAO;
 import daos.PruebaDAO;
 import daos.RangoDAO;
 import dto.PruebaBusquedaDTO;
@@ -18,7 +22,9 @@ import dto.DetallesPruebaDTO;
 import excepciones.NegocioException;
 import interfaces.IPruebaNegocio;
 import itson.org.entidades.AnalisisEntidad;
+import itson.org.entidades.ClienteEntidad;
 import itson.org.entidades.DetallesPruebaEntidad;
+import itson.org.entidades.DoctorEntidad;
 import itson.org.entidades.ParametroEntidad;
 import itson.org.entidades.PruebaEntidad;
 import itson.org.entidades.RangoEntidad;
@@ -28,22 +34,26 @@ import java.util.List;
 /**
  * Clase de negocio encargada de gestionar las pruebas de laboratorio.
  *
- * Implementa la interfaz IPruebaNegocio y actúa entre la presentación y la persistencia. 
- * 
- * Se encarga de buscar una prueba por folio para mostrarla en pantalla, y guardar los resultados
- * ingresados por el usuario.
+ * Implementa la interfaz IPruebaNegocio y actúa entre la presentación y la
+ * persistencia.
+ *
+ * Se encarga de buscar una prueba por folio para mostrarla en pantalla, y
+ * guardar los resultados ingresados por el usuario.
  *
  * Transforma entidades en DTOs para que la presentación no tenga dependencia
  * con JPA, y transforma DTOs en entidades al momento de persistir.
  *
  * @author cinca
- * 
+ *
  */
 public class PruebaNegocio implements IPruebaNegocio {
+
     private final IPruebaDAO pruebaDAO;
     private final IDetallesPruebaDAO detallesPruebaDAO;
     private final IRangoDAO rangoDAO;
-    
+    private final IDoctorDAO doctorDAO;
+    private final IClienteDAO clienteDAO;
+
     /**
      * Constructor que inicializa la conexión y se la inyecta al DAO.
      */
@@ -52,18 +62,20 @@ public class PruebaNegocio implements IPruebaNegocio {
         this.pruebaDAO = new PruebaDAO(conexion);
         this.detallesPruebaDAO = new DetallesPruebaDAO(conexion);
         this.rangoDAO = new RangoDAO(conexion);
+        this.doctorDAO = new DoctorDAO(conexion);
+        this.clienteDAO = new ClienteDAO(conexion);
     }
-    
+
     /**
-     * Guarda los resultados ingresados por el usuario para cada detalle de
-     * una prueba.
+     * Guarda los resultados ingresados por el usuario para cada detalle de una
+     * prueba.
      *
      * Por cada DTO recibido, busca el detalle correspondiente en la base de
      * datos por su ID y actualiza su resultado y observaciones.
      *
-     * @param detallesDTO lista de DTOs con los resultados y observaciones 
+     * @param detallesDTO lista de DTOs con los resultados y observaciones
      * ingresados por el usuario
-     * 
+     *
      * @throws NegocioException si la lista está vacía o si ocurre un error
      * durante la persistencia
      */
@@ -85,7 +97,7 @@ public class PruebaNegocio implements IPruebaNegocio {
             throw new NegocioException("Error al guardar los resultados: " + ex.getMessage());
         }
     }
-    
+
     /**
      * Busca una prueba por su folio y retorna sus datos junto con los detalles
      * de cada parámetro, incluyendo el rango de referencia según el sexo del
@@ -97,9 +109,9 @@ public class PruebaNegocio implements IPruebaNegocio {
      *
      * @param folio folio de la prueba a buscar
      * @return PruebaBusquedaDTO con los datos de la prueba y sus parámetros
-     * @throws NegocioException si el folio está vacío, la prueba no existe,
-     * no tiene parámetros registrados, o si ocurre un error de persistencia
-     * 
+     * @throws NegocioException si el folio está vacío, la prueba no existe, no
+     * tiene parámetros registrados, o si ocurre un error de persistencia
+     *
      */
     @Override
     public PruebaBusquedaDTO buscarPorFolio(String folio) throws NegocioException {
@@ -152,5 +164,15 @@ public class PruebaNegocio implements IPruebaNegocio {
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al buscar la prueba: " + ex.getMessage());
         }
+    }
+
+    @Override
+    public List<DoctorEntidad> obtenerTodosDoctores() throws NegocioException {
+        return doctorDAO.buscarTodos();
+    }
+
+    @Override
+    public List<ClienteEntidad> obtenerTodosClientes() throws NegocioException {
+        return clienteDAO.buscarTodos();
     }
 }

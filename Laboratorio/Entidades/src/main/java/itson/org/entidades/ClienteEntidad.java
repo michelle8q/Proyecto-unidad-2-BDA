@@ -19,32 +19,32 @@ import javax.persistence.Table;
  * @author cinca
  */
 @Entity
-@Table(name="clientes")
+@Table(name = "clientes")
 public class ClienteEntidad implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    
+
     @Column(name = "nombres", nullable = false, length = 50)
     private String nombre;
-    
+
     @Column(name = "apellidoPaterno", nullable = false, length = 50)
     private String apellidoPaterno;
-    
+
     @Column(name = "apellidoMaterno", nullable = false, length = 50)
     private String apellidoMaterno;
-    
+
     @Column(name = "sexo", nullable = false, length = 50)
     private String sexo;
-    
+
     @Column(name = "fechaNacimiento", nullable = false, length = 50)
     private String fechaNacimiento;
-    
+
     @Column(name = "tipoSangre", nullable = false, length = 20)
     private String tipoSangre;
-    
+
     @OneToMany(mappedBy = "cliente")
     private List<PruebaEntidad> pruebas;
 
@@ -61,7 +61,6 @@ public class ClienteEntidad implements Serializable {
         this.tipoSangre = tipoSangre;
         this.pruebas = pruebas;
     }
-    
 
     public int getId() {
         return id;
@@ -126,5 +125,9 @@ public class ClienteEntidad implements Serializable {
     public void setPruebas(List<PruebaEntidad> pruebas) {
         this.pruebas = pruebas;
     }
-    
+
+    public String toString() {
+        return this.nombre + " " + this.apellidoPaterno;
+    }
+
 }

@@ -7,6 +7,8 @@ package interfaces;
 import dto.PruebaBusquedaDTO;
 import dto.DetallesPruebaDTO;
 import excepciones.NegocioException;
+import itson.org.entidades.ClienteEntidad;
+import itson.org.entidades.DoctorEntidad;
 import java.util.List;
 
 /**
@@ -32,4 +34,18 @@ public interface IPruebaNegocio {
      * @throws NegocioException si el folio es inválido o la prueba no existe
      */
    PruebaBusquedaDTO buscarPorFolio(String folio) throws NegocioException;
+   
+   /**
+    * obtener todos los doctoes
+    * @return lista de todos los doctores
+    * @throws NegocioException en caso de alhun error
+    */
+    public List<DoctorEntidad> obtenerTodosDoctores() throws NegocioException;
+    
+    /**
+    * obtener todos los clientes
+    * @return lista de todos los clientes
+    * @throws NegocioException en caso de alhun error
+    */
+    public List<ClienteEntidad> obtenerTodosClientes() throws NegocioException;
 }

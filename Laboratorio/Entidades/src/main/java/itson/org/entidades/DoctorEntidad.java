@@ -105,6 +105,8 @@ public class DoctorEntidad implements Serializable {
         this.pruebas = pruebas;
     }
     
-    
+    public String toString() {
+        return this.nombre + " " + this.apellidoPaterno;
+    }
     
 }

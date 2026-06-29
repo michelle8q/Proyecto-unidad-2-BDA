@@ -5,6 +5,7 @@
 package utilerias;
 
 import analisis.FrmCatalogoAnalisis;
+import analisis.FrmRegistroSolicitud;
 import resultados.FrmIngresoResultados;
 
 
@@ -110,7 +111,8 @@ public class pnlMenuLateral extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitudActionPerformed
-        // TODO add your handling code here:
+        FrmRegistroSolicitud pantalla= new FrmRegistroSolicitud();
+        pantalla.setVisible(true);
     }//GEN-LAST:event_btnSolicitudActionPerformed
 
     private void btnCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCatalogoActionPerformed
