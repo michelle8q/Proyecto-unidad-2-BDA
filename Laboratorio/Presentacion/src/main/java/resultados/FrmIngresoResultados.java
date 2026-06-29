@@ -11,6 +11,7 @@ import dto.DetallesPruebaDTO;
 import dto.PruebaBusquedaDTO;
 import dto.ResultadoReporteDTO;
 import excepciones.NegocioException;
+import excepciones.PresentacionException;
 import interfaces.IPruebaNegocio;
 import interfaces.IResultadosReporteNegocio;
 import itson.org.negocio.PruebaNegocio;
@@ -321,11 +322,17 @@ public class FrmIngresoResultados extends javax.swing.JFrame {
      */
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
+            
+            validarPruebaCargada();
+            
             List<DetallesPruebaDTO> detallesCapturados = leerResultadoTabla();
             pruebaNegocio.guardarResultados(detallesCapturados);
             JOptionPane.showMessageDialog(this, "Resultados guardados correctamente.");
+            
         } catch (NegocioException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error: ", JOptionPane.ERROR_MESSAGE);
+        } catch (PresentacionException ex) {
+              JOptionPane.showMessageDialog(this, ex.getMessage(), "Error: ", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -335,8 +342,13 @@ public class FrmIngresoResultados extends javax.swing.JFrame {
      * parametros y hace visibles los botones de accion.
      */
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        String folio = txtBuscador.getText().trim();
+        
         try {
+            String folio = txtBuscador.getText().trim();
+            
+            validarFolio(folio);
+            validarFormatoFolio(folio);
+            
             pruebaBuscada = pruebaNegocio.buscarPorFolio(folio);
             lblFolio.setText(pruebaBuscada.getFolio());
             lblNombreCliente.setText(pruebaBuscada.getNombreCliente());
@@ -346,7 +358,9 @@ public class FrmIngresoResultados extends javax.swing.JFrame {
             mostrarBotones();
             
         } catch (NegocioException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error;", JOptionPane.ERROR_MESSAGE);
+        } catch (PresentacionException ex) {
+              JOptionPane.showMessageDialog(this, ex.getMessage(), "Error: ", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -380,7 +394,7 @@ public class FrmIngresoResultados extends javax.swing.JFrame {
      *
      * @return lista de DetallesPruebaDTO con los resultados capturados
      */
-    private List<DetallesPruebaDTO> leerResultadoTabla() {
+    private List<DetallesPruebaDTO> leerResultadoTabla() throws PresentacionException {
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         List<DetallesPruebaDTO> detalles = new ArrayList<>();
 
@@ -390,9 +404,11 @@ public class FrmIngresoResultados extends javax.swing.JFrame {
             Object valorObservacion = modelo.getValueAt(i, 5);
 
             if (valorResultado != null && !valorResultado.toString().isBlank()) {
+                
+                validarResultadoNumerico(valorResultado.toString(), dto.getParametro());
+                
                 dto.setResultado(Float.parseFloat(valorResultado.toString()));
             }
-
             dto.setObservaciones(valorObservacion != null ? valorObservacion.toString() : "");
             detalles.add(dto);
         }
@@ -418,6 +434,57 @@ public class FrmIngresoResultados extends javax.swing.JFrame {
         btnGuardar.setVisible(false);
         btnImprimir.setVisible(false);
         btnCancelar.setVisible(false);
+    }
+    
+    /**
+    * Valida que el folio ingresado solo contenga letras, numeros y guiones.
+    *
+    * @param folio folio ingresado en el campo de texto
+    * @throws PresentacionException si el folio contiene caracteres no permitidos
+    */
+    private void validarFormatoFolio(String folio) throws PresentacionException {
+        if (!folio.matches("[a-zA-Z0-9-]+")) {
+            throw new PresentacionException("El folio solo puede contener letras, números y guiones.");
+        }
+    }
+    
+    /**
+    * Valida que el folio ingresado por el usuario no esté vacío.
+    *
+    * @param folio folio ingresado en el campo de texto
+    * @throws PresentacionException si el folio está vacío
+    */
+    private void validarFolio(String folio) throws PresentacionException {
+        if (folio == null || folio.isBlank()) {
+            throw new PresentacionException("Debe ingresar un folio para buscar.");
+        }
+    }
+    
+    
+    /**
+     * Valida que haya una prueba cargada antes de guardar resultados.
+     *
+     * @throws PresentacionException si no hay prueba cargada en pantalla
+     */
+    private void validarPruebaCargada() throws PresentacionException {
+        if (pruebaBuscada == null) {
+            throw new PresentacionException("Debe buscar una prueba antes de guardar resultados.");
+        }
+    }
+    
+    /**
+    * Valida que el resultado ingresado en la tabla sea un número válido.
+    *
+    * @param valor valor ingresado en la celda de resultado
+    * @param parametro nombre del parámetro para mostrar en el mensaje de error
+    * @throws PresentacionException si el valor no es un número válido
+    */
+    private void validarResultadoNumerico(String valor, String parametro) throws PresentacionException {
+        try {
+            Float.parseFloat(valor);
+        } catch (NumberFormatException e) {
+            throw new PresentacionException("El resultado del parametro debe ser un número válido.");
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
